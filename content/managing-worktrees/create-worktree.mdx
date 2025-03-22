@@ -1,0 +1,57 @@
+---
+title: Create a Git Worktree
+---
+
+import { Callout } from 'nextra/components';
+
+# Create a Git Worktree
+
+To create a Git worktree in WorktreeWise, you have three options:
+
+## From HEAD
+
+To create a worktree from `HEAD`, follow these steps:
+
+1. Click on the **"Add New Worktree"** button.
+2. A new popup will appear, presenting the three creation modes in a tab component. By default, **"From HEAD"** is selected.
+3. Enter the worktree name (this will also be the name of the branch).
+4. Choose the path where the worktree will be created.
+5. (Optional) Skip or configure pre/post hooks.
+6. Click the **"Create Worktree"** button.
+
+The newly created worktree will now appear in the list of worktrees.
+
+<Callout type="warning">The worktree name should not contain the `/` character due to Git worktree creation constraints.</Callout>
+
+## From an Existing Branch
+
+To create a worktree from an existing branch, follow these steps:
+
+1. Click on the **"Add New Worktree"** button.
+2. Click on the **"From Branch"** tab.
+3. Select an existing branch (the worktree name will be the same as the selected branch).
+4. Choose the path where the worktree will be created.
+5. (Optional) Skip or configure pre/post hooks.
+6. Click the **"Create Worktree"** button.
+
+The newly created worktree will now appear in the list of worktrees.
+
+<Callout type="warning">To select an existing branch, you must first pull all remote branches to your local repository.</Callout>
+<Callout type="warning">The worktree name should not contain the `/` character due to Git worktree creation constraints.</Callout>
+
+## From a Git Tag
+
+To create a worktree from a Git tag, follow these steps:
+
+1. Click on the **"Add New Worktree"** button.
+2. Click on the **"From Tag"** tab.
+3. Select a tag (the worktree name will be the same as the tag).
+4. Choose the path where the worktree will be created.
+5. (Optional) Skip or configure pre/post hooks.
+6. Click the **"Create Worktree"** button.
+
+The newly created worktree will now appear in the list of worktrees.
+
+<Callout type="warning">To select a tag from the list, you must first pull all remote-created tags to your local repository.</Callout>
+<Callout type="warning">The worktree name should not contain the `/` character due to Git worktree creation constraints.</Callout>
+

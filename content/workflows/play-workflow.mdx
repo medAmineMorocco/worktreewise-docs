@@ -1,0 +1,35 @@
+---
+title: Play a Workflow
+---
+
+import { Callout } from 'nextra/components';
+
+
+# Play a Workflow
+
+WorktreeWise allows you to execute workflows across multiple worktrees either **sequentially** or **in parallel**, depending on your needs.
+
+        ## How to Play a Workflow
+
+        1. Open **WorktreeWise**.
+        2. Navigate to the **Workflows** section.
+        3. Select the workflow you want to run.
+        4. Click on the **Play Workflow** button.
+        5. Choose the execution mode:
+        - **Sequential Execution**: Runs commands one after another in each worktree.
+        - **Parallel Execution**: Runs commands simultaneously across selected worktrees.
+        6. Monitor execution logs to track progress.
+
+        ## Sequential vs Parallel Execution
+
+        | Execution Mode  | Description |
+        |----------------|-------------|
+        | **Sequential** | Ensures commands are executed in order, one after the other. Useful for workflows that depend on prior steps. |
+        | **Parallel**   | Executes commands across all selected worktrees simultaneously. Recommended for independent tasks to save time. |
+
+        ## Monitoring Workflow Execution
+
+        - Once started, you can view real-time logs of each command’s execution.
+        - If an error occurs, WorktreeWise will highlight failed steps and their output.
+
+<Callout type="warning">Ensure that your workflow does not contain interdependent commands when running in parallel to avoid conflicts.</Callout>
