@@ -1,8 +1,9 @@
 export default {
     "index": '',
     "create": '',
-    "edit": '',
+    "rename": '',
+    "move": '',
     "delete": '',
-    "import": '',
-    "play": '',
+    "lock": '',
+    "unlock": '',
 }
