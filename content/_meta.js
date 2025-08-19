@@ -1,4 +1,9 @@
 export default {
+    '*': {
+        theme: {
+            timestamp: false,
+        }
+    },
     "index": '',
     "git-worktrees": 'Managing Git Worktrees',
     "integrations": 'Terminal & IDE Integrations',
