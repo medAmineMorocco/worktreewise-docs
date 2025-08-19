@@ -2,30 +2,42 @@
 title: Git Log in WorktreeWise
 ---
 
-import { Callout } from 'nextra/components';
+# Git Log
 
-# Git Log in WorktreeWise
+The **Git Log** feature in WorktreeWise allows you to quickly browse and filter the commit history of the currently opened repository.
 
-WorktreeWise provides an easy way to view the Git log of your worktrees, allowing you to inspect commit history efficiently.
+## Accessing Git Log
 
-## How to View Git Log
+There are two ways to view the Git log in WorktreeWise:
 
-### Method 1: View Git Log for a Worktree
+1. **Default Repository Log**
+By default, WorktreeWise shows the Git log of the currently opened repository in the sidebar.
 
-1. Open WorktreeWise.
-2. Navigate to the **Worktrees** section.
-3. Select a worktree from the list.
-4. Click on the **Git Log** button.
-5. A commit history view will appear, displaying:
-- Commit messages
-- Authors
-- Timestamps
-- Associated branches/tags
+2. **From Workflow View**
+Switch to the **Workflow view** from the sidebar and click on the **Git Log** option to display the commit history.
 
-### Method 2: Filter Git Log
+## Git Log View
 
-1. Open the Git Log view.
-2. Use the **search bar** to filter commits by author, message, or commit hash.
-3. Select a specific branch or tag to view its commit history.
+In the Git Log view, you can:
 
-<Callout type="info">Ensure your repository is synchronized with remote branches to get the latest commit history.</Callout>
+- See commit messages, authors, dates, and SHA references.
+- Show branches and tags as **refs** when the **Refs** option is enabled.
+- Scroll through the history and click **Load More** to fetch additional commits.
+
+### Filters
+
+- **Worktree** → Show commits related to a specific worktree.
+- **Author** → Show commits made by a specific author.
+
+### Display Options
+
+Use the checkboxes at the top to customize what’s shown in the log:
+
+- **Author** → Show or hide commit authors.
+- **Date & Time** → Show or hide commit timestamps.
+- **SHA** → Show or hide commit SHA identifiers.
+- **Refs** → Show or hide references such as tags and branches.
+
+![Git Log](/images/content/git-operations/log/git-log.png)
+
+![Git Log Modal](/images/content/git-operations/log/git-log-modal.png)
