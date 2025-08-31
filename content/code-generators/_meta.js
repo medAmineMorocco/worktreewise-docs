@@ -4,5 +4,4 @@ export default {
     "edit": '',
     "delete": '',
     "import": '',
-    "run": '',
 }

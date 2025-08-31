@@ -1,14 +1,123 @@
 ---
-title: Create a Code Generator
+title: Create & Run a Code Generator
 ---
 
-# Create a Code Generator
+<br/>
+WorktreeWise allows you to automate file creation with **code generators**.
+A generator is a set of templates that can use parameters (like `componentName`) to create files in your worktrees.
 
+<br/>
+# Create a New Code Generator
+---
 
-To create a new code generator:
+## Step 1 – Open Code Generators
 
-1. Navigate to the **Code Generators** section.
-2. Click on the **"Create Generator"** button.
-3. Enter a name for the generator.
-4. Define the template files and parameters (input, select, confirm, multiselect).
-5. Click **"Save"** to store the generator.
+1. In the bottom section, click on **Generators** option.
+2. Click on **Add** button.
+
+![Open Modal to Create a New Code Generator](/images/content/code-generators/create-generator/add-generator-open-modal.png)
+
+---
+
+## Step 2 – Enter Generator Name
+
+At the top, type a meaningful name for your generator, for example:
+**Component Generator**.
+
+![Type code Generator Name](/images/content/code-generators/create-generator/code-generator-name.png)
+
+---
+
+## Step 3 – Define Parameters
+
+On the right, you can define parameters that will be used inside your templates.
+
+For example:
+
+- Enter:
+1. **Name:** `componentName`
+2. **Select:** `Input`
+3. Click **Add Parameter**
+
+![Add Parameter to Code Generator](/images/content/code-generators/create-generator/add-parameter.png)
+
+You can now use `<%= componentName %>` ([EJS](https://ejs.co) style) in your templates.
+
+---
+
+## Step 4 – Add Files to Generate
+
+In the **Files To Generate** section:
+
+1. Set the file name, e.g. `component`
+2. In the **to** field, enter the destination path, for example:
+
+```txt
+src/components/<%= componentName %>.tsx
+```
+3. In the File Content area, paste your template code, for example:
+
+```
+import React from "react";
+import "./<%= componentName %>.css";
+
+export function <%= componentName %>() {
+  return (
+    <div className="<%= componentName %>">
+      <%= componentName %> works!
+    </div>
+  );
+}
+```
+
+4. Click **Add File**
+
+![Add File to Code Generator](/images/content/code-generators/create-generator/add-file.png)
+
+## Step 5 – Add Additional Files (Optional)
+
+If your generator needs multiple files (like a CSS file), click Add File again and repeat.
+
+Example:
+
+File name: component.css
+to:
+```
+src/components/<%= componentName %>.css
+```
+
+File Content:
+```
+.<%= componentName %> {
+  /* Add your styles here */
+}
+
+```
+
+![Add File2 to Code Generator](/images/content/code-generators/create-generator/add-file2.png)
+
+## Step 6 – Save the Generator
+
+When you’re done, click Save.
+
+Your generator is now available in the Code Generators list.
+
+![List Code Generator](/images/content/code-generators/create-generator/list-generators.png)
+!(/images/content/code-generators/create-generator/list-generators.png)
+
+## Step 7 – Run the Generator
+
+1. Select a worktree
+2. Fill in the parameters (e.g. componentName = Navbar)
+3. Click on **Run** button
+
+![Run Code Generator](/images/content/code-generators/run-generator/run-generator.png)
+
+WorktreeWise generates:
+
+```
+src/components/Navbar.tsx
+src/components/Navbar.css
+```
+
+![Code Generator Executed](/images/content/code-generators/run-generator/generator-executed.png)
