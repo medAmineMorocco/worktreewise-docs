@@ -4,31 +4,32 @@ title: Open Worktree in Terminal
 
 import { Callout } from 'nextra/components';
 
-# Setting Up Shell in WorktreeWise
+## Setting Up Shell in WorktreeWise
 
-WorktreeWise allows you to configure your preferred shell to open worktrees in the terminal.
+WorktreeWise allows you to configure your preferred shell that will be used when opening a terminal inside a worktree.
 
-## How to Set Up a Shell
+---
+### 1. Opening Shell Settings
 
-1. Open **WorktreeWise Settings**.
-2. Navigate to the **Shell Configuration** section.
-3. Enter the full path to your preferred shell:
-- **Windows**: `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
-- **macOS**: `/bin/zsh` or `/bin/bash`
-- **Linux**: `/bin/bash`, `/bin/zsh`, or any preferred shell path.
-4. Click **Save Settings**.
-5. Restart WorktreeWise to apply the changes.
+To access the **Shell** settings:
 
-## Verifying Your Shell Setup
+1. Open the **Settings** window by clicking on **File → Settings** or using the shortcut **Shift + S**.
+2. In the sidebar, select the **Shell** tab.
+---
 
-1. Open a worktree in the terminal.
-2. Check that the correct shell launches.
-3. If an error occurs, verify the path and ensure the shell is installed on your system.
+### 2. Configure the Default Shell
 
-<Callout type="info">For Windows users, ensure that PowerShell or Git Bash is installed and accessible from the system path.</Callout>
-<br/>
+- In the **Default Shell** field, enter the full path to the shell executable you want WorktreeWise to use.
+- Once you **quit the tab**, the changes are automatically saved.
+- WorktreeWise will then use this shell whenever you open a terminal in a worktree.
 
-# Open Worktree in Terminal
+<Callout type="warning">The dialog provides examples of paths for **known shells** depending on your operating system</Callout>
+
+<Callout type="warning">If no shell path is configured, WorktreeWise will attempt to use your system’s default shell.</Callout>
+
+![Configure the Full Path of a Shell](/images/content/integrations/terminal/configure-shell.png)
+
+## Open Worktree in Terminal
 
 WorktreeWise allows you to quickly open a worktree in your terminal for efficient command-line operations.
 
