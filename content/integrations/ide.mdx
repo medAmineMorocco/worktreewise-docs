@@ -6,14 +6,43 @@ import { Callout } from 'nextra/components';
 
 ## Configuring an IDE
 
-To configure an IDE:
+The **Editors** in WorktreeWise allows you to customize your development environment by enabling only the editors you want to use and configuring their paths if needed.
 
-1. Open WorktreeWise **Settings**.
-2. Navigate to the **IDE Configuration** section.
-3. Add or update the path for your preferred IDE.
-4. Save the settings and retry opening a worktree.
+---
 
-<Callout type="warning">Ensure the correct path is set for your OS (Windows, macOS, Linux).</Callout>
+### 1. Opening Editors Settings
+
+To access the **Editors** settings:
+
+1. Open the **Settings** window by clicking on **File → Settings** or using the shortcut **Shift + S**.
+2. In the sidebar, select the **Editors** tab.
+
+---
+
+### 2. Activate or Deactivate an Editor
+
+- In the **Editors** settings, you will see a list of supported editors (e.g., IntelliJ, WebStorm, Rider, PhpStorm, Visual Studio, Sublime Text, etc.).
+- Each editor is displayed as a card with its logo and name.
+- To **activate** an editor: Click on the editor’s card. The editor will be highlighted (with a blue border) to indicate it is enabled.
+- To **deactivate** an editor: Click again on the highlighted card. The blue border will disappear, meaning the editor is no longer active.
+
+<Callout type="warning">Only activated editors will be available when opening a worktree in WorktreeWise.</Callout>
+
+![Activate/Deactivate an editor](/images/content/integrations/ide/activated-deactivated-editor.png)
+
+### 3. Configure the Path of an Editor
+
+Some editors may require a custom path to be set if WorktreeWise cannot automatically detect their installation.
+
+- To configure the path of an editor:
+1. Click on the **pencil icon** ✏️ on the editor’s card.
+2. A dialog box will appear with a field labeled **Path (optional)**.
+3. Enter the full path to the editor’s executable file.
+4. Click **Edit** to save the changes.
+
+<Callout type="warning">The dialog also provides examples of paths for different operating systems.</Callout>
+
+![Edit the Full Path of an editor](/images/content/integrations/ide/edit-editor.png)
 
 ## Opening a Worktree in an IDE
 
