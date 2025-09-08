@@ -12,12 +12,12 @@ To create a Git worktree in WorktreeWise, you have three options:
 
 To create a worktree from `HEAD`, follow these steps:
 
-1. Click on the **"Add New Worktree"** button.
-2. A new popup will appear, presenting the three creation modes in a tab component. By default, **"From HEAD"** is selected.
+1. Click on the **Add New Worktree** button.
+2. A new popup will appear, presenting the three creation modes in a tab component. By default, **From HEAD** is selected.
 3. Enter the worktree name (this will also be the name of the branch).
 4. Choose the path where the worktree will be created.
 5. (Optional) Skip or configure pre/post hooks.
-6. Click the **"Create Worktree"** button.
+6. Click the **Create Worktree** button.
 
 ![Create new Worktree from HEAD](/images/content/git-worktrees/create/create-wt-from-head.png)
 
@@ -29,27 +29,29 @@ The newly created worktree will now appear in the list of worktrees.
 
 To create a worktree from an existing branch, follow these steps:
 
-1. Click on the **"Add New Worktree"** button.
-2. Click on the **"From Branch"** tab.
+1. Click on the **Add New Worktree** button.
+2. Click on the **From Branch** tab.
 3. Select an existing branch (the worktree name will be the same as the selected branch).
 4. Choose the path where the worktree will be created.
 5. (Optional) Skip or configure pre/post hooks.
-6. Click the **"Create Worktree"** button.
+6. Click the **Create Worktree** button.
 
 The newly created worktree will now appear in the list of worktrees.
 
 <Callout type="warning">To select an existing branch, you must first pull all remote branches to your local repository.</Callout>
 
+![Create new Worktree from Branch](/images/content/git-worktrees/create/create-worktree-from-branch.png)
+
 ## From a Git Tag
 
 To create a worktree from a Git tag, follow these steps:
 
-1. Click on the **"Add New Worktree"** button.
-2. Click on the **"From Tag"** tab.
+1. Click on the **Add New Worktree** button.
+2. Click on the **From Tag** tab.
 3. Select a tag (the worktree name will be the same as the tag).
 4. Choose the path where the worktree will be created.
 5. (Optional) Skip or configure pre/post hooks.
-6. Click the **"Create Worktree"** button.
+6. Click the **Create Worktree** button.
 
 
 
@@ -57,5 +59,24 @@ The newly created worktree will now appear in the list of worktrees.
 
 <Callout type="warning">To select a tag from the list, you must first pull all remote-created tags to your local repository.</Callout>
 
+![Create new Worktree from Tag](/images/content/git-worktrees/create/create-worktree-from-tag.png)
+
 ## From a Git Commit
+
+
+To create a worktree from a specific Git commit, follow these steps
+
+1. Open the **Git Log** view in WorktreeWise.
+2. Locate the **commit** you want to create a worktree from.
+3. **Right-click** on the commit entry.
+4. A context menu will appear with two options:
+- **Copy commit sha**
+- **Create worktree here**
+5. Click on **Create worktree here**.
+
+![Create new Worktree from a Git Commit](/images/content/git-worktrees/create/create-worktree-from-commit.png)
+
+WorktreeWise will then create a new worktree based on that commit.
+
+![Worktree Created from a Git Commit](/images/content/git-worktrees/create/worktree-created-from-commit.png)
 
