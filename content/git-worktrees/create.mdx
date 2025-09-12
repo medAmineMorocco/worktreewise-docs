@@ -4,11 +4,11 @@ title: Create a Git Worktree
 
 import { Callout } from 'nextra/components';
 
-# Create a Git Worktree
+## Create a Git Worktree
 
 To create a Git worktree in WorktreeWise, you have three options:
 
-## From HEAD
+### From HEAD
 
 To create a worktree from `HEAD`, follow these steps:
 
@@ -25,7 +25,7 @@ The newly created worktree will now appear in the list of worktrees.
 
 ![Worktree from HEAD Created](/images/content/git-worktrees/create/worktree-from-head-created.png)
 
-## From an Existing Branch
+### From an Existing Branch
 
 To create a worktree from an existing branch, follow these steps:
 
@@ -42,7 +42,7 @@ The newly created worktree will now appear in the list of worktrees.
 
 ![Create new Worktree from Branch](/images/content/git-worktrees/create/create-worktree-from-branch.png)
 
-## From a Git Tag
+### From a Git Tag
 
 To create a worktree from a Git tag, follow these steps:
 
@@ -61,7 +61,7 @@ The newly created worktree will now appear in the list of worktrees.
 
 ![Create new Worktree from Tag](/images/content/git-worktrees/create/create-worktree-from-tag.png)
 
-## From a Git Commit
+### From a Git Commit
 
 
 To create a worktree from a specific Git commit, follow these steps
@@ -79,56 +79,6 @@ To create a worktree from a specific Git commit, follow these steps
 WorktreeWise will then create a new worktree based on that commit.
 
 ![Worktree Created from a Git Commit](/images/content/git-worktrees/create/worktree-created-from-commit.png)
-
-## Worktree Naming Pattern
-
-When creating a new worktree, WorktreeWise assigns two identifiers:
-
-- **Worktree name** → shown in the UI, by default the same as the branch name.
-- **Worktree folder name** → created on disk, follows the naming pattern you configure in Settings.
-
-This separation ensures that worktrees remain easy to recognize inside WorktreeWise, while their folders in the filesystem are clearly identifiable as project worktrees.
-
-
-### Example
-
-If you define the naming pattern as: ```{repo}_wt_{branch}```
-
-
-- Creating a worktree from branch `feature-login` in repository `myapp` will:
-- Show as **feature-login** in the WorktreeWise UI.
-- Create a folder named **myapp_wt_feature-login** in your filesystem.
-
-
-### Why Naming Pattern Matters
-
-The naming pattern’s main role is to make it easier to understand in the filesystem that a folder is a **worktree belonging to a project**.
-
-This helps you:
-
-- Avoid mixing up worktree folders with other files.
-- Keep a clear structure when managing multiple repositories.
-- Instantly know which project and branch a worktree folder belongs to.
-
-### Supported Placeholders
-
-You can use the following placeholders in your naming pattern:
-
-- `{branch}` → Branch name
-- `{repo}` → Repository name
-
-### Configuring the Naming Pattern in Settings
-
-To configure the default naming pattern:
-
-1. Open **Settings** from the menu.
-2. Navigate to the **Worktrees** tab.
-3. Enter your preferred naming pattern using placeholders.
-4. Changes are saved automatically once you leave the tab.
-
-> 💡 The settings dialog also provides examples of valid naming patterns.
-
-If no custom naming pattern is defined, WorktreeWise will use this default naming pattern : ```{repo}_wt_{branch}```
 
 ## Hooks
 
@@ -171,12 +121,83 @@ Here’s an example workflow using hooks:
 - **Pre-hook**: Run `pwd` to confirm the current directory in the main worktree.
 - **Post-hook**: Run `npm install` in the new worktree to set up dependencies.
 
+![Create Git Worktree with Hooks](/images/content/git-worktrees/create/create-worktree-with-hooks.png)
+
 Execution order:
 
 ```text
 pwd               # Pre-hook in main worktree
 Create Git Worktree
 npm install       # Post-hook in new worktree
+```
+
+![Git Worktree Created with Hooks](/images/content/git-worktrees/create/worktree-created-with-hooks.png)
+
+## Naming Pattern
+
+When creating a new worktree, WorktreeWise assigns two identifiers:
+
+- **Worktree name** → shown in the UI, by default the same as the branch name.
+- **Worktree folder name** → created on disk, follows the naming pattern you configure in Settings.
+
+This separation ensures that worktrees remain easy to recognize inside WorktreeWise, while their folders in the filesystem are clearly identifiable as project worktrees.
 
 
+### Example
 
+If you define the naming pattern as: ```{repo}_wt_{branch}```
+
+
+- Creating a worktree from branch `feature-login` in repository `create-react-app` will:
+- Show as **feature-login** in the WorktreeWise UI.
+- Create a folder named **create-react-app_wt_feature-login** in your filesystem.
+
+![Naming Pattern](/images/content/git-worktrees/create/naming-pattern.png)
+
+
+### Why Naming Pattern Matters
+
+The naming pattern’s main role is to make it easier to understand in the filesystem that a folder is a **worktree belonging to a project**.
+
+This helps you:
+
+- Avoid mixing up worktree folders with other files.
+- Keep a clear structure when managing multiple repositories.
+- Instantly know which project and branch a worktree folder belongs to.
+
+### Supported Placeholders
+
+You can use the following placeholders in your naming pattern:
+
+- `{branch}` → Branch name
+- `{repo}` → Repository name
+
+### Configuring the Naming Pattern in Settings
+
+To configure the default naming pattern:
+
+1. Open **Settings** from the menu.
+2. Navigate to the **Worktrees** tab.
+3. Enter your preferred naming pattern using placeholders.
+4. Changes are saved automatically once you leave the tab.
+
+> 💡 The settings dialog also provides examples of valid naming patterns.
+
+If no custom naming pattern is defined, WorktreeWise will use this default naming pattern : ```{repo}_wt_{branch}```
+
+![Naming Pattern Settings](/images/content/git-worktrees/create/naming-pattern-settings.png)
+
+### Changing the Naming Pattern for an Existing Worktree
+
+You can also update the naming pattern of a worktree that already exists:
+
+1. Right-click on the worktree in the **Worktrees** list.
+2. Select **Change Naming Pattern** from the context menu.
+3. Enter a new pattern in the dialog.
+4. Click **Apply** to update the worktree’s folder name.
+
+This is useful when you want to reorganize your filesystem or bring older worktrees in line with your new naming rules.
+
+![Change Naming Pattern](/images/content/git-worktrees/create/change-naming-pattern.png)
+
+![Changed Naming Pattern](/images/content/git-worktrees/create/changed-naming-pattern.png)
