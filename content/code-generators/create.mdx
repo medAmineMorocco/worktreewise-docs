@@ -7,10 +7,11 @@ WorktreeWise allows you to automate file creation with **code generators**.
 A generator is a set of templates that can use parameters (like `componentName`) to create files in your worktrees.
 
 <br/>
-# Create a New Code Generator
+
+## Create a New Code Generator
 ---
 
-## Step 1 – Open Code Generators
+### Step 1 – Open Code Generators
 
 1. In the bottom section, click on **Generators** option.
 2. Click on **Add** button.
@@ -19,7 +20,7 @@ A generator is a set of templates that can use parameters (like `componentName`)
 
 ---
 
-## Step 2 – Enter Generator Name
+### Step 2 – Enter Generator Name
 
 At the top, type a meaningful name for your generator, for example:
 **Component Generator**.
@@ -28,7 +29,7 @@ At the top, type a meaningful name for your generator, for example:
 
 ---
 
-## Step 3 – Define Parameters
+### Step 3 – Define Parameters
 
 On the right, you can define parameters that will be used inside your templates.
 
@@ -45,7 +46,7 @@ You can now use `<%= componentName %>` ([EJS](https://ejs.co) style) in your tem
 
 ---
 
-## Step 4 – Add Files to Generate
+### Step 4 – Add Files to Generate
 
 In the **Files To Generate** section:
 
@@ -74,7 +75,7 @@ export function <%= componentName %>() {
 
 ![Add File to Code Generator](/images/content/code-generators/create-generator/add-file.png)
 
-## Step 5 – Add Additional Files (Optional)
+### Step 5 – Add Additional Files (Optional)
 
 If your generator needs multiple files (like a CSS file), click Add File again and repeat.
 
@@ -96,7 +97,7 @@ File Content:
 
 ![Add File2 to Code Generator](/images/content/code-generators/create-generator/add-file2.png)
 
-## Step 6 – Save the Generator
+### Step 6 – Save the Generator
 
 When you’re done, click Save.
 
@@ -105,7 +106,7 @@ Your generator is now available in the Code Generators list.
 ![List Code Generator](/images/content/code-generators/create-generator/list-generators.png)
 !(/images/content/code-generators/create-generator/list-generators.png)
 
-## Step 7 – Run the Generator
+### Step 7 – Run the Generator
 
 1. Select a worktree
 2. Fill in the parameters (e.g. componentName = Navbar)
