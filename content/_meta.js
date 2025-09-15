@@ -4,7 +4,7 @@ export default {
             timestamp: false,
         }
     },
-    "index": '',
+    "index": 'Introduction & Installation',
     "git-worktrees": 'Managing Git Worktrees',
     "integrations": 'Terminal & IDE Integrations',
     "git-operations": 'Git Operations',
