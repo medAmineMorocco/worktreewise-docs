@@ -6,4 +6,5 @@ export default {
     "delete": '',
     "lock": '',
     "unlock": '',
+    "prune": '',
 }

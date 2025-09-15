@@ -1,0 +1,35 @@
+---
+title: Prune Git Worktrees
+---
+
+## Prune Git Worktrees
+
+Over time, some worktrees may become **invalid** (for example, if their folder is deleted manually outside of WorktreeWise). These invalid worktrees can clutter your workspace and Git configuration.
+
+The **Prune Worktrees** feature in WorktreeWise helps you clean up these invalid entries.
+
+
+### Steps to Prune Worktrees
+
+1. Open your repository in **WorktreeWise**.
+2. In the sidebar, click on the **Prune Worktrees** button (🧹), located above the list of worktrees.
+3. WorktreeWise will scan your repository and remove any invalid worktrees from the list.
+
+![Prune Git Worktrees](public/images/content/git-worktrees/prune/prune-worktrees.png)
+
+---
+
+### Example
+
+Suppose you manually delete the folder of a worktree (`feature-login`) from your file system.
+- Git will still think that this worktree exists.
+- By clicking **Prune Worktrees**, WorktreeWise automatically detects and removes the invalid entry.
+
+---
+
+### Why Use Prune?
+
+- Keeps your workspace clean.
+- Prevents confusion from broken or missing worktrees.
+- Ensures your **Git worktree list** stays accurate and up to date.
+
