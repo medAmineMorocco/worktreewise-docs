@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://docs.worktreewise.com
+
+# Sitemaps
+Sitemap: https://docs.worktreewise.com/sitemap.xml
