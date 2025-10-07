@@ -2,6 +2,7 @@ import {Footer, Layout, Navbar} from 'nextra-theme-docs'
 import {Head} from 'nextra/components'
 import {getPageMap} from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
+import Script from "next/script";
 
 export const metadata = {
     // Define your metadata here
@@ -35,8 +36,7 @@ export default async function RootLayout({children}) {
             <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
             <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
             <link rel="manifest" href="/manifest.webmanifest"/>
-            <!-- Hotjar Tracking Code for https://docs.worktreewise.com -->
-            <script>
+            <Script id="hotjar-script" strategy="afterInteractive">
                 (function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
                 h._hjSettings={hjid:6540379,hjsv:6};
@@ -45,7 +45,7 @@ export default async function RootLayout({children}) {
                 r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
                 a.appendChild(r);
             })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-            </script>
+            </Script>
         </Head>
         <body>
         <Layout
