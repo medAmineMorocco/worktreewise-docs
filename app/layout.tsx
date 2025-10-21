@@ -11,7 +11,7 @@ export const metadata = {
 
 const navbar = (
     <Navbar
-        logo={<img src="/images/general/logo.svg" alt="Logo" width={240} height={100}/>}
+        logo={<img src="/images/general/logo.svg" alt="WorktreeWise Logo" width={200} height={100}/>}
         // ... Your additional navbar options
     />
 )
