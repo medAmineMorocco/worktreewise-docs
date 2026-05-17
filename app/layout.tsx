@@ -47,7 +47,7 @@ export default async function RootLayout({children}) {
           })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}
             </Script>
             <Script
-                id="clarity"
+                id="ms-clarity"
                 strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
                     __html: `
