@@ -1,0 +1,238 @@
+/* WorktreeWise Documentation Version Selector Styles */
+
+.docs-version-selector {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.docs-version-trigger {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.85);
+  color: inherit;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.docs-version-trigger:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.docs-version-trigger:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.docs-version-label {
+  white-space: nowrap;
+}
+
+.docs-version-latest,
+.docs-version-option-latest {
+  padding: 2px 6px;
+  border-radius: 5px;
+
+  background: rgba(100, 80, 220, 0.12);
+  color: rgb(90, 70, 200);
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.docs-version-tag,
+.docs-version-option-tag {
+  padding: 2px 6px;
+  border-radius: 5px;
+
+  background: rgba(234, 88, 12, 0.12);
+  color: rgb(194, 65, 12);
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.docs-version-trigger svg:last-child {
+  opacity: 0.6;
+  transition: transform 150ms ease;
+}
+
+.docs-version-chevron-open {
+  transform: rotate(180deg);
+}
+
+.docs-version-dropdown {
+  position: absolute;
+
+  top: calc(100% + 8px);
+  left: 50%;
+
+  width: 290px;
+
+  transform: translateX(-50%);
+
+  padding: 6px;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+
+  background: white;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+
+  z-index: 100;
+}
+
+.docs-version-dropdown-title {
+  padding: 8px 10px;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  opacity: 0.6;
+}
+
+.docs-version-option {
+  width: 100%;
+
+  display: flex;
+  gap: 8px;
+
+  padding: 10px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: inherit;
+
+  text-align: left;
+  cursor: pointer;
+}
+
+.docs-version-option:hover:not(:disabled):not(.docs-version-option-disabled) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.docs-version-option:disabled,
+.docs-version-option-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.docs-version-check {
+  width: 18px;
+  flex-shrink: 0;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.docs-version-option-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.docs-version-option-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.docs-version-releases {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+html.dark .docs-version-trigger {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+html.dark .docs-version-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+html.dark .docs-version-latest,
+html.dark .docs-version-option-latest {
+  background: rgba(139, 92, 246, 0.18);
+  color: rgb(196, 181, 253);
+}
+
+html.dark .docs-version-tag,
+html.dark .docs-version-option-tag {
+  background: rgba(251, 146, 60, 0.18);
+  color: rgb(253, 186, 116);
+}
+
+html.dark .docs-version-dropdown {
+  background: rgb(20, 20, 22);
+  border-color: rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+html.dark .docs-version-option:hover:not(:disabled):not(.docs-version-option-disabled) {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Header Centering for Desktop */
+@media (min-width: 769px) {
+  .worktreewise-navbar-version {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .worktreewise-navbar-version {
+    position: static;
+    transform: none;
+  }
+
+  .docs-version-latest,
+  .docs-version-tag {
+    display: none;
+  }
+
+  .docs-version-trigger {
+    padding: 0 9px;
+  }
+
+  .docs-version-dropdown {
+    width: 270px;
+  }
+}

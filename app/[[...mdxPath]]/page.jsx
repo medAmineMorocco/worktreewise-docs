@@ -5,15 +5,28 @@ export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
 export async function generateMetadata(props) {
     const params = await props.params
-    const { metadata } = await importPage(params.mdxPath)
-    return metadata
+    const mdxPath = params.mdxPath || []
+    const { metadata } = await importPage(mdxPath)
+
+    const siteUrl = 'https://docs.worktreewise.com'
+    const canonicalPath = mdxPath.length > 0 ? `/${mdxPath.join('/')}` : '/'
+    const canonicalUrl = `${siteUrl}${canonicalPath}`
+
+    return {
+        ...metadata,
+        alternates: {
+            canonical: canonicalUrl,
+            ...(metadata?.alternates || {}),
+        },
+    }
 }
 
 const Wrapper = getMDXComponents().wrapper
 
 export default async function Page(props) {
     const params = await props.params
-    const result = await importPage(params.mdxPath)
+    const mdxPath = params.mdxPath || []
+    const result = await importPage(mdxPath)
     const { default: MDXContent, toc, metadata } = result
     return (
         <Wrapper toc={toc} metadata={metadata}>

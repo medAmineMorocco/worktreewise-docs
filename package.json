@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && next-sitemap"
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && next-sitemap",
+    "docs:new-version": "node scripts/new-version.mjs",
+    "docs:release": "node scripts/new-version.mjs"
   },
   "repository": {
     "type": "module",

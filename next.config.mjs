@@ -6,6 +6,28 @@ const withNextra = nextra({
 });
 
 export default withNextra({
-    // ... Other Next.js config options
-    // output: 'export'
+    async redirects() {
+        return [
+            {
+                source: '/latest',
+                destination: '/',
+                permanent: true,
+            },
+            {
+                source: '/latest/:path*',
+                destination: '/:path*',
+                permanent: true,
+            },
+            {
+                source: '/1.0',
+                destination: '/',
+                permanent: true,
+            },
+            {
+                source: '/1.0/:path*',
+                destination: '/:path*',
+                permanent: true,
+            },
+        ];
+    },
 });

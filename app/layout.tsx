@@ -1,37 +1,29 @@
-import {Footer, Layout, Navbar} from 'nextra-theme-docs'
 import {Head} from 'nextra/components'
 import {getPageMap} from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
+import './styles.css'
 import Script from "next/script";
+import {DocsLayout} from "../components/docs-layout";
 
 export const metadata = {
-    // Define your metadata here
-    // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+    title: {
+        template: '%s - WorktreeWise Docs',
+        default: 'WorktreeWise Documentation',
+    },
+    description: 'Documentation and guides for WorktreeWise, the Git worktree management desktop tool.',
 }
 
-const navbar = (
-    <Navbar
-        logo={<img src="/images/general/logo.svg" alt="WorktreeWise Logo" width={200} height={100}/>}
-        // ... Your additional navbar options
-    />
-)
-const footer = <Footer>{new Date().getFullYear()} © WorktreeWise.</Footer>
+export default async function RootLayout({children}: {children: React.ReactNode}) {
+    const pageMap = await getPageMap();
 
-export default async function RootLayout({children}) {
     return (
         <html
-            // Not required, but good for SEO
             lang="en"
-            // Required to be set
             dir="ltr"
-            // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
             suppressHydrationWarning
         >
-        <Head
-            // ... Your additional head options
-        >
+        <Head>
             <link rel="shortcut icon" href="/images/general/icon.svg"/>
-            {/* Your additional tags should be passed as `children` of `<Head>` element */}
             <link rel="icon" href="/favicon.ico" sizes="any"/>
             <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
             <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -73,17 +65,9 @@ export default async function RootLayout({children}) {
             </Script>
         </Head>
         <body>
-        <Layout
-            navbar={navbar}
-            pageMap={await getPageMap()}
-            docsRepositoryBase="https://github.com/phucbm/nextra-docs-starter/tree/main"
-            footer={footer}
-            editLink={null}
-            feedback={{content: null}}
-            // ... Your additional layout options
-        >
+        <DocsLayout pageMap={pageMap}>
             {children}
-        </Layout>
+        </DocsLayout>
         </body>
         </html>
     )
