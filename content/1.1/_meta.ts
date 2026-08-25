@@ -11,9 +11,4 @@ export default {
     workflows: 'Workflows',
     'keyboard-shortcuts': 'Shortcuts',
     'light-dark-theme': 'Light & Dark Mode',
-    '1.1': {
-        type: 'page',
-        title: '1.1 (Upcoming)',
-        display: 'hidden',
-    },
 };
