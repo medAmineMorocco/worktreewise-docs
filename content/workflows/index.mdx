@@ -1,18 +1,71 @@
 ---
-title: Overview
-description: "Learn how to create, edit, delete, and run workflows across your Git worktrees using WorktreeWise."
+title: Workflows
+description: Reuse command sequences across one or more worktrees and follow execution in real time.
 ---
 
-## Workflows
+# Workflows
 
-Workflows allow you to automate and run commands across multiple worktrees.
+Workflows in WorktreeWise provide a powerful automation engine to define, reuse, and execute ordered command sequences across one or multiple worktrees in **Sequential** or **Parallel** mode.
 
-In this section, you’ll learn how to:
+Whether you need to install dependencies across five branches, run test suites concurrently, or perform automated database migrations, Workflows eliminate repetitive terminal commands and provide real-time execution monitoring.
 
-- **Create workflows** by defining sequences of commands.
-- **Run workflows** in sequence or parallel across selected or all worktrees.
-- **Import workflows** from other repositories.
-- **Visualize execution** with real-time logs and results.
+To access Workflows:
+- Click **Workflow** at the bottom of the Worktrees sidebar.
 
-Workflows are especially useful for repetitive tasks such as running tests, linting, or deploying code across multiple branches at once.
+![Workflow workspace](/images/releases/1.1.0/05-workflows.png)
+
+---
+
+## Workflow Workspace Architecture
+
+The Workflows page is structured into three coordinated sections:
+
+### 1. Saved Workflows Table
+
+The table lists all workflow definitions saved for your repository:
+- **Workflow Name**: Descriptive title (e.g. `Run Unit Tests & Lint`, `Full Build Matrix`).
+- **Commands**: The ordered sequence of shell commands configured for this workflow.
+- **Execution Mode**: Toggle between **Sequential** and **Parallel** execution.
+- **Target Worktrees**: Multi-select dropdown to choose which worktrees this workflow will execute against.
+- **Actions Column**:
+  - **Play / Stop**: Start or immediately cancel workflow execution.
+  - **Edit (✏️)**: Open the slide-out drawer to adjust commands or rename the workflow.
+  - **Duplicate**: Clones the workflow to create a new variant without modifying the original.
+  - **Delete (🗑️)**: Permanently removes the workflow definition (leaves worktrees untouched).
+
+### 2. Live Log Streaming Panel
+
+Below the table, the Log panel displays streaming terminal output as commands execute:
+- Captures `stdout` and `stderr` in real time with ANSI color code support.
+- Displays execution status for each target worktree.
+- Automatically highlights errors and exit codes if a step fails.
+- **Fullscreen Mode**: Press **Shift + F** to expand the log panel to full screen; press **Esc** to exit.
+
+### 3. Toolbar Actions
+
+At the top of the workflow list:
+- **Add Workflow (`Shift + A`)**: Opens the drawer to construct a new workflow step-by-step.
+- **Import Workflow (`Shift + I`)**: Imports previously exported workflow JSON files from disk.
+
+---
+
+## Sequential vs. Parallel Execution
+
+| Feature | Sequential Execution | Parallel Execution |
+| :--- | :--- | :--- |
+| **How it runs** | Executes the full command list in Worktree A, then moves to Worktree B, then C. | Spawns background worker processes simultaneously across all selected worktrees. |
+| **Best Used For** | Tasks with shared resources: database migrations, seed scripts, shared cache warmups. | Independent tasks: linting, unit testing, formatting checks, typechecking. |
+| **Performance** | Predictable CPU and memory footprint. | Maximum speed by utilizing multi-core processor concurrency. |
+| **Resource Safety** | Guarantees no port collisions or concurrent file locks. | Requires worktrees to have isolated environments or independent configurations. |
+
+---
+
+## Best Practices for Workflow Commands
+
+1. **Non-Interactive Commands**:
+   Ensure all commands run non-interactively without prompting for user confirmation (e.g., use `npm ci` instead of `npm install`, or pass `-y` / `--yes` flags).
+2. **Relative Paths**:
+   Commands automatically execute with the selected worktree root as the current working directory (`cwd`). Avoid hardcoded absolute paths like `C:\Users\...` or `/home/...`.
+3. **Fail-Fast Chains**:
+   If a command in the chain fails (non-zero exit code), WorktreeWise halts execution for that worktree and logs the exact failure line.
 

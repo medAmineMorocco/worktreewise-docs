@@ -1,0 +1,134 @@
+---
+title: Create a Git Worktree
+---
+
+import { Callout } from 'nextra/components';
+
+## Create a Git Worktree
+
+To create a Git worktree in WorktreeWise, you have three options:
+
+### From HEAD
+
+To create a worktree from `HEAD`, follow these steps:
+
+1. Click on the **Add New Worktree** button.
+2. A new popup will appear, presenting the three creation modes in a tab component. By default, **From HEAD** is selected.
+3. Enter the worktree name (this will also be the name of the branch).
+4. Choose the path where the worktree will be created.
+5. (Optional) Skip or configure pre/post hooks.
+6. Click the **Create Worktree** button.
+
+![Create new Worktree from HEAD](/images/content/git-worktrees/create/create-wt-from-head.png)
+
+The newly created worktree will now appear in the list of worktrees.
+
+![Worktree from HEAD Created](/images/content/git-worktrees/create/worktree-from-head-created.png)
+
+### From an Existing Branch
+
+To create a worktree from an existing branch, follow these steps:
+
+1. Click on the **Add New Worktree** button.
+2. Click on the **From Branch** tab.
+3. Select an existing branch (the worktree name will be the same as the selected branch).
+4. Choose the path where the worktree will be created.
+5. (Optional) Skip or configure pre/post hooks.
+6. Click the **Create Worktree** button.
+
+The newly created worktree will now appear in the list of worktrees.
+
+<Callout type="warning">To select an existing branch, you must first pull all remote branches to your local repository.</Callout>
+
+![Create new Worktree from Branch](/images/content/git-worktrees/create/create-worktree-from-branch.png)
+
+### From a Git Tag
+
+To create a worktree from a Git tag, follow these steps:
+
+1. Click on the **Add New Worktree** button.
+2. Click on the **From Tag** tab.
+3. Select a tag (the worktree name will be the same as the tag).
+4. Choose the path where the worktree will be created.
+5. (Optional) Skip or configure pre/post hooks.
+6. Click the **Create Worktree** button.
+
+
+
+The newly created worktree will now appear in the list of worktrees.
+
+<Callout type="warning">To select a tag from the list, you must first pull all remote-created tags to your local repository.</Callout>
+
+![Create new Worktree from Tag](/images/content/git-worktrees/create/create-worktree-from-tag.png)
+
+### From a Git Commit
+
+
+To create a worktree from a specific Git commit, follow these steps
+
+1. Open the **Git Log** view in WorktreeWise.
+2. Locate the **commit** you want to create a worktree from.
+3. **Right-click** on the commit entry.
+4. A context menu will appear with two options:
+- **Copy commit sha**
+- **Create worktree here**
+5. Click on **Create worktree here**.
+
+![Create new Worktree from a Git Commit](/images/content/git-worktrees/create/create-worktree-from-commit.png)
+
+WorktreeWise will then create a new worktree based on that commit.
+
+![Worktree Created from a Git Commit](/images/content/git-worktrees/create/worktree-created-from-commit.png)
+
+## Hooks
+
+When creating a new worktree in **WorktreeWise**, you can define **hooks** that will be executed automatically before and after the worktree creation. This allows you to automate setup tasks, run checks, or initialize environments.
+
+### Types of Hooks
+
+- **Pre-hook**: Runs **before** the new worktree is created.
+Executed in the **main worktree**.
+Example: checking dependencies, running tests, or cleaning cache.
+
+- **Post-hook**: Runs **after** the new worktree is created.
+Executed in the **newly created worktree**.
+Example: installing packages, running migrations, or starting services.
+
+### Adding Hooks
+
+In the **Create Worktree** dialog, you can add commands in the **Pre-hook** and **Post-hook** fields:
+
+
+- Each hook accepts a shell command.
+- Multiple commands can be chained using `&&`.
+- Hooks run in the context of the selected shell (examples of known shells and their paths are provided in the dialog for guidance).
+
+### Execution and Logs
+
+Once the worktree is created, the **Execution** panel shows the step-by-step process:
+
+1. Run Pre-hook
+2. Create Git Worktree
+3. Run Post-hook
+
+
+The **Logs** panel records the detailed output of each step, making it easy to debug and verify that your hooks executed correctly.
+
+### Example
+
+Here’s an example workflow using hooks:
+
+- **Pre-hook**: Run `pwd` to confirm the current directory in the main worktree.
+- **Post-hook**: Run `npm install` in the new worktree to set up dependencies.
+
+![Create Git Worktree with Hooks](/images/content/git-worktrees/create/create-worktree-with-hooks.png)
+
+Execution order:
+
+```text
+pwd               # Pre-hook in main worktree
+Create Git Worktree
+npm install       # Post-hook in new worktree
+```
+
+![Git Worktree Created with Hooks](/images/content/git-worktrees/create/worktree-created-with-hooks.png)

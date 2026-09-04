@@ -18,16 +18,6 @@ export default withNextra({
                 destination: '/:path*',
                 permanent: true,
             },
-            {
-                source: '/1.0',
-                destination: '/',
-                permanent: true,
-            },
-            {
-                source: '/1.0/:path*',
-                destination: '/:path*',
-                permanent: true,
-            },
         ];
     },
 });

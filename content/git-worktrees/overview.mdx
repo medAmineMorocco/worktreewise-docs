@@ -1,0 +1,115 @@
+---
+title: Worktree Overview
+description: Understand repository health, upstream state, activity, and disk use across all worktrees.
+---
+
+# Worktree Overview
+
+The **Worktree Overview** provides a single cockpit for monitoring repository health, branch divergence, uncommitted changes, activity recency, and disk consumption across every linked worktree.
+
+To access the Worktree Overview:
+- Click **Overview** at the bottom of the Worktrees sidebar.
+- Or press **Shift + O** while focused on the Worktrees view.
+
+![Loaded Worktree Overview](/images/releases/1.1.0/04-worktree-overview.png)
+
+---
+
+## Summary Metrics Strip
+
+At the top of the Overview dashboard, six live metric cards provide an immediate snapshot of your entire repository:
+
+| Metric Card | What It Measures | Why It Matters |
+| :--- | :--- | :--- |
+| **Total worktrees** | Total count of all registered worktrees | Helps monitor active parallel working directories |
+| **Branches / detached** | Count of branch-linked worktrees vs detached HEAD states | Identifies worktrees that may not be committing to a named branch |
+| **Clean / dirty** | Worktrees with no uncommitted changes vs worktrees with modified files | Tells you immediately where unfinished work or uncommitted experiments reside |
+| **With staged changes** | Worktrees having files prepared in the Git index | Prevents forgetting staged commits before switching tasks |
+| **With untracked files** | Worktrees containing new unversioned files | Flags generated build artifacts or missing `.gitignore` rules |
+| **Disk consumption** | Aggregate disk space across all worktrees | Includes project source files, dependencies (`node_modules`), build artifacts/caches, and `.git` data |
+
+---
+
+## Status Distribution & Quick Filters
+
+The left sidebar of the Overview provides intuitive filtering and visual health distribution:
+
+### Status Distribution Donut Chart
+
+A color-coded donut chart visualizes the percentage of **Clean** versus **Dirty** worktrees in your repository. At a glance, you can verify whether your working branches are tidy or have uncommitted modifications.
+
+### Filter Buttons
+
+Click any filter button to instantly narrow down the worktree table:
+
+- **All worktrees**: Shows all primary and linked worktrees.
+- **Clean**: Displays only worktrees with zero uncommitted modifications.
+- **Dirty**: Displays only worktrees with modified, unstaged, or untracked changes.
+- **Detached HEAD**: Surfaces worktrees not bound to a local branch reference.
+- **Behind upstream**: Highlights branches that have fallen behind their remote-tracking counterpart and need a pull/rebase.
+- **Ahead upstream**: Shows branches with local commits ready to be pushed to remote.
+- **Needs prune**: Highlights stale worktrees whose directory was deleted or moved outside WorktreeWise.
+
+---
+
+## Interactive Worktree Table
+
+The center table displays sortable columns for rapid scanning:
+
+- **Worktree**: Displays the worktree name and absolute file path. Click any row to view its details in the right-side Inspector panel.
+- **Status**: Visual status badge:
+  - <span style={{color: '#52c41a'}}>●</span> **Clean**: Working directory is clean.
+  - <span style={{color: '#faad14'}}>●</span> **Dirty**: Uncommitted modifications or untracked files exist.
+  - <span style={{color: '#ff4d4f'}}>●</span> **Attention**: Merge conflicts or missing directory detected.
+- **Upstream**: Shows the configured remote tracking branch, accompanied by green **Ahead (↑)** and red **Behind (↓)** commit counters.
+- **Last activity**: Relative timestamp indicating when the worktree was last modified or committed to (e.g. `2 hours ago`, `3 days ago`).
+- **Disk**: Total disk usage formatted in bytes (B, KB, MB, GB). If calculations are still running in the background, a `Calculating…` indicator is shown.
+
+---
+
+## Worktree Details Inspector Pane
+
+Selecting any worktree in the table opens an in-depth Inspector pane on the right:
+
+### Header & Warnings
+
+- **Worktree Name & Path**: Displays the full path with a one-click copy button.
+- **Recommended Attention Alert**: Appears automatically if the worktree needs pruning, has merge conflicts, or is critically stale. Specific nudges guide you on what action to take.
+
+### Health Status Tags
+
+- **Directory**: `available` (green) or `missing` (red).
+- **Primary**: Tagged with a blue `Primary` badge if this is the repository's main worktree.
+- **Locked**: Indicates whether the worktree is protected from accidental deletion or renaming.
+- **Needs prune**: Warns if Git metadata remains but the folder was removed.
+- **Stale**: Identifies worktrees with no activity for extended periods.
+
+### Latest Commit Card
+
+Displays the most recent commit on the worktree's checked-out branch:
+- Commit subject headline.
+- 8-character commit hash with one-click copy.
+- Author name and relative commit date.
+
+### Upstream Status & Divergence
+
+- Full remote-tracking branch name (e.g. `origin/feature-login`).
+- Divergence indicator showing exact ahead/behind commit counts.
+- **Last fetch**: Timestamp of the most recent fetch from the remote.
+- **Last pull**: Timestamp of the last successful pull operation.
+- **Last activity**: Recency of working directory file alterations.
+
+### Granular Disk Breakdown
+
+WorktreeWise breaks down the worktree's storage footprint into four distinct categories, complete with visual progress bars:
+
+1. **Project files**: Source code and repository files tracked by Git.
+2. **Dependencies**: External package folders (e.g. `node_modules`, `vendor`).
+3. **Build & cache**: Compiler outputs, dist directories, and local caches (e.g. `.next`, `dist`, `build`, `.cache`, `target`).
+4. **Git data**: Git administrative files (`.git` folder or linked-worktree gitdir pointer file).
+
+### Local Changes & Large Untracked Files
+
+- Metrics grid showing exact counts of **Modified**, **Unstaged**, **Staged**, and **Untracked** files.
+- **Large Untracked Files Alert**: Highlights unexpectedly large untracked files (e.g. accidentally downloaded datasets, database dumps, or media files) along with their exact sizes, helping you prevent accidental commits of massive files.
+

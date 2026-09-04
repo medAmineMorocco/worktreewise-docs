@@ -1,5 +1,6 @@
 export default {
     "index": '',
+    "overview": 'Worktree Overview',
     "create": '',
     "naming-pattern": '',
     "list": '',
@@ -8,5 +9,6 @@ export default {
     "delete": '',
     "lock": '',
     "unlock": '',
+    "repair": '',
     "prune": '',
 }

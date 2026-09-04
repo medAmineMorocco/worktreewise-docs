@@ -1,5 +1,6 @@
 ---
 title: Git Worktree Naming Pattern
+description: Control worktree folder names with repository and branch placeholders.
 ---
 
 ## Git Worktree Naming Pattern
@@ -20,8 +21,6 @@ If you define the naming pattern as: ```{repo}_wt_{branch}```
 - Creating a worktree from branch `feature-login` in repository `create-react-app` will:
 - Show as **feature-login** in the WorktreeWise UI.
 - Create a folder named **create-react-app_wt_feature-login** in your filesystem.
-
-![Naming Pattern](/images/content/git-worktrees/create/naming-pattern.png)
 
 
 ### Why Naming Pattern Matters
@@ -55,9 +54,7 @@ To configure the default naming pattern:
 
 If no custom naming pattern is defined, WorktreeWise will use this default naming pattern : ```{repo}_wt_{branch}```
 
-![Add Custom Naming Pattern](/images/content/git-worktrees/create/add-custom-naming-pattern.png)
-
-![Naming Pattern Settings](/images/content/git-worktrees/create/naming-pattern-settings.png)
+![Naming pattern presets and custom pattern editor](/images/releases/1.1.0/30-settings-worktrees.png)
 
 ### Changing the Naming Pattern for an Existing Worktree
 
@@ -70,6 +67,5 @@ You can also update the naming pattern of a worktree that already exists:
 
 This is useful when you want to reorganize your filesystem or bring older worktrees in line with your new naming rules.
 
-![Change Naming Pattern](/images/content/git-worktrees/create/change-naming-pattern.png)
+![Change Naming Pattern](/images/releases/1.1.0/20-worktree-change-pattern.png)
 
-![Changed Naming Pattern](/images/content/git-worktrees/create/changed-naming-pattern.png)

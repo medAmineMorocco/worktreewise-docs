@@ -1,11 +1,80 @@
 ---
-title: "List Git Worktrees"
+title: Worktree List and Actions
+description: Navigate worktrees and understand the actions in the Worktrees panel.
 ---
 
-# List Git Worktrees
+import { Callout } from 'nextra/components';
 
-> 🔜 **Coming Soon (WorktreeWise 1.1.0)**
->
-> This documentation is being prepared for the upcoming **WorktreeWise 1.1.0** release.
->
-> Stay tuned! Detailed guides and feature walk-throughs will be published with the release.
+# Worktree List and Actions
+
+The Worktrees panel on the left side of WorktreeWise acts as the command center for all linked worktrees in your repository. It displays primary and linked worktrees, indicates real-time agent activity, and provides a context menu for development and maintenance actions.
+
+![Worktree actions](/images/releases/1.1.0/16-worktree-actions.png)
+
+---
+
+## Panel Organization
+
+- **Primary Worktree**: Displayed at the top with a distinctive badge. The primary worktree represents your main Git clone directory and repository root.
+- **Linked Worktrees**: Listed alphabetically underneath. Each worktree displays its branch name, directory path tooltip, and lock status.
+- **Active Agent Indicator**: When an AI agent (such as Claude Code, Codex, or Cursor) is running inside a worktree, a dynamic agent icon and activity badge appear in the worktree row so you can monitor background agent tasks at a glance.
+
+---
+
+## Toolbar Controls
+
+At the top of the Worktrees panel, quick-access icon buttons let you execute common operations:
+
+| Button | Shortcut | Description |
+| :--- | :--- | :--- |
+| **Add Worktree** | `Shift + W` | Opens the Create Worktree modal (From HEAD, Branch, or Tag) |
+| **Refresh** | `Shift + R` | Reloads all worktree statuses, branches, and filesystem directories |
+| **Prune Worktrees** | `Shift + P` | Launches the Review-First Prune dialog to inspect and remove stale records |
+| **Overview** | `Shift + O` | Opens the comprehensive repository health and disk usage dashboard |
+
+---
+
+## Worktree Actions Menu
+
+Click the three-dot icon (**⋮**) next to any worktree to access its actions:
+
+### Development Actions
+
+1. **Open in Explorer / Finder**:
+   Opens the physical worktree folder in your operating system’s default file manager (Windows Explorer, macOS Finder, or Linux file browser).
+2. **Open in Terminal**:
+   Opens a worktree-scoped embedded terminal session in the interactive terminal grid.
+3. **Work with AI Agent**:
+   Launches the embedded workspace directly in AI Agent mode with your default configured coding agent.
+4. **Open in [Editor / IDE]**:
+   Expands a submenu displaying all currently enabled code editors (e.g., VS Code, Cursor, Windsurf, WebStorm, IntelliJ IDEA). Clicking an editor launches it with inherited project configurations.
+
+![Editor choices](/images/releases/1.1.0/17-worktree-actions-editors.png)
+
+### Clipboard Actions
+
+Hover over **Copy** to access:
+- **Copy Name**: Copies the worktree name to your system clipboard.
+- **Copy Path**: Copies the absolute filesystem directory path.
+
+![Copy choices](/images/releases/1.1.0/18-worktree-actions-copy.png)
+
+### Maintenance & Safety Actions
+
+1. **Rename**:
+   Renames the worktree folder and automatically synchronizes the underlying Git branch name.
+2. **Change Folder (Move)**:
+   Atomically relocates the worktree folder to another disk location while maintaining Git's internal pointer files.
+3. **Change Naming Pattern**:
+   Re-evaluates the worktree's folder name against your configured naming patterns.
+4. **Lock / Unlock**:
+   Toggles administrative lock protection, allowing you to annotate the worktree with a preservation reason.
+5. **Delete**:
+   Opens the safe deletion dialog, allowing you to choose between preserving the Git branch or deleting both directory and branch.
+
+![Delete choices](/images/releases/1.1.0/18b-worktree-actions-delete-options.png)
+
+<Callout type="info">
+Critical safety guardrails automatically disable destructive actions (such as Delete, Rename, or Move) on the primary worktree or any locked worktrees.
+</Callout>
+

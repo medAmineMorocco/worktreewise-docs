@@ -1,11 +1,35 @@
 ---
-title: "Delete a Workflow"
+title: Delete a Workflow
+description: Remove an obsolete workflow definition without changing its worktrees.
 ---
+
+import { Callout } from 'nextra/components';
+
 
 # Delete a Workflow
 
-> 🔜 **Coming Soon (WorktreeWise 1.1.0)**
->
-> This documentation is being prepared for the upcoming **WorktreeWise 1.1.0** release.
->
-> Stay tuned! Detailed guides and feature walk-throughs will be published with the release.
+When a workflow is no longer relevant to your project, you can delete it to keep your workflow library clean and organized.
+
+---
+
+## How to Delete a Workflow
+
+1. Navigate to the **Workflow** view from the sidebar.
+2. In the **Saved Workflows** table, locate the workflow you want to remove.
+3. In the Actions column, click the **Red Trash icon (🗑️)**.
+4. A confirmation dialog appears asking you to verify the deletion:
+   > *"Are you sure you want to delete this workflow?"*
+5. Click **Confirm** to permanently remove the definition.
+
+<Callout type="warning">
+Deleting a workflow is irreversible. If you might need this command sequence in the future, consider clicking **Duplicate** first or exporting the workflow.
+</Callout>
+
+---
+
+## What Happens to Your Worktrees
+
+Deleting a workflow removes only the automation recipe:
+- **Filesystem Intact**: No files, dependencies, build artifacts, or folders inside your worktrees are touched or deleted.
+- **Branches Intact**: Git branches, commits, and tags remain completely unaltered.
+- **Log Panel Preserved**: The active Execution Log panel retains previously captured command output until explicitly cleared or restarted.

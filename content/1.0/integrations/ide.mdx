@@ -1,0 +1,81 @@
+---
+title: Opening a Worktree in an IDE
+---
+
+import { Callout } from 'nextra/components';
+
+## Configuring an IDE
+
+The **Editors** in WorktreeWise allows you to customize your development environment by enabling only the editors you want to use and configuring their paths if needed.
+
+---
+
+### 1. Opening Editors Settings
+
+To access the **Editors** settings:
+
+1. Open the **Settings** window by clicking on **File → Settings** or using the shortcut **Shift + S**.
+2. In the sidebar, select the **Editors** tab.
+
+---
+
+### 2. Activate or Deactivate an Editor
+
+- In the **Editors** settings, you will see a list of supported editors (e.g., IntelliJ, WebStorm, Rider, PhpStorm, Visual Studio, Sublime Text, etc.).
+- Each editor is displayed as a card with its logo and name.
+- To **activate** an editor: Click on the editor’s card. The editor will be highlighted (with a blue border) to indicate it is enabled.
+- To **deactivate** an editor: Click again on the highlighted card. The blue border will disappear, meaning the editor is no longer active.
+
+<Callout type="warning">Only activated editors will be available when opening a worktree in WorktreeWise.</Callout>
+
+![Activate/Deactivate an editor](/images/content/integrations/ide/activated-deactivated-editor.png)
+
+### 3. Configure the Path of an Editor
+
+Some editors may require a custom path to be set if WorktreeWise cannot automatically detect their installation.
+
+- To configure the path of an editor:
+1. Click on the **pencil icon** ✏️ on the editor’s card.
+2. A dialog box will appear with a field labeled **Path (optional)**.
+3. Enter the full path to the editor’s executable file.
+4. Click **Edit** to save the changes.
+
+<Callout type="warning">The dialog also provides examples of paths for different operating systems.</Callout>
+
+![Edit the Full Path of an editor](/images/content/integrations/ide/edit-editor.png)
+
+## Opening a Worktree in an IDE
+
+WorktreeWise allows you to open a worktree in a supported IDE with just a few clicks.
+
+To open a worktree in your preferred IDE:
+
+1. Locate the worktree you want to open.
+2. Click the **Open in** button.
+3. If multiple editors are configured, select the desired IDE.
+4. The selected IDE will launch with the worktree opened.
+
+![Open Worktree in IDE](/images/content/integrations/ide/open-worktree-in-editor.png)
+
+<Callout type="info">If your preferred IDE is not listed, ensure it is configured in the settings.</Callout>
+
+## Preserved IDE Settings 
+
+When you open a worktree through WorktreeWise, your IDE automatically loads all the configuration inherited from your main worktree. This means you don’t need to manually recreate or reconfigure anything for each new worktree.
+
+WorktreeWise ensures that the following IDE elements are retained:
+
+- Bookmarks
+
+- Run/Debug configurations
+
+- Scripts and tools
+
+- Version control settings
+
+- Recent files and edit history
+
+- Any other IDE-level configuration stored for the main worktree
+
+This allows you to work in a perfectly consistent environment across all your worktrees.
+Simply open any worktree from WorktreeWise, and your IDE is ready with your familiar setup — no extra steps required.

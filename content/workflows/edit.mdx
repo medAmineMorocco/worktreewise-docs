@@ -1,18 +1,50 @@
 ---
-title: Edit a Workflow
+title: Create and Edit Workflows
+description: Define meaningful workflow names and ordered command lists.
 ---
 
-## Edit a Workflow
+import { Callout } from 'nextra/components';
 
+# Edit and Duplicate Workflows
 
-To edit an existing workflow:
+As your project requirements evolve, WorktreeWise makes it straightforward to update existing workflows, modify command sequences, or clone workflows to create task variations.
 
-        1. Go to the **Workflows** section.
-        2. Locate the workflow you want to edit and click the **Edit Workflow** button.
-        3. Modify the workflow name or update the commands.
-        4. Click **Save** to apply the changes.
-<br/>
+---
 
-<video controls muted playsInline width="600">
-    <source src="/images/content/workflows/edit/edit-workflow.mp4" type="video/mp4" />
-</video>
+## How to Edit a Workflow
+
+1. In the **Workflow** workspace, locate the workflow in the saved workflows table.
+2. In the Actions column, click the **Pencil icon (✏️)**.
+3. The **Edit Workflow** drawer slides open from the right:
+   - **Rename**: Change the title of the workflow.
+   - **Edit Commands**: Modify existing command text directly in the input fields.
+   - **Delete Step**: Click the red trash icon next to any step to remove that command from the sequence.
+   - **Add Step**: Click **Add Command** to append new commands to the end of the chain.
+4. Click **Save** to commit your updates.
+
+![Full Edit Workflow drawer](/images/releases/1.1.0/06d-edit-workflow.png)
+
+<Callout type="info">
+Editing a workflow updates its definition immediately. Any future executions will run the updated command sequence, but past execution logs remain untouched.
+</Callout>
+
+---
+
+## Duplicating a Workflow
+
+Often, you want to create a slightly modified version of an existing workflow (for example, creating a `Test (Fast)` variant that skips integration tests, or a `Deploy (Staging)` variant based on `Deploy (Production)`).
+
+To duplicate a workflow:
+1. Locate the workflow in the table.
+2. Click the **Duplicate icon (📋)** in the Actions column.
+3. WorktreeWise creates an exact replica named `[Original Name] copy`.
+4. Click the Pencil icon on the duplicate to rename it and make your desired modifications.
+
+---
+
+## Command Safety Guidelines
+
+When modifying workflow steps:
+- Avoid commands that launch background daemon processes unless you have an explicit termination step, as daemon processes may hold ports or file descriptors open across worktrees.
+- If a step relies on environment variables generated during worktree creation, ensure the script references standard environment variable expansion (e.g. `$PORT` or `%PORT%`).
+

@@ -1,35 +1,63 @@
 ---
-title: Prune Git Worktrees
+title: Prune Damaged Worktrees
+description: Preview invalid worktree records and choose which ones Git should prune.
 ---
 
-## Prune Git Worktrees
+import { Callout } from 'nextra/components';
 
-Over time, some worktrees may become **invalid** (for example, if their folder is deleted manually outside of WorktreeWise). These invalid worktrees can clutter your workspace and Git configuration.
+# Prune Damaged Worktrees
 
-The **Prune Worktrees** feature in WorktreeWise helps you clean up these invalid entries.
+When working with Git worktrees, it is common for entries to become orphaned or damaged—for example, if a folder is deleted in the terminal, moved in your operating system's file manager without using `git worktree move`, or stored on a detached external drive.
 
-
-### Steps to Prune Worktrees
-
-1. Open your repository in **WorktreeWise**.
-2. In the sidebar, click on the **Prune Worktrees** button (🧹), located above the list of worktrees.
-3. WorktreeWise will scan your repository and remove any invalid worktrees from the list.
-
-![Prune Git Worktrees](/images/content/git-worktrees/prune/prune-worktrees.png)
+Standard Git CLI provides `git worktree prune`, which unconditionally deletes all stale worktree metadata without giving you an opportunity to review what is being removed. WorktreeWise replaces this with a **Review-First Prune** workflow that previews damaged records and requires explicit user confirmation before touching Git's internal state.
 
 ---
 
-### Example
+## Why Worktrees Need Pruning
 
-Suppose you manually delete the folder of a worktree (`feature-login`) from your file system.
-- Git will still think that this worktree exists.
-- By clicking **Prune Worktrees**, WorktreeWise automatically detects and removes the invalid entry.
+Git stores administrative references for linked worktrees in `.git/worktrees/`. A worktree record becomes a candidate for pruning when:
+
+1. **Folder Deleted Outside WorktreeWise**: A developer deletes a worktree directory using `rm -rf`, PowerShell `Remove-Item`, or the system Trash. Git still believes the worktree exists and blocks the checked-out branch from being checked out elsewhere.
+2. **Directory Relocated Manually**: If a worktree directory is moved without running Git's move command, the internal pointer file (`.git`) breaks.
+3. **Branch Replaced or Deleted**: The branch associated with the worktree was deleted or forcefully rewritten elsewhere.
+4. **Temporary Mount Unavailable**: A worktree residing on a temporary network share or external drive is unmounted.
 
 ---
 
-### Why Use Prune?
+## The Review-First Prune Workflow
 
-- Keeps your workspace clean.
-- Prevents confusion from broken or missing worktrees.
-- Ensures your **Git worktree list** stays accurate and up to date.
+WorktreeWise ensures you never lose work accidentally by performing an audit before pruning:
+
+![Prune review](/images/releases/1.1.0/25-prune-worktrees.png)
+
+### Step 1: Open Prune Review
+
+- Click the **Broom icon (🧹)** in the Worktrees panel toolbar.
+- Or press the keyboard shortcut **Shift + P**.
+
+<Callout type="info">
+If all worktrees in your repository are healthy and fully reachable, the Broom icon remains disabled, confirming that no cleanup is necessary.
+</Callout>
+
+### Step 2: Inspect Damaged Worktrees
+
+WorktreeWise runs a non-destructive dry run (`preview-prune-worktrees`) and opens a modal dialog showing:
+- **Worktree Name**: The registered name of the worktree.
+- **Path**: The filesystem path where the worktree was expected to reside.
+- **Specific Reason**: The exact reason Git considers the worktree damaged (e.g. `Directory does not exist`, `Missing gitdir administrative file`).
+
+### Step 3: Granular Selection
+
+Unlike CLI commands that delete everything at once, WorktreeWise allows you to choose what to prune:
+- Check the box next to specific worktrees you want to purge.
+- Leave entries unchecked if you plan to restore the directory or reconnect a drive.
+
+### Step 4: Confirm Cleanup
+
+Click **Prune Worktrees**. WorktreeWise instructs Git to remove only the selected administrative references from `.git/worktrees/`. 
+
+Once pruned:
+- Healthy worktrees and their branches remain completely intact.
+- Branches previously locked by the missing worktree become available again for checkout.
+- The Worktree list and Overview dashboard update automatically.
 

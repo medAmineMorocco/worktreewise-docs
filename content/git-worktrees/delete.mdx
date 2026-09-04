@@ -1,20 +1,59 @@
 ---
+---
 title: Delete a Git Worktree
+description: Remove a linked worktree while deliberately choosing whether its branch is preserved.
 ---
 
 import { Callout } from 'nextra/components';
 
 ## Delete a Git Worktree
 
-To delete a worktree:
+Deleting a worktree removes its filesystem directory and deregisters it from Git. WorktreeWise gives you deliberate control over whether the associated Git branch is kept or deleted alongside the folder, with built-in safeguards to prevent accidental data loss.
 
-1. Navigate to the **Worktrees** section.
-2. Locate the worktree you want to delete.
-3. Click the **Delete** button.
-4. Choose one of the following options:
-- **Delete Only Worktree** (keeps the branch)
-- **Delete Worktree and Branch** (removes both)
+---
 
-![Delete Worktree](/images/content/git-worktrees/delete/delete-worktree.png)
+## Deletion Scopes
 
-<Callout type="warning">Deleting a worktree and its branch is irreversible.</Callout>
+When you initiate a deletion from the Worktree Actions menu, WorktreeWise presents two distinct options:
+
+![Delete scope choices](/images/releases/1.1.0/18b-worktree-actions-delete-options.png)
+
+### 1. Delete Only Worktree (Preserve Branch)
+
+- **What it does**: Deletes the worktree folder from your disk and removes Git's administrative linkage.
+- **What happens to the branch**: The local Git branch remains completely untouched in your repository commit history.
+- **When to use**: This is the recommended choice when you have merged a pull request or temporarily finished working on a feature, but want to keep the commit history or recreate the worktree later.
+
+### 2. Delete Worktree and Branch (Complete Removal)
+
+- **What it does**: Removes the directory on disk and permanently deletes the local Git branch (`git branch -D`).
+- **What happens to the branch**: The local branch reference is deleted. (Note: Remote branches on GitHub/GitLab are unaffected unless separately deleted).
+- **When to use**: Ideal for discarded experiments, temporary spike investigations, or fully merged branches that have already been deleted on remote.
+
+<Callout type="warning">
+Deleting both the worktree and its branch is permanent and irreversible. Ensure all desired commits have been pushed to a remote repository before confirming.
+</Callout>
+
+---
+
+## Handling Uncommitted Changes (`--force` Protection)
+
+Git protects developers by refusing to delete any worktree that contains uncommitted modifications, staged files, or untracked changes.
+
+If WorktreeWise detects uncommitted changes during deletion:
+1. It halts the standard deletion flow.
+2. A high-visibility confirmation dialog appears:
+   > *"Changes have been found in the worktree. Confirm deletion of this worktree [and local branch]?"*
+3. You can choose:
+   - **No**: Cancels the deletion so you can open the worktree in a terminal or IDE, inspect the changes, and commit or stash them.
+   - **Yes (Danger)**: Instructs WorktreeWise to apply Git's `--force` flag, discarding all uncommitted files and completing the deletion.
+
+---
+
+## Safety Safeguards & Restrictions
+
+WorktreeWise enforces strict safety guardrails around worktree deletions:
+
+- **Primary Worktree Immunity**: The repository's primary (main) worktree can never be deleted. Its delete action is permanently disabled.
+- **Locked Worktrees Protected**: Any worktree marked with a lock cannot be deleted. You must explicitly unlock it first.
+- **Active Process Checks**: Before deleting, verify that no terminal sessions, running dev servers, AI coding agents, or active workflows are currently executing inside the worktree's folder, as active file locks can cause operating system I/O errors.

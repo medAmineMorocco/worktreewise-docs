@@ -1,0 +1,48 @@
+---
+title: Create a Git Commit
+description: Review changes, stage files, inspect diffs, and create a commit without leaving WorktreeWise.
+---
+
+import { Callout, Steps } from 'nextra/components';
+
+# Create a Git Commit
+
+WorktreeWise brings the complete commit workflow into the Git Log. You can review the working tree, move files between unstaged and staged groups, inspect an individual diff, and write the commit message from one screen.
+
+![Working tree changes and commit panel](/images/releases/1.1.0/37-git-commit.png)
+
+## Open the Commit Panel
+
+Select **Working tree changes** at the top of the Git Log. The right sidebar opens for the selected worktree and separates changes into **Unstaged files** and **Staged files**.
+
+## Prepare the Commit
+
+<Steps>
+
+### Choose the worktree
+Use the selector above the Git Log. The panel operates only on the selected worktree.
+
+### Review and stage files
+Use **Stage all** or the plus action beside a file. Use **Unstage all** or the minus action to remove files from the commit.
+
+### Inspect a file diff
+Select a file to review highlighted additions and deletions. Use **Viewed** to mark completed reviews.
+
+![Reviewing a staged file before committing](/images/releases/1.1.0/38-git-commit-file-diff.png)
+
+### Write the message
+Enter a **Commit summary** of up to 72 characters and an optional longer **Description**.
+
+### Create the commit
+Check the staged-file count and select **Commit**. WorktreeWise refreshes the Git Log and working-tree state when Git finishes.
+
+</Steps>
+
+## Amend the Previous Commit
+
+Enable **Amend previous commit** to update the latest commit instead of creating another one.
+
+<Callout type="warning">
+Amending rewrites history. Take extra care when the existing commit has already been pushed or shared.
+</Callout>
+

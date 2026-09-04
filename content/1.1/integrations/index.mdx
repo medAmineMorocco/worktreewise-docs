@@ -1,11 +1,54 @@
 ---
-title: "Overview"
+title: Integrations Overview
+description: Connect WorktreeWise to your favorite developer tools, launch autonomous AI agents side by side, embed multi-pane terminals, and open worktrees in modern IDEs.
 ---
 
-# Overview
+import { Cards } from 'nextra/components';
+import {
+  Bot,
+  Terminal,
+  Code2,
+} from 'lucide-react';
 
-> 🔜 **Coming Soon (WorktreeWise 1.1.0)**
->
-> This documentation is being prepared for the upcoming **WorktreeWise 1.1.0** release.
->
-> Stay tuned! Detailed guides and feature walk-throughs will be published with the release.
+# Workspace Integrations
+
+WorktreeWise acts as the central mission control for your development workspace. By deeply integrating with your local shell environments, external code editors, and cutting-edge autonomous AI coding agents, WorktreeWise transforms isolated Git worktrees into ready-to-code environments.
+
+---
+
+## Core Integrations
+
+<Cards>
+  <Cards.Card
+    icon={<Bot />}
+    title="Autonomous AI Agents"
+    href="/integrations/ai-agents"
+  >
+    Run up to 3 AI coding agents (Claude Code, Codex, Cursor CLI, Antigravity, Qwen, Kimi, OpenCode) side by side in tiled panes with smart context injection.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Terminal />}
+    title="Embedded Terminal"
+    href="/integrations/terminal"
+  >
+    Full-featured XTerm.js terminal emulator with multi-pane tiling (1, 2, 3 columns, or auto), ANSI color rendering, and instant shell switching.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Code2 />}
+    title="External Editors & IDEs"
+    href="/settings#editor-configuration"
+  >
+    Open worktrees directly in VS Code, Cursor, Windsurf, JetBrains (WebStorm, IntelliJ, PyCharm, GoLand, CLion, PhpStorm, Rider), Zed, or Sublime Text.
+  </Cards.Card>
+</Cards>
+
+---
+
+## Integrations Feature Matrix
+
+| Integration Domain | Supported Tools | Key Capabilities |
+| :--- | :--- | :--- |
+| **[AI Agents](/integrations/ai-agents)** | Claude Code, OpenAI Codex, Cursor CLI (`cursor-agent`), Antigravity (`agy`), Qwen Code, Kimi CLI, OpenCode | Multi-pane tiling, Smart Context prompt generation (worktree path, branch, latest commit, dirty status), real-time activity indicators in the sidebar, and process management. |
+| **[Embedded Terminal](/integrations/terminal)** | PowerShell, Git Bash, WSL (`wsl.exe`), Bash, Zsh, Fish, Nushell (`nu`), Command Prompt | XTerm.js hardware-accelerated canvas, truecolor support, 1/2/3 pane layouts, toggle between standard Terminal and AI Agent modes with a single click. |
+| **[Editor Detection](/settings#editor-configuration)** | VS Code, Cursor, Windsurf, WebStorm, IntelliJ IDEA, PyCharm, GoLand, RustRover, CLion, Rider, PhpStorm, Zed, Sublime | One-click auto-detection (`editors:detect-all`), custom path overrides, launch worktrees with preserved editor configurations, plugins, and bookmarks. |
+| **[Shell Environments](/settings#shell-configuration)** | Windows, macOS, Linux native shells | Configurable shell binary paths, environment sanitization for Node.js/Electron processes, and automatic working directory resolution per worktree. |

@@ -1,11 +1,97 @@
 ---
-title: "Import a Workflow"
+title: Import a Workflow
+description: Import reusable workflow definitions from other repositories and inspect their commands before adding them to your workspace.
 ---
 
-# Import a Workflow
+import { Callout, Steps } from 'nextra/components';
 
-> 🔜 **Coming Soon (WorktreeWise 1.1.0)**
->
-> This documentation is being prepared for the upcoming **WorktreeWise 1.1.0** release.
->
-> Stay tuned! Detailed guides and feature walk-throughs will be published with the release.
+# Import Workflows
+
+WorktreeWise makes it simple to share and reuse automation routines across different projects and repositories. Rather than re-entering complex multi-step build, test, and deployment commands by hand, you can import workflow definitions directly from any existing repository.
+
+![Import Workflow action](/images/releases/1.1.0/06c-import-workflow-action.png)
+
+## How Workflow Storage Works
+
+In WorktreeWise, workflows are stored locally within your repository's Git administrative directory:
+
+```plaintext
+<repository-root>/
+└── .git/
+    └── WorktreeWise/
+        ├── Build & Test/
+        │   └── details.json
+        └── Clean & Reset/
+            └── details.json
+```
+
+Each workflow is defined as a structured JSON document (`details.json`) containing the workflow name, primary initial command, and subsequent sequential execution steps:
+
+```json
+{
+  "name": "Full CI Validation",
+  "command": {
+    "key": "0",
+    "value": "pnpm install --frozen-lockfile"
+  },
+  "commands": [
+    { "key": "1", "value": "pnpm lint" },
+    { "key": "2", "value": "pnpm test:unit" },
+    { "key": "3", "value": "pnpm build" }
+  ]
+}
+```
+
+When importing, WorktreeWise scans the target repository's `.git/WorktreeWise/` directory, extracts all definitions, and presents them in an interactive review modal before copying them into the active repository.
+
+---
+
+## Step-by-Step Import Guide
+
+<Steps>
+
+### Open the Import Dialog
+
+Navigate to the **Workflows** tab in WorktreeWise and click the **Import** button in the top action bar. Alternatively, press the global shortcut:
+
+- **Shortcut**: `Shift + I`
+
+### Select the Source Repository
+
+A native OS directory picker dialog will open. Navigate to and select the root directory of the repository or project that contains the workflow configurations you want to import.
+
+### Review Discovered Workflows
+
+WorktreeWise reads the target `.git/WorktreeWise` directory and opens the **Import Workflow** review modal:
+
+- **Checkbox selection**: Choose individual workflows or click the header checkbox to select all.
+- **Name column**: Shows the original name of each discovered workflow.
+- **Command(s) column**: Displays an ordered preview of every command that will run during execution.
+
+### Confirm and Import
+
+Click **Confirm**. WorktreeWise validates the definitions and atomically copies them into the current repository's `.git/WorktreeWise/` directory.
+
+</Steps>
+
+---
+
+## Conflict Detection & Safety Rules
+
+WorktreeWise implements strict validation to prevent accidental data loss:
+
+| Condition | System Behavior |
+| :--- | :--- |
+| **Name Collision** | If an imported workflow shares the exact name of an existing workflow in the active repository, WorktreeWise aborts the import for that workflow with an explicit error: `"A workflow with this name already exists."` This guarantees your local workflows are never silently overwritten. |
+| **Permission Verification** | If the local `.git/` directory has restricted file system permissions (`EACCES` or `EPERM`), WorktreeWise displays an actionable alert instructing you to check directory ownership and write permissions. |
+| **Post-Import Editing** | Imported workflows behave identically to native workflows. You can immediately edit command strings, reorder steps, duplicate them as templates, or delete them. |
+
+<Callout type="tip">
+**Sharing Workflows Across Teams**:
+Because workflows are saved in `.git/WorktreeWise/details.json`, you can version-control workflow templates by checking them into a shared repository folder (such as `.github/workflows-templates/` or `tools/workflows/`) and copying or symlinking them to `.git/WorktreeWise/` during project bootstrapping.
+</Callout>
+
+<Callout type="warning">
+**Environment & Tooling Pre-requisites**:
+Imported workflows execute commands using your local shell configuration. Ensure that any required CLI binaries, package managers (`npm`, `pnpm`, `yarn`, `cargo`), or environment variables specified in imported commands are installed and accessible on your current machine.
+</Callout>

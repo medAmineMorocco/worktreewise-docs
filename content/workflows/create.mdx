@@ -1,18 +1,79 @@
 ---
 title: Create a Workflow
+description: Build a reusable, ordered command sequence for one or more worktrees.
 ---
 
-## Create a Workflow
+# Create a Workflow
 
-To create a new workflow:
+Workflows allow you to automate multi-step development processes across multiple branches and worktrees simultaneously. Instead of opening a terminal in each worktree to run repetitive commands, you can configure a reusable command sequence once and execute it whenever needed.
 
-        1. Navigate to the **Workflows** section.
-        2. Click on the **Add Workflow** button.
-        3. Enter a name for the workflow.
-        4. Define the commands to be executed within the workflow.
-        6. Click **Save** to store the workflow.
-<br/>
+---
 
-<video controls muted playsInline width="600">
-    <source src="/images/content/workflows/create/create-workflow.mp4" type="video/mp4" />
-</video>
+## How to Create a Workflow
+
+1. Navigate to **Workflow** in the sidebar.
+2. Click the **Add** button in the top toolbar or press **Shift + A**.
+3. A slide-out drawer appears on the right:
+   - **Name**: Enter a clear, purpose-based name (e.g., `Quality Checks`, `Setup New Worktree`, `Full Build`).
+   - **Command**: Enter the first command to execute.
+   - Click **Add Command** to append additional steps. Commands execute strictly from top to bottom in the order listed.
+4. Click **Save** to add the workflow to your repository's workflow library.
+
+![A workflow configured with test and lint commands](/images/releases/1.1.0/06b-add-workflow-configured.png)
+
+---
+
+## Command Ordering & Execution Flow
+
+Workflows execute commands sequentially within each target worktree:
+1. Step 1 runs in the worktree root (`cwd`).
+2. If Step 1 exits with code `0` (success), Step 2 begins immediately.
+3. If any step fails (non-zero exit code), execution stops immediately for that worktree, and the error is flagged in the live Log panel.
+
+---
+
+## Common Workflow Examples
+
+### Modern Web App (Node.js / TypeScript)
+
+- **Name**: `Verify Pull Request`
+- **Commands**:
+  1. `npm ci`
+  2. `npm run lint`
+  3. `npm run test -- --ci`
+  4. `npm run build`
+
+### Full-Stack Database Workflow
+
+- **Name**: `Reset & Seed Database`
+- **Commands**:
+  1. `npx prisma migrate reset --force`
+  2. `npx prisma db seed`
+  3. `npm test`
+
+### Rust Project
+
+- **Name**: `Cargo Check & Test`
+- **Commands**:
+  1. `cargo check --all-targets`
+  2. `cargo clippy -- -D warnings`
+  3. `cargo test`
+
+### Python Project
+
+- **Name**: `Pytest & Typecheck`
+- **Commands**:
+  1. `poetry install --no-root`
+  2. `ruff check .`
+  3. `mypy src`
+  4. `pytest`
+
+---
+
+## Running the New Workflow
+
+Once saved:
+1. Locate the workflow in the Saved Workflows table.
+2. Select your desired execution mode: **Sequential** or **Parallel**.
+3. In the **Worktrees** dropdown, check the worktrees you want to run this workflow on.
+4. Click the green **Play (▶)** button.

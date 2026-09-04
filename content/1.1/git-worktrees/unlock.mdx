@@ -1,11 +1,41 @@
 ---
-title: "Unlock a Git Worktree"
+title: Unlock a Git Worktree
+description: Remove worktree protection so maintenance actions can be used again.
 ---
 
 # Unlock a Git Worktree
 
-> 🔜 **Coming Soon (WorktreeWise 1.1.0)**
->
-> This documentation is being prepared for the upcoming **WorktreeWise 1.1.0** release.
->
-> Stay tuned! Detailed guides and feature walk-throughs will be published with the release.
+Unlocking a worktree lifts the administrative freeze placed on it, restoring full maintenance capabilities such as renaming, moving, pruning, and deletion.
+
+---
+
+## When to Unlock a Worktree
+
+You should unlock a worktree when the original reason for safeguarding it is complete:
+- A long-running build, benchmark, or continuous integration run has concluded.
+- A release candidate has been signed off or merged into the production branch.
+- You are ready to clean up disk space by deleting or pruning the worktree.
+- You need to rename the worktree or relocate its directory to a different folder.
+
+---
+
+## How to Unlock a Worktree
+
+1. In the **Worktrees** panel, locate the locked worktree (marked with a **Lock icon 🔒**).
+2. Click the three-dot **Actions** menu next to the worktree.
+3. Select **Unlock**.
+
+![Unlock action for a locked worktree](/images/releases/1.1.0/42-worktree-unlock-action.png)
+
+4. WorktreeWise immediately communicates with Git to remove the lock metadata. A success notification confirms the action.
+
+![Worktree after unlocking](/images/releases/1.1.0/43-worktree-unlocked.png)
+
+---
+
+## What Happens After Unlocking
+
+- **Lock Metadata Cleared**: The recorded lock reason and the internal Git lockfile (`.git/worktrees/<name>/locked`) are removed.
+- **Operations Restored**: The **Delete**, **Rename**, and **Change Folder (Move)** actions in the Actions menu are immediately re-enabled.
+- **Zero File Impact**: Unlocking does not touch your source files, uncommitted edits, or local branch commit history.
+- **Prune Eligibility**: If the worktree directory is later removed from disk, Git and WorktreeWise will safely recognize it as a candidate for pruning.

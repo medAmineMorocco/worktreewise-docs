@@ -11,14 +11,13 @@ export const DOC_VERSIONS: DocsVersion[] = [
     id: '1.1',
     label: '1.1.x',
     releases: ['1.1.0'],
-    latest: false,
-    tag: 'Soon',
+    latest: true,
   },
   {
     id: '1.0',
     label: '1.0.x',
     releases: ['1.0.0', '1.0.1'],
-    latest: true,
+    latest: false,
   },
 ];
 

@@ -1,0 +1,43 @@
+---
+title: Repair a Damaged Worktree
+description: Reconnect a worktree whose directory and Git administrative metadata no longer point to each other.
+---
+
+import { Callout, Steps } from 'nextra/components';
+
+# Repair a Damaged Worktree
+
+A worktree can become damaged when its folder or main repository is moved outside Git. WorktreeWise detects the broken registration, marks the worktree in red, disables actions that require a valid path, and exposes **Repair** in its actions menu.
+
+![Repair action for a damaged worktree](/images/releases/1.1.0/39-repair-worktree.png)
+
+## Repair the Connection
+
+<Steps>
+
+### Identify the damaged worktree
+
+Look for the red status icon in the Worktrees list. Open the worktree's three-dot actions menu. Unavailable actions are disabled so they cannot run against a broken path.
+
+### Select Repair
+
+Choose **Repair**. Point WorktreeWise to the worktree's current directory if it was moved or renamed. WorktreeWise uses Git's repair operation to restore the reciprocal pointers between the worktree and the main repository.
+
+### Verify the result
+
+After repair completes, the worktree returns to its normal status. Open it or refresh the list to confirm that its branch, path, and actions are available again.
+
+</Steps>
+
+## Repair or Prune?
+
+Use **Repair** when the worktree directory still exists and contains work you want to keep. Use **Prune Damaged Worktrees** only when the directory is permanently gone and you want to remove its stale Git registration.
+
+<Callout type="warning">
+Do not prune a worktree merely because it was moved. Repair it first so its files and branch remain connected to the repository.
+</Callout>
+
+## What Repair Changes
+
+Repair updates Git's administrative links: the worktree's `.git` file and the matching record below the main repository's `.git/worktrees/` directory. It does not delete the worktree, discard file changes, rename its branch, or create a commit.
+

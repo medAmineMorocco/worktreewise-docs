@@ -1,10 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   DOC_VERSIONS,
-  LATEST_DOC_VERSION,
   getVersionInfo,
   type DocsVersion,
 } from '@/lib/docs-versions';
@@ -35,9 +35,19 @@ function getRelativeDocsPath(pathname: string): string {
   return pathname;
 }
 
+function getTargetUrl(version: DocsVersion, currentPath: string): string {
+  const relativePath = getRelativeDocsPath(currentPath);
+  const normalizedRelative = relativePath.replace(/^\/+/, '');
+
+  if (version.latest) {
+    return normalizedRelative ? `/${normalizedRelative}` : '/';
+  }
+
+  return normalizedRelative ? `/${version.id}/${normalizedRelative}` : `/${version.id}`;
+}
+
 export function DocsVersionSelector() {
   const pathname = usePathname() || '';
-  const router = useRouter();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -76,19 +86,6 @@ export function DocsVersionSelector() {
       document.removeEventListener('keydown', handleEscape);
     };
   }, []);
-
-  function selectVersion(version: DocsVersion) {
-    if (version.tag) return;
-
-    const relativePath = getRelativeDocsPath(pathname);
-    const targetUrl = version.latest
-      ? (relativePath.startsWith('/') ? relativePath : `/${relativePath}`) || '/'
-      : `/${version.id}${relativePath.startsWith('/') ? relativePath : `/${relativePath}`}`;
-
-    router.push(targetUrl);
-    setOpen(false);
-    triggerRef.current?.focus();
-  }
 
   return (
     <div
@@ -139,19 +136,25 @@ export function DocsVersionSelector() {
             const selected =
               version.id === currentVersion.id;
             const isDisabled = Boolean(version.tag);
+            const targetUrl = getTargetUrl(version, pathname);
 
             return (
-              <button
+              <Link
                 key={version.id}
-                type="button"
+                href={targetUrl}
                 role="option"
-                disabled={isDisabled}
                 aria-disabled={isDisabled}
                 aria-selected={selected}
                 className={`docs-version-option ${
                   isDisabled ? 'docs-version-option-disabled' : ''
                 }`}
-                onClick={() => selectVersion(version)}
+                onClick={(e) => {
+                  if (isDisabled) {
+                    e.preventDefault();
+                    return;
+                  }
+                  setOpen(false);
+                }}
               >
                 <div className="docs-version-check">
                   {selected ? '✓' : ''}
@@ -178,7 +181,7 @@ export function DocsVersionSelector() {
                     Compatible: {version.releases.join(', ')}
                   </span>
                 </div>
-              </button>
+              </Link>
             );
           })}
         </div>

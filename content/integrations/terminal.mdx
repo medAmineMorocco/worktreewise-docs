@@ -1,43 +1,74 @@
 ---
-title: Open Worktree in Terminal
+title: Embedded Terminal Workspace
+description: Open one or more worktree-scoped terminals in a configurable grid.
 ---
 
-import { Callout } from 'nextra/components';
+# Embedded Terminal Workspace
 
-## Setting Up Shell in WorktreeWise
+WorktreeWise features a built-in, hardware-accelerated terminal workspace powered by XTerm.js. Every terminal pane opens directly inside the specific worktree's directory, enabling you to run commands, start local servers, execute tests, or run Git operations without managing external console windows.
 
-WorktreeWise allows you to configure your preferred shell that will be used when opening a terminal inside a worktree.
+![Three terminals at once](/images/releases/1.1.0/23-multiple-terminals.png)
 
 ---
-### 1. Opening Shell Settings
 
-To access the **Shell** settings:
+## Launching a Terminal
 
-1. Open the **Settings** window by clicking on **File → Settings** or using the shortcut **Shift + S**.
-2. In the sidebar, select the **Shell** tab.
+To open an embedded terminal for any worktree:
+1. In the **Worktrees** panel, locate the target worktree.
+2. Click the three-dot **Actions** menu and choose **Open in Terminal**.
+3. A terminal pane initializes instantly, with its working directory set to that worktree's root folder.
+
 ---
 
-### 2. Configure the Default Shell
+## Tiled Multi-Terminal Layout
 
-- In the **Default Shell** field, enter the full path to the shell executable you want WorktreeWise to use.
-- Once you **quit the tab**, the changes are automatically saved.
-- WorktreeWise will then use this shell whenever you open a terminal in a worktree.
+WorktreeWise supports concurrent multi-terminal workflows with flexible tiling options:
 
-<Callout type="warning">The dialog provides examples of paths for **known shells** depending on your operating system</Callout>
+### Adding New Panes
 
-<Callout type="warning">If no shell path is configured, WorktreeWise will attempt to use your system’s default shell.</Callout>
+Click **New terminal in worktree** in the top toolbar to add additional panes. You can:
+- Open another terminal in the **same worktree** (e.g. running a Vite dev server in pane 1 while running tests in pane 2).
+- Open a terminal in a **different worktree** (e.g. comparing build commands between `main` and a feature branch).
 
-![Configure the Full Path of a Shell](/images/content/integrations/terminal/configure-shell.png)
+### Column Configurations
 
-## Open Worktree in Terminal
+Control the grid structure using the layout switcher:
+- **Auto**: Automatically organizes panes based on your window width.
+- **1 Column**: Stacks terminals vertically in full-width rows.
+- **2 Columns**: Splits the display into two side-by-side terminal columns.
+- **3 Columns**: Arranges three concurrent terminal panes side by side.
 
-WorktreeWise allows you to quickly open a worktree in your terminal for efficient command-line operations.
+---
 
-1. Locate the worktree you want to open.
-2. Click on the **Open in Terminal** option.
-3. The terminal will open in the selected worktree’s directory.
+## Pane Controls & Features
 
-![Open Worktree in Terminal](/images/content/integrations/terminal/open-worktree-in-terminal.png)
+Each terminal pane operates as an independent session:
 
-![Worktree in Terminal](/images/content/integrations/terminal/worktree-in-terminal.png)
+- **Worktree Header**: Identifies the attached worktree and displays its full path tooltip.
+- **Mode Switching**: Toggle seamlessly between raw **Terminal** shell mode and interactive **AI Agent** mode using the segmented control.
+- **Focus & Maximize**: Click the Expand icon to maximize a single pane to full view—useful for inspecting long stack traces or wide logs. Click Compress to restore the tiled grid.
+- **Session Termination**: Click **✕** to terminate the underlying shell process and close the pane.
+- **Keyboard Navigation**: Press `Ctrl + PageUp` or `Ctrl + PageDown` to cycle keyboard focus between open panes.
+
+---
+
+## Shell Configuration & Auto-Detection
+
+Terminals use the active shell configured under **Settings → Shell** (**Shift + S**):
+
+![Shell settings](/images/releases/1.1.0/33-settings-shell.png)
+
+WorktreeWise automatically detects installed shells on your system:
+- **Windows**: PowerShell Core (`pwsh`), Windows PowerShell (`powershell`), Command Prompt (`cmd`), Git Bash (`git-bash`), WSL (`wsl`).
+- **macOS & Linux**: Zsh (`zsh`), Bash (`bash`), Fish (`fish`), Nushell (`nu`), POSIX Shell (`sh`).
+- **Custom Shell**: Enter an absolute path to a custom shell executable in Settings.
+
+---
+
+## Theme Synchronization
+
+The terminal's color palette adapts automatically to your application theme:
+- **Dark Mode**: High-contrast GitHub Dark palette (`#0d1117` background with crisp ANSI colors).
+- **Light Mode**: Clean GitHub Light palette (`#ffffff` background with optimized contrast).
+- Meets WCAG accessibility contrast ratios (minimum 4.5:1).
 

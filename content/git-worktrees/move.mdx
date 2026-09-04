@@ -1,17 +1,47 @@
 ---
 title: Move a Git Worktree
+description: Relocate a linked worktree safely while keeping its branch unchanged.
 ---
 
-## Move a Git Worktree
+import { Callout } from 'nextra/components';
 
-To change the location of an existing worktree:
+# Move a Git Worktree
 
-1. Navigate to the **Worktrees** section.
-2. Locate the worktree you want to move.
-3. Click the **Change Folder** button.
-4. Select a new destination path.
-5. Click **Move** to apply the changes.
+Moving a Git worktree relocates its working directory to a new path on your filesystem while preserving all uncommitted changes, branches, and Git administrative connections.
 
-![Move a Git Worktree](/images/content/git-worktrees/move/move-worktree-step1.png)
+---
 
-![Move a Git Worktree](/images/content/git-worktrees/move/move-worktree-step2.png)
+## Why Move Through WorktreeWise?
+
+Linked worktrees maintain a two-way link with the primary repository:
+1. The `.git` file inside the linked worktree points back to `.git/worktrees/<name>` in the main repository.
+2. The `gitdir` file in `.git/worktrees/<name>` points forward to the linked worktree's working directory.
+
+If you move a worktree folder using your operating system's file explorer or commands like `mv` or `Move-Item`, **this bidirectional link breaks immediately**. Git will report the worktree as missing and require manual repair.
+
+WorktreeWise executes `git worktree move`, which atomically moves the physical folder and simultaneously updates Git's internal pointer files.
+
+---
+
+## How to Move a Worktree
+
+1. In the **Worktrees** panel, locate the worktree you want to relocate.
+2. Click the three-dot **Actions** menu and select **Change Folder**.
+3. In the modal dialog, review the current path.
+4. Click the folder icon to browse for a new destination directory, or type the new path directly.
+5. WorktreeWise validates that the destination directory does not already exist and is on a compatible filesystem.
+6. Click **Move**.
+
+![Move Worktree dialog](/images/releases/1.1.0/21-worktree-move.png)
+
+---
+
+## What Happens to Your Work
+
+- **Files & Modifications Preserved**: All untracked files, modified files, and staged edits are transferred intact to the new folder.
+- **Branch Unchanged**: The underlying Git branch name, upstream tracking, and commit history remain completely unaffected.
+- **IDE and Terminal Integration**: Embedded terminal sessions and IDE configurations automatically update to target the new folder path.
+
+<Callout type="warning">
+The primary (main) worktree and any locked worktrees cannot be moved. Unlock a worktree first before moving it.
+</Callout>

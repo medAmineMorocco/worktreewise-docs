@@ -1,0 +1,62 @@
+---
+title: Create a Git Commit
+description: Review changes, stage files, inspect diffs, and create a commit without leaving WorktreeWise.
+---
+
+import { Callout, Steps } from 'nextra/components';
+
+# Create a Git Commit
+
+WorktreeWise brings the complete commit workflow into the Git Log. You can review the working tree, move files between unstaged and staged groups, inspect an individual diff, and write the commit message from one screen.
+
+![Working tree changes and commit panel](/images/releases/1.1.0/37-git-commit.png)
+
+## Open the Commit Panel
+
+Select **Working tree changes** at the top of the Git Log. The right sidebar opens for the selected worktree and separates changes into **Unstaged files** and **Staged files**.
+
+The number beside each heading shows how many files are currently in that group. The commit button also shows how many staged files will be included.
+
+## Prepare the Commit
+
+<Steps>
+
+### Choose the worktree
+
+Use the worktree selector above the Git Log. The commit panel always operates on that worktree, so changes from other worktrees are not mixed into the commit.
+
+### Review and stage files
+
+Use **Stage all** to include every unstaged file, or the plus action beside an individual file to stage only that file. Use **Unstage all** or the minus action to move files back before committing.
+
+### Inspect a file diff
+
+Select a file to open its diff. WorktreeWise shows the staged or unstaged version with additions and deletions highlighted. Use **Viewed** to mark a file you have already reviewed.
+
+![Reviewing a staged file before committing](/images/releases/1.1.0/38-git-commit-file-diff.png)
+
+### Write the message
+
+Enter a concise **Commit summary**. The counter enforces the 72-character subject guideline. Add a longer explanation in **Description (optional)** when the reason for the change needs more context.
+
+### Create the commit
+
+Review the staged-file count, then select **Commit**. The action becomes available only when the required summary and staged changes are present. After Git completes, the Git Log and working-tree status refresh automatically.
+
+</Steps>
+
+## Amend the Previous Commit
+
+Enable **Amend previous commit** to add the staged changes to the current worktree's latest commit instead of creating a new commit. You can also revise its message.
+
+<Callout type="warning">
+Amending rewrites the latest commit. If that commit has already been pushed or shared, coordinate before force-pushing the rewritten history.
+</Callout>
+
+## Safe Commit Checklist
+
+- Confirm the correct worktree is selected.
+- Inspect staged diffs and remove unrelated files.
+- Keep generated files, credentials, and local configuration out of the commit.
+- Use amend only when rewriting the latest commit is intentional.
+

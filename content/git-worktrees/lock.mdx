@@ -1,19 +1,56 @@
 ---
 title: Lock a Git Worktree
+description: Protect an important worktree from rename, move, or deletion and record why it is locked.
 ---
 
-## Lock a Git Worktree
+# Lock a Git Worktree
 
-To prevent modifications to a worktree:
+Locking a worktree is a built-in Git protection mechanism that prevents accidental deletion, renaming, relocating, or pruning of critical working directories. WorktreeWise provides an intuitive interface to apply and annotate worktree locks with descriptive human-readable reasons.
 
-1. Navigate to the **Worktrees** section.
-2. Find the worktree you want to lock.
-3. Click the **Lock** button.
+---
 
-![Lock Worktree](/images/content/git-worktrees/lock/lock-worktree.png)
+## When to Lock a Worktree
 
-The worktree will be marked as locked, preventing changes.
+Consider locking a worktree in scenarios such as:
 
-![Worktree Locked](/images/content/git-worktrees/lock/worktree-locked.png)
+- **Long-running background tasks**: When a worktree is actively compiling a large build, running an extended test matrix, or executing a long-running benchmark.
+- **Detached or network storage**: When a worktree resides on a network share or removable drive that might temporarily disconnect (preventing `git worktree prune` from deleting it while offline).
+- **Staging & release verification**: When an environment must remain strictly unchanged while waiting for QA or deployment sign-off.
+- **Experimental spikes**: When preserving uncommitted exploratory work that you do not want touched during routine repository maintenance.
 
+---
 
+## How to Lock a Worktree
+
+1. Open the Worktrees panel and locate the worktree you want to safeguard.
+2. Click the three-dot **Actions** button.
+3. Select **Lock**.
+
+![Lock action in the worktree menu](/images/releases/1.1.0/40-worktree-lock-action.png)
+
+4. In the dialog, enter a clear, descriptive **Reason** (for example, `Preserving release candidate v1.1.0-rc2 for staging smoke tests`).
+5. Click **Lock**.
+
+![Lock Worktree with a reason](/images/releases/1.1.0/22-worktree-lock.png)
+
+After confirmation, a lock indicator appears beside the worktree in the sidebar.
+
+![Locked worktree status](/images/releases/1.1.0/41-worktree-locked.png)
+
+---
+
+## Protection Guarantees
+
+Once a worktree is locked:
+
+| Operation | Status When Locked | Protection Guarantee |
+| :--- | :--- | :--- |
+| **Delete** | **Disabled** | Cannot be deleted via the UI or accidental CLI command |
+| **Rename** | **Disabled** | Worktree folder and branch name cannot be modified |
+| **Move** | **Disabled** | Directory path cannot be relocated |
+| **Prune** | **Ignored** | Git and WorktreeWise prune operations completely skip locked entries, even if the folder is temporarily unmounted |
+
+### Visual Status Indicators
+
+- A **Lock icon (🔒)** appears next to the worktree name in the left navigation sidebar.
+- In the **Worktree Overview**, the worktree receives a distinct `Locked` tag in its Health summary section, showing the recorded lock reason.
