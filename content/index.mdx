@@ -1,82 +1,158 @@
 ---
 title: "WorktreeWise Documentation"
-description: "Comprehensive guide to using WorktreeWise, a UI-based Git worktree management tool."
+description: "Desktop Git worktree manager for parallel branch development, environment isolation, workflow automation, and multi-agent AI workspaces."
 ---
 
-## Introduction
-Welcome to the official documentation for **WorktreeWise** – a productivity tool designed to make working with Git worktrees simple and efficient.
+import { Callout, Cards } from 'nextra/components';
+import {
+  FolderPlus,
+  LayoutDashboard,
+  Terminal,
+  Bot,
+  Play,
+  GitBranch,
+} from 'lucide-react';
 
-> **Current documentation:** WorktreeWise **1.1.0**. See [what’s new](/release-notes-1-1-0) for a guided feature overview.
+# WorktreeWise Documentation
 
-Master Git worktrees, automate workflows, and open them in your IDE — everything you need to boost productivity with WorktreeWise.
+WorktreeWise is a desktop application for managing and automating Git worktrees. It enables you to work across multiple branches simultaneously in isolated directories on disk—without branch switching, stash conflicts, or repeated dependency installations.
+
+<Callout type="info">
+Current documentation covers WorktreeWise **1.1.0**. To review new features in this release, see [What’s new in 1.1.0](/release-notes-1-1-0).
+</Callout>
 
 ---
 
-## Features
+## What are Git Worktrees?
 
-- **Managing Git Worktrees** – create, rename, move, delete, lock/unlock, and prune worktrees.
-- **Terminal & IDE Integrations** – open worktrees in your terminal or IDE (e.g. WebStorm) while keeping all your configurations.
-- **Workflows** – define commands once and run them across one or many worktrees in sequence or parallel.
-- **AI Agents** – run configured coding agents in one or more worktree-scoped panes with optional smart context.
-- **Git Operations** – explore commit history with Git Log and compare branches, worktrees, tags, or commits with Git Diff.
-- **Customization** – toggle light/dark mode, configure editors, and adjust naming patterns for your worktrees.
+In a standard Git workflow, a single working directory is attached to one branch at a time. Switching branches requires stashing or committing uncommitted changes, rebuilding project assets, and restarting development servers.
+
+A **Git worktree** allows you to attach multiple working directories to the same repository. Each worktree is checked out to its own branch and maintains its own filesystem directory:
+
+- **Work on features in parallel**: Run long builds or test suites in one worktree while continuing active development in another.
+- **Isolate dependencies and ports**: Prevent runtime collisions using worktree-scoped environment files and separate dev server ports.
+- **Dedicated AI workspaces**: Run autonomous AI coding agents in separate worktree directories without file-write race conditions or dirty working trees.
+- **Shared Git history**: All worktrees share the same underlying `.git` object database, saving disk space compared to separate repository clones.
+
+---
+
+## Feature Overview
+
+<Cards>
+  <Cards.Card
+    icon={<FolderPlus />}
+    title="Git Worktrees"
+    href="/git-worktrees"
+  >
+    Create, list, rename, relocate, lock, repair, and prune worktrees with dependency sharing and sparse checkout.
+  </Cards.Card>
+  <Cards.Card
+    icon={<LayoutDashboard />}
+    title="Worktree Overview"
+    href="/git-worktrees/overview"
+  >
+    Inspect repository health metrics, branch divergence, uncommitted modifications, and 4-way disk consumption.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Terminal />}
+    title="Terminal & IDEs"
+    href="/integrations"
+  >
+    Open worktrees in embedded multi-pane terminals or launch directly into VS Code, Cursor, Windsurf, or JetBrains IDEs.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Bot />}
+    title="AI Coding Agents"
+    href="/integrations/ai-agents"
+  >
+    Run up to three concurrent AI agents (Claude Code, Codex, Cursor CLI, Antigravity) with Smart Context injection.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Play />}
+    title="Automated Workflows"
+    href="/workflows"
+  >
+    Define ordered command chains and execute them across multiple worktrees sequentially or in parallel.
+  </Cards.Card>
+  <Cards.Card
+    icon={<GitBranch />}
+    title="Git Operations"
+    href="/git-operations"
+  >
+    Explore commit history with Git Log, author atomic commits with inline staging, and compare revisions with Git Diff.
+  </Cards.Card>
+</Cards>
+
+---
 
 ## Installation
 
-### 1. Download WorktreeWise
-Get the installer for your operating system from the official landing page:
+### Prerequisites
+
+Before installing WorktreeWise, verify that your system meets the following requirements:
+
+| Requirement | Details |
+| :--- | :--- |
+| **Git** | Git 2.20 or later must be installed on your machine. |
+| **PATH Configuration** | The Git binary (`git` or `git.exe`) must be present in your system `PATH`. |
+| **Operating System** | Windows 10/11, macOS 11 (Big Sur) or later, or modern 64-bit Linux distributions. |
+
+### Download WorktreeWise
+
+Download the official installer for your operating system:
 
 [Download WorktreeWise](https://www.worktreewise.com/?utm_source=worktreewise_docs)
 
-### 2. Prerequisites
-Make sure you have:
-- **Git** installed on your machine.
-- The **Git bin folder added to your PATH** (so WorktreeWise can run Git commands).
+### System-Specific Security Notices
 
-### 3. Before Installing WorktreeWise
+<Callout type="info">
+**Windows SmartScreen**: Double-clicking the Windows installer may trigger a Windows SmartScreen notice. Click **More info**, then select **Run anyway** to proceed with installation.
+</Callout>
 
-- **Windows:**
-Double-clicking the installer may trigger a Windows SmartScreen warning.
-> ⚠️ **Note:** This is normal for new apps and does not indicate a security issue. Click **Run anyway** to continue.
+<Callout type="info">
+**macOS Security**: macOS may block unnotarized applications on first launch. If prompted, open **System Preferences → Security & Privacy → General** (or **System Settings → Privacy & Security**) and select **Open Anyway**.
+</Callout>
 
-- **Mac:**
-macOS may block the installer as it comes from an unidentified developer.
-> ⚠️ **Note:** This is expected. Go to **System Preferences → Security & Privacy → General** and allow the installer to run.
+### Run the Installer
 
-> 🔜 **Coming soon:** We plan to sign and notarize the installer, so these warnings will no longer appear in future versions.
+1. Launch the downloaded installer executable.
+2. Follow the on-screen prompts to complete installation.
+3. Once installation finishes, launch WorktreeWise.
 
 ---
 
-### 4. Installation Steps
+## First Launch & License Activation
 
-1. Run the installer and follow the on-screen instructions.
-2. Once installed, launch WorktreeWise.
+When you launch WorktreeWise for the first time, activate your license and open a repository:
 
-### 5. First Launch & License Activation
+### 1. Open a Repository
 
-When you launch WorktreeWise for the first time:
-
-1. **Launch WorktreeWise**
-After installation, WorktreeWise will show the **Open a Repository** screen.
+Upon launch, WorktreeWise displays the repository chooser screen. Select **Open Repository** and browse to any local Git repository.
 
 ![Open or clone a repository](/images/releases/1.1.0/36-repository-start.png)
 
-2. **Select a Git Repository**
-Click **Open Repository** and select the Git repository you want to work with.
+### 2. Enter License Details
 
-3. **License Activation Popup**
-Upon opening a repository for the first time, a popup will appear asking for:
-- **Email** — the email you used when purchasing WorktreeWise.
-- **License key** — the unique key provided in your purchase confirmation email.
+When opening a repository for the first time, the activation dialog appears:
 
-Fill in both fields and click **Verify**.
+- **Email**: Enter the email address associated with your WorktreeWise purchase.
+- **License key**: Enter the unique key received in your purchase confirmation email.
 
-![Fill WorktreeWise Licence Key](/images/releases/1.1.0/worktreewise-subscription.png)
+Click **Verify** to complete activation.
 
-4. **Successful Activation**
-- You’ll be logged in automatically.
-- The repository will open, allowing you to start managing your worktrees.
+![Fill WorktreeWise License Key](/images/releases/1.1.0/worktreewise-subscription.png)
+
+### 3. Start Working
+
+Once verified, WorktreeWise loads your repository's primary worktree and commit history in the Git Log view:
 
 ![Git Log](/images/releases/1.1.0/01-git-log.png)
 
+---
 
+## Next Steps
+
+- [Create your first worktree](/git-worktrees/create) from HEAD, a branch, or a tag.
+- [Inspect repository health and disk usage](/git-worktrees/overview) in the Worktree Overview dashboard.
+- [Configure external editors and IDEs](/settings#editors-settings) to open worktrees with preserved settings.
+- [Run multi-step command sequences](/workflows) across your worktrees.

@@ -1,8 +1,8 @@
 export default {
-    "index": '',
-    "create": '',
-    "edit": '',
-    "delete": '',
-    "import": '',
-    "play": '',
-}
+    index: 'Overview',
+    create: 'Create a Workflow',
+    play: 'Run a Workflow',
+    edit: 'Edit & Duplicate',
+    import: 'Import Workflows',
+    delete: 'Delete a Workflow',
+};

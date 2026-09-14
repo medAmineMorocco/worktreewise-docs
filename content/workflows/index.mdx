@@ -3,69 +3,120 @@ title: Workflows
 description: Reuse command sequences across one or more worktrees and follow execution in real time.
 ---
 
+import { Cards } from 'nextra/components';
+import {
+  Play,
+  PlusCircle,
+  Copy,
+  FolderInput,
+  Trash2,
+} from 'lucide-react';
+
 # Workflows
 
-Workflows in WorktreeWise provide a powerful automation engine to define, reuse, and execute ordered command sequences across one or multiple worktrees in **Sequential** or **Parallel** mode.
-
-Whether you need to install dependencies across five branches, run test suites concurrently, or perform automated database migrations, Workflows eliminate repetitive terminal commands and provide real-time execution monitoring.
+Workflows allow you to define, reuse, and execute ordered command sequences across one or multiple worktrees in **Sequential** or **Parallel** mode. Automate repetitive tasks—such as installing dependencies across branches, running concurrent test suites, or seeding databases—with real-time PTY log streaming.
 
 To access Workflows:
-- Click **Workflow** at the bottom of the Worktrees sidebar.
+- Select **Workflow** at the bottom of the Worktrees sidebar.
 
 ![Workflow workspace](/images/releases/1.1.0/05-workflows.png)
 
 ---
 
-## Workflow Workspace Architecture
+## Workflow Lifecycle
 
-The Workflows page is structured into three coordinated sections:
+<Cards>
+  <Cards.Card
+    icon={<PlusCircle />}
+    title="Create a Workflow"
+    href="/workflows/create"
+  >
+    Construct reusable command sequences with step-by-step ordering and fail-fast validation.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Play />}
+    title="Run a Workflow"
+    href="/workflows/play"
+  >
+    Execute workflows sequentially or in parallel with live ANSI color streaming and process management.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Copy />}
+    title="Edit & Duplicate"
+    href="/workflows/edit"
+  >
+    Update existing command chains or clone workflows to create specialized variations.
+  </Cards.Card>
+  <Cards.Card
+    icon={<FolderInput />}
+    title="Import Workflows"
+    href="/workflows/import"
+  >
+    Import workflow definitions from `.git/WorktreeWise/` across repositories with conflict detection.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Trash2 />}
+    title="Delete a Workflow"
+    href="/workflows/delete"
+  >
+    Remove obsolete workflow recipes from your library without altering worktree files or branches.
+  </Cards.Card>
+</Cards>
+
+---
+
+## Workspace Architecture
+
+The Workflows view is organized into three sections:
 
 ### 1. Saved Workflows Table
 
-The table lists all workflow definitions saved for your repository:
-- **Workflow Name**: Descriptive title (e.g. `Run Unit Tests & Lint`, `Full Build Matrix`).
-- **Commands**: The ordered sequence of shell commands configured for this workflow.
-- **Execution Mode**: Toggle between **Sequential** and **Parallel** execution.
-- **Target Worktrees**: Multi-select dropdown to choose which worktrees this workflow will execute against.
-- **Actions Column**:
-  - **Play / Stop**: Start or immediately cancel workflow execution.
-  - **Edit (✏️)**: Open the slide-out drawer to adjust commands or rename the workflow.
-  - **Duplicate**: Clones the workflow to create a new variant without modifying the original.
-  - **Delete (🗑️)**: Permanently removes the workflow definition (leaves worktrees untouched).
+Displays all workflow definitions configured for the current repository:
+- **Workflow Name**: Descriptive title (e.g. `Verify PR Matrix`, `Reset Local Database`).
+- **Commands**: Ordered preview of commands configured for each step.
+- **Execution Mode**: Toggle between **Sequential** and **Parallel** modes.
+- **Target Worktrees**: Multi-select dropdown to choose target worktrees. Leaving this empty runs the workflow across all active worktrees.
+- **Actions**:
+  - **Play (▶) / Stop (⏹)**: Start or cancel workflow execution.
+  - **Edit (✏️)**: Open the slide-out drawer to reorder or edit commands.
+  - **Duplicate (📋)**: Clone the workflow to create a new variant.
+  - **Delete (🗑️)**: Remove the workflow definition.
 
 ### 2. Live Log Streaming Panel
 
-Below the table, the Log panel displays streaming terminal output as commands execute:
-- Captures `stdout` and `stderr` in real time with ANSI color code support.
-- Displays execution status for each target worktree.
-- Automatically highlights errors and exit codes if a step fails.
-- **Fullscreen Mode**: Press **Shift + F** to expand the log panel to full screen; press **Esc** to exit.
+The log panel renders streaming terminal output with full ANSI color support:
+- Shows stdout and stderr for each target worktree in real time.
+- Highlights execution failures and non-zero exit codes.
+- **Fullscreen Mode**: Press **Shift + F** to expand the log panel; press **Esc** to exit full screen.
 
-### 3. Toolbar Actions
+### 3. Toolbar Controls
 
-At the top of the workflow list:
-- **Add Workflow (`Shift + A`)**: Opens the drawer to construct a new workflow step-by-step.
-- **Import Workflow (`Shift + I`)**: Imports previously exported workflow JSON files from disk.
+- **Add Workflow (`Shift + A`)**: Open the drawer to define a new workflow step-by-step.
+- **Import Workflow (`Shift + I`)**: Import workflow definitions from another repository.
 
 ---
 
 ## Sequential vs. Parallel Execution
 
-| Feature | Sequential Execution | Parallel Execution |
+| Characteristic | Sequential Execution | Parallel Execution |
 | :--- | :--- | :--- |
-| **How it runs** | Executes the full command list in Worktree A, then moves to Worktree B, then C. | Spawns background worker processes simultaneously across all selected worktrees. |
-| **Best Used For** | Tasks with shared resources: database migrations, seed scripts, shared cache warmups. | Independent tasks: linting, unit testing, formatting checks, typechecking. |
-| **Performance** | Predictable CPU and memory footprint. | Maximum speed by utilizing multi-core processor concurrency. |
-| **Resource Safety** | Guarantees no port collisions or concurrent file locks. | Requires worktrees to have isolated environments or independent configurations. |
+| **Scheduling** | Runs all commands on Worktree A to completion before starting Worktree B. | Spawns background worker threads concurrently across all selected worktrees. |
+| **Best Used For** | Tasks sharing ports or resources (database migrations, seeds, local service setups). | Independent CPU-bound tasks (linting, unit tests, typechecking, builds). |
+| **Resource Safety** | Prevents port collisions and database locks. | Requires worktrees to have isolated ports or independent configurations. |
+| **Execution Time** | Linear duration proportional to worktree count. | Fast execution utilizing multi-core concurrency. |
 
 ---
 
 ## Best Practices for Workflow Commands
 
-1. **Non-Interactive Commands**:
-   Ensure all commands run non-interactively without prompting for user confirmation (e.g., use `npm ci` instead of `npm install`, or pass `-y` / `--yes` flags).
-2. **Relative Paths**:
-   Commands automatically execute with the selected worktree root as the current working directory (`cwd`). Avoid hardcoded absolute paths like `C:\Users\...` or `/home/...`.
-3. **Fail-Fast Chains**:
-   If a command in the chain fails (non-zero exit code), WorktreeWise halts execution for that worktree and logs the exact failure line.
+1. **Non-Interactive Execution**: Ensure commands execute without waiting for interactive prompts (e.g. use `npm ci` instead of `npm install`, or supply `-y` / `--yes` flags).
+2. **Relative Paths**: Commands run with the target worktree root as the current working directory (`cwd`). Use relative paths to ensure cross-worktree portability.
+3. **Fail-Fast Error Handling**: If a step returns a non-zero exit code, WorktreeWise halts further execution for that worktree and flags the failing command in the log panel.
 
+---
+
+## Related Pages
+
+- [Create a Workflow](/workflows/create): Build your first automation pipeline.
+- [Run a Workflow](/workflows/play): Learn about the pseudo-terminal engine and process controls.
+- [Shell Settings](/settings#shell-settings): Configure the default shell binary used for workflow runs.

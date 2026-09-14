@@ -1,96 +1,100 @@
 ---
 title: Settings
-description: Configure worktree behavior, editors, AI agents, shells, Git, and text encoding.
+description: Configure worktree naming patterns, external editor integrations, AI coding agents, terminal shells, Git binary paths, and text encoding.
 ---
+
+import { Callout } from 'nextra/components';
 
 # Settings
 
-WorktreeWise provides extensive configuration options to customize your worktree creation defaults, editor integrations, AI coding agents, terminal shells, Git behavior, and text encoding.
+Configure global and repository-specific preferences for worktree directories, external editor integrations, terminal-based AI coding agents, shell environments, Git binary paths, and character encoding.
 
 To open Settings:
-- Click on **File → Settings** in the application menu.
-- Or press the keyboard shortcut **Shift + S**.
+- Select **File → Settings** from the application menu.
+- Or press the global keyboard shortcut **Shift + S**.
 
-All settings are automatically persisted to local configuration and applied across your repositories.
+Settings are automatically persisted to local configuration and applied across all repository tabs.
 
 ---
 
+<span id="worktrees-settings" />
+<span id="worktree-configuration" />
+
 ## Worktrees Settings
 
-The **Worktrees** settings tab configures the default folder structure and naming convention used when creating new worktrees.
+The **Worktrees** tab configures the default parent directory and automated directory naming convention for newly created worktrees.
 
 ![Worktree settings](/images/releases/1.1.0/30-settings-worktrees.png)
 
 ### Naming Patterns
 
-When you create a worktree, WorktreeWise generates its directory path automatically based on a configurable naming pattern. This keeps your workspace organized and ensures consistent folder hierarchies across teams.
+WorktreeWise generates folder names automatically using a configurable naming pattern. This standardizes folder structure across projects and teams.
 
 #### Supported Placeholders
 
 | Placeholder | Description | Example Replacement |
 | :--- | :--- | :--- |
-| `{repo}` | The name of the primary repository | `my-project` |
-| `{branch}` | The sanitized branch or tag name | `feature-auth` |
+| `{repo}` | Name of the primary repository | `my-project` |
+| `{branch}` | Sanitized branch or tag name | `feature-auth` |
 
-#### Built-in Pattern Options
+#### Built-in Pattern Presets
 
-WorktreeWise comes with several preconfigured naming templates:
+| Pattern | Output Folder Example | Best Used For |
+| :--- | :--- | :--- |
+| **`{repo}__wt__{branch}`** *(Default)* | `my-project__wt__feature-auth` | Clear visual separation between repository name, worktree marker (`wt`), and branch. |
+| **`{repo}__{branch}`** | `my-project__feature-auth` | Shorter directory paths. |
+| **`{repo}-wt-{branch}`** | `my-project-wt-feature-auth` | Single-hyphen naming conventions. |
+| **`wt__{repo}__{branch}`** | `wt__my-project__feature-auth` | Groups all worktrees together alphabetically in the parent folder. |
 
-1. **`{repo}__wt__{branch}`** *(Default)*:
-   Produces folder names like `my-project__wt__feature-auth`. The double-underscore delimiter makes it easy to visually distinguish repository root, worktree marker (`wt`), and branch name.
-2. **`{repo}__{branch}`**:
-   Produces folder names like `my-project__feature-auth`.
-3. **`{repo}-wt-{branch}`**:
-   Produces folder names like `my-project-wt-feature-auth`.
-4. **`wt__{repo}__{branch}`**:
-   Produces folder names like `wt__my-project__feature-auth`, clustering all worktrees together when sorted alphabetically in a parent directory.
+### Add a Custom Naming Pattern
 
-### Adding Custom Naming Patterns
-
-You can define your own naming pattern to match your organization's folder conventions:
-1. In **Settings → Worktrees**, expand the pattern dropdown.
-2. Type your desired pattern in the input box at the bottom of the popup (for example, `worktrees/{branch}` or `wt-{repo}-{branch}`).
-3. Click the **+** (Add) button.
-4. Your custom pattern is immediately saved and available for selection.
-5. To delete a custom pattern, hover over it in the list and click the red trash icon.
+1. In **Settings → Worktrees**, click the pattern dropdown.
+2. Enter your custom pattern in the input box (for example, `worktrees/{branch}` or `wt-{repo}-{branch}`).
+3. Select the **+** (Add) button.
+4. The custom pattern is saved and ready for selection.
+5. To remove a custom pattern, hover over it in the list and select the red trash icon.
 
 ---
 
+<span id="editors-settings" />
+<span id="editor-configuration" />
+
 ## Editors Settings
 
-The **Editors** settings tab allows you to configure external IDEs and code editors so you can launch any worktree with a single click.
+The **Editors** tab configures external IDEs and code editors so you can launch any worktree with a single click.
 
 ![Editor settings](/images/releases/1.1.0/31-settings-editors.png)
 
 ### Supported Editors
 
-WorktreeWise supports a wide variety of modern development environments:
+WorktreeWise detects and integrates with standard development environments:
 
 - **VS Code Family**: Visual Studio Code, Cursor, Windsurf, VSCodium.
 - **JetBrains Family**: WebStorm, IntelliJ IDEA, Rider, PyCharm, CLion, PhpStorm, RubyMine, GoLand, Android Studio.
 - **Modern Text Editors**: Zed, Sublime Text, Brackets.
 
-### Automatic Detection (`Scan`)
+### Scan for Installed Editors
 
-Click the **Scan** button in the top-right corner to trigger automatic editor detection (`editors:detect-all`). WorktreeWise scans standard system installation directories, user application paths, and the system `PATH` to identify installed editors.
+Select **Scan** in the top-right corner to run automatic detection (`editors:detect-all`). WorktreeWise scans standard system paths, user application directories, and your system `PATH`:
 
-- When an editor is detected, a green **Found** badge appears along with the detected version.
-- Detected editors are enabled automatically.
+- Detected editors display a green **Found** badge and version number.
+- Newly detected editors are enabled automatically.
 
-### Enabling or Disabling Editors
+### Enable or Disable Editors
 
-- Click on any editor card to toggle its active state.
+- Select any editor card to toggle its active state.
 - Enabled editors display a highlighted blue border and appear in the **Open in** menu in the Worktree list.
-- Disabled editors are excluded from action menus, keeping your interface clean.
+- Disabled editors are hidden from action menus to keep the interface focused.
 
-### Configuring Custom Executable Paths
+### Configure Custom Executable Paths
 
 If an editor is installed in a non-standard location or portable directory:
-1. Click the **Pencil icon (✏️)** on the editor card.
-2. Enter the absolute path to the executable file.
-3. Click **Edit** to save.
 
-#### Example Paths by Operating System
+1. Select the **Pencil icon (✏️)** on the editor card.
+2. Enter the absolute path to the editor executable.
+3. Select **Edit** to save.
+
+#### Standard Executable Paths by Operating System
 
 | Editor | Windows | macOS | Linux |
 | :--- | :--- | :--- | :--- |
@@ -103,6 +107,9 @@ If an editor is installed in a non-standard location or portable directory:
 
 ---
 
+<span id="ai-agents-settings" />
+<span id="ai-agents-configuration" />
+
 ## AI Agents Settings
 
 The **AI Agents** tab enables and configures terminal-based AI coding assistants that run directly inside worktree-scoped panes.
@@ -111,45 +118,32 @@ The **AI Agents** tab enables and configures terminal-based AI coding assistants
 
 ### Supported AI Coding Agents
 
-WorktreeWise includes first-class support for 7 popular AI coding agents:
+WorktreeWise provides presets and icon support for 7 AI coding assistants:
 
-1. **Claude Code** (`claude`):
-   - Command: `claude`
-   - Installation: `npm install -g @anthropic-ai/claude-code`
-   - Requirement: Node.js 18 or later
-2. **Codex** (`codex`):
-   - Command: `codex`
-   - Installation: `npm install -g @openai/codex`
-3. **Cursor CLI** (`cursor`):
-   - Command: `cursor-agent`
-   - Windows Installation: `irm 'https://cursor.com/install?win32=true' | iex` (PowerShell)
-4. **Antigravity CLI** (`antigravity`):
-   - Command: `agy`
-   - Installation: `irm https://antigravity.google/cli/install.ps1 | iex` (PowerShell)
-5. **Qwen Code** (`qwen`):
-   - Command: `qwen`
-   - Installation: `npm install -g @qwen-code/qwen-code@latest`
-   - Requirement: Node.js 22 or later
-6. **Kimi Code** (`kimi`):
-   - Command: `kimi`
-   - Installation: `npm install -g @moonshot-ai/kimi-code`
-   - Requirement: Node.js 22.19 or later
-7. **OpenCode** (`opencode`):
-   - Command: `opencode`
-   - Installation: `npm install -g opencode-ai`
+| Agent | CLI Executable | Installation Command | Prerequisites |
+| :--- | :--- | :--- | :--- |
+| **Claude Code** | `claude` | `npm install -g @anthropic-ai/claude-code` | Node.js 18+ |
+| **Codex** | `codex` | `npm install -g @openai/codex` | Node.js 18+ |
+| **Cursor CLI** | `cursor-agent` | `irm 'https://cursor.com/install?win32=true' \| iex` (PowerShell) | Cursor installation |
+| **Antigravity CLI** | `agy` | `irm https://antigravity.google/cli/install.ps1 \| iex` (PowerShell) | Antigravity suite |
+| **Qwen Code** | `qwen` | `npm install -g @qwen-code/qwen-code@latest` | Node.js 22+ |
+| **Kimi Code** | `kimi` | `npm install -g @moonshot-ai/kimi-code` | Node.js 22.19+ |
+| **OpenCode** | `opencode` | `npm install -g opencode-ai` | Node.js 18+ |
 
-### Agent Configuration & Testing
+### Configure and Test Agents
 
-- **Auto-detection**: WorktreeWise checks which agent binaries are present in your system `PATH`.
-- **Toggle State**: Use the switch on each card to enable or disable agents for terminal sessions.
-- **Custom Arguments**: Click the pencil icon to specify custom binary paths or CLI arguments (e.g., flags to specify default models or custom config paths).
-- **Test Agent Execution**: Click **Test** on any agent card to run a diagnostic check. WorktreeWise executes the binary in a sandboxed test run and outputs stdout/stderr so you can verify authentication and installation health before starting real tasks.
+- **Enable / Disable**: Toggle the switch on each card to show or hide the agent in terminal panes.
+- **Custom Paths & Flags**: Select the pencil icon to specify a custom binary path or default command-line flags (such as model flags or temperature parameters).
+- **Run Diagnostics**: Select **Test** on any agent card to run a sandbox check. WorktreeWise executes the binary and outputs stdout/stderr so you can verify authentication and executable permissions before launching real tasks.
 
 ---
 
+<span id="shell-settings" />
+<span id="shell-configuration" />
+
 ## Shell Settings
 
-The **Shell** settings tab controls which command-line shell is launched inside embedded terminal panes.
+The **Shell** tab specifies which command-line shell is launched inside embedded terminal panes.
 
 ![Shell settings](/images/releases/1.1.0/33-settings-shell.png)
 
@@ -159,44 +153,54 @@ WorktreeWise automatically discovers installed shells across standard platform p
 - **Windows**: PowerShell (`pwsh`), Windows PowerShell (`powershell`), Command Prompt (`cmd`), Git Bash (`git-bash`), WSL (`wsl`).
 - **macOS & Linux**: Zsh (`zsh`), Bash (`bash`), Fish (`fish`), Nushell (`nu`), POSIX Shell (`sh`).
 
-Click on any detected shell card to make it the active shell for all newly opened embedded terminals.
+Select any detected shell card to designate it as the default shell for all new embedded terminal sessions.
 
 ### Custom Shell Path
 
-If you use a specialized shell or custom installation directory:
+To use a custom shell binary:
 1. Enter the absolute path in the **Custom shell path** input field.
-2. Click the folder icon to browse the filesystem if preferred.
-3. Click **Apply** to activate the custom shell.
+2. Select the folder icon to browse the filesystem if needed.
+3. Select **Apply** to activate the custom shell.
 
 ---
 
+<span id="git-settings" />
+<span id="git-configuration" />
+
 ## Git Settings
 
-The **Git** tab configures the path to the Git binary used for all worktree operations, log queries, branch listings, and diffs.
+The **Git** tab configures the path to the Git binary used for worktree operations, log queries, branch listings, and diffs.
 
 ![Git settings](/images/releases/1.1.0/34-settings-git.png)
 
 ### Git Executable Path
 
-By default, WorktreeWise relies on the `git` executable found in your system `PATH`. If you need to point to a specific Git installation (e.g. Git for Windows with specific credentials or a custom toolchain):
+By default, WorktreeWise uses the `git` executable found in your system `PATH`. To target a specific Git installation:
 
 - **Windows**: `C:\Program Files\Git\bin\git.exe`
 - **macOS / Linux**: `/usr/bin/git` or `/usr/local/bin/git`
 
+Enter the path and select **Apply** to save.
+
 ---
+
+<span id="encoding-settings" />
+<span id="encoding-configuration" />
 
 ## Encoding Settings
 
-The **Encoding** settings tab specifies the character encoding used when reading Git command output and commit logs.
+The **Encoding** tab specifies the character encoding used when reading Git command output and commit logs.
 
 ![Encoding settings](/images/releases/1.1.0/35-settings-encoding.png)
 
 ### Supported Character Encodings
 
-Select your preferred encoding from the dropdown (default is **UTF-8**). Supported options include:
-- **Unicode**: UTF-8, UTF-16, UTF-32
-- **Western & European**: ASCII, ISO-8859-1 through ISO-8859-16, Windows-1250 through Windows-1258, CP437, CP850, CP852, CP865, CP866
-- **East Asian**: Shift JIS, EUC-JP, ISO-2022-JP, GB2312, GBK, GB18030, Big5, ISO-2022-CN, ISO-2022-KR
-- **Cyrillic**: KOI8-R, KOI8-U, MacCyrillic
-- **Other**: TIS-620, VISCII, MacRoman
+Select your preferred encoding from the dropdown (default is **UTF-8**):
 
+| Category | Encodings |
+| :--- | :--- |
+| **Unicode** | UTF-8, UTF-16, UTF-32 |
+| **Western & European** | ASCII, ISO-8859-1 through ISO-8859-16, Windows-1250 through Windows-1258, CP437, CP850, CP852, CP865, CP866 |
+| **East Asian** | Shift JIS, EUC-JP, ISO-2022-JP, GB2312, GBK, GB18030, Big5, ISO-2022-CN, ISO-2022-KR |
+| **Cyrillic** | KOI8-R, KOI8-U, MacCyrillic |
+| **Other** | TIS-620, VISCII, MacRoman |

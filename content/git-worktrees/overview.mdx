@@ -1,69 +1,73 @@
 ---
-title: Worktree Overview
-description: Understand repository health, upstream state, activity, and disk use across all worktrees.
+title: Worktree Overview Dashboard
+description: Inspect repository health, upstream divergence, working tree status, and 4-way disk consumption across all worktrees.
 ---
 
-# Worktree Overview
+import { Callout } from 'nextra/components';
 
-The **Worktree Overview** provides a single cockpit for monitoring repository health, branch divergence, uncommitted changes, activity recency, and disk consumption across every linked worktree.
+# Worktree Overview Dashboard
+
+The **Worktree Overview** provides a centralized dashboard for monitoring repository health, branch divergence, uncommitted modifications, activity recency, and disk consumption across every linked worktree.
 
 To access the Worktree Overview:
-- Click **Overview** at the bottom of the Worktrees sidebar.
+- Select **Overview** at the bottom of the Worktrees sidebar.
 - Or press **Shift + O** while focused on the Worktrees view.
 
 ![Loaded Worktree Overview](/images/releases/1.1.0/04-worktree-overview.png)
 
 ---
 
-## Summary Metrics Strip
+## Live Repository Metrics
 
-At the top of the Overview dashboard, six live metric cards provide an immediate snapshot of your entire repository:
+At the top of the Overview dashboard, six live metric cards provide an immediate snapshot of your repository state:
 
 | Metric Card | What It Measures | Why It Matters |
 | :--- | :--- | :--- |
-| **Total worktrees** | Total count of all registered worktrees | Helps monitor active parallel working directories |
-| **Branches / detached** | Count of branch-linked worktrees vs detached HEAD states | Identifies worktrees that may not be committing to a named branch |
-| **Clean / dirty** | Worktrees with no uncommitted changes vs worktrees with modified files | Tells you immediately where unfinished work or uncommitted experiments reside |
-| **With staged changes** | Worktrees having files prepared in the Git index | Prevents forgetting staged commits before switching tasks |
-| **With untracked files** | Worktrees containing new unversioned files | Flags generated build artifacts or missing `.gitignore` rules |
-| **Disk consumption** | Aggregate disk space across all worktrees | Includes project source files, dependencies (`node_modules`), build artifacts/caches, and `.git` data |
+| **Total worktrees** | Count of all registered worktrees | Tracks active parallel working directories. |
+| **Branches / detached** | Branch-linked worktrees vs. detached HEAD states | Identifies worktrees not currently committing to a named branch. |
+| **Clean / dirty** | Worktrees with no uncommitted changes vs. modified files | Surfaces uncommitted experiments and unfinished work across branches. |
+| **With staged changes** | Worktrees containing changes in the Git index | Flags staged files ready for commit before switching contexts. |
+| **With untracked files** | Worktrees containing unversioned files | Identifies missing `.gitignore` entries or uncommitted build artifacts. |
+| **Disk consumption** | Aggregate disk space across all worktrees | Combines tracked source files, external dependencies (`node_modules`), build caches, and Git metadata. |
 
 ---
 
 ## Status Distribution & Quick Filters
 
-The left sidebar of the Overview provides intuitive filtering and visual health distribution:
+The left sidebar of the Overview provides visual health distribution and one-click table filtering:
 
-### Status Distribution Donut Chart
+### Clean vs. Dirty Distribution
 
-A color-coded donut chart visualizes the percentage of **Clean** versus **Dirty** worktrees in your repository. At a glance, you can verify whether your working branches are tidy or have uncommitted modifications.
+A color-coded donut chart displays the percentage of **Clean** versus **Dirty** worktrees across the repository.
 
-### Filter Buttons
+### Quick Filter Buttons
 
-Click any filter button to instantly narrow down the worktree table:
+Select any filter button to isolate specific worktree states in the central table:
 
-- **All worktrees**: Shows all primary and linked worktrees.
-- **Clean**: Displays only worktrees with zero uncommitted modifications.
-- **Dirty**: Displays only worktrees with modified, unstaged, or untracked changes.
-- **Detached HEAD**: Surfaces worktrees not bound to a local branch reference.
-- **Behind upstream**: Highlights branches that have fallen behind their remote-tracking counterpart and need a pull/rebase.
-- **Ahead upstream**: Shows branches with local commits ready to be pushed to remote.
-- **Needs prune**: Highlights stale worktrees whose directory was deleted or moved outside WorktreeWise.
+| Filter | Filter Criteria |
+| :--- | :--- |
+| **All worktrees** | Displays all registered primary and linked worktrees. |
+| **Clean** | Shows only worktrees with zero uncommitted modifications. |
+| **Dirty** | Shows worktrees with modified, unstaged, or untracked changes. |
+| **Detached HEAD** | Displays worktrees not checked out to a named branch. |
+| **Behind upstream** | Highlights worktrees that require a pull or rebase from their remote tracking branch. |
+| **Ahead upstream** | Displays worktrees with local commits ready to be pushed to remote. |
+| **Needs prune** | Flags stale worktrees whose physical directory was removed or moved outside WorktreeWise. |
 
 ---
 
 ## Interactive Worktree Table
 
-The center table displays sortable columns for rapid scanning:
+The center table displays sortable columns for all filtered worktrees:
 
-- **Worktree**: Displays the worktree name and absolute file path. Click any row to view its details in the right-side Inspector panel.
+- **Worktree**: Displays the worktree name and absolute path. Select any row to inspect details in the right-side Inspector panel.
 - **Status**: Visual status badge:
-  - <span style={{color: '#52c41a'}}>●</span> **Clean**: Working directory is clean.
+  - <span style={{color: '#52c41a'}}>●</span> **Clean**: Working directory has no uncommitted changes.
   - <span style={{color: '#faad14'}}>●</span> **Dirty**: Uncommitted modifications or untracked files exist.
-  - <span style={{color: '#ff4d4f'}}>●</span> **Attention**: Merge conflicts or missing directory detected.
-- **Upstream**: Shows the configured remote tracking branch, accompanied by green **Ahead (↑)** and red **Behind (↓)** commit counters.
-- **Last activity**: Relative timestamp indicating when the worktree was last modified or committed to (e.g. `2 hours ago`, `3 days ago`).
-- **Disk**: Total disk usage formatted in bytes (B, KB, MB, GB). If calculations are still running in the background, a `Calculating…` indicator is shown.
+  - <span style={{color: '#ff4d4f'}}>●</span> **Attention**: Merge conflicts or missing filesystem directory detected.
+- **Upstream**: Displays the configured remote tracking branch with commit divergence counters: **Ahead (↑)** and **Behind (↓)**.
+- **Last activity**: Relative timestamp indicating the last commit or filesystem alteration (e.g. `2 hours ago`, `3 days ago`).
+- **Disk**: Total disk usage formatted in bytes (KB, MB, GB). Displays `Calculating…` while background calculations complete.
 
 ---
 
@@ -71,45 +75,47 @@ The center table displays sortable columns for rapid scanning:
 
 Selecting any worktree in the table opens an in-depth Inspector pane on the right:
 
-### Header & Warnings
+### Header & Health Status Tags
 
-- **Worktree Name & Path**: Displays the full path with a one-click copy button.
-- **Recommended Attention Alert**: Appears automatically if the worktree needs pruning, has merge conflicts, or is critically stale. Specific nudges guide you on what action to take.
-
-### Health Status Tags
-
-- **Directory**: `available` (green) or `missing` (red).
-- **Primary**: Tagged with a blue `Primary` badge if this is the repository's main worktree.
-- **Locked**: Indicates whether the worktree is protected from accidental deletion or renaming.
-- **Needs prune**: Warns if Git metadata remains but the folder was removed.
-- **Stale**: Identifies worktrees with no activity for extended periods.
+- **Worktree Path**: Displays the full filesystem directory with a one-click copy button.
+- **Attention Alerts**: Automatically surfaces if a worktree requires pruning, contains merge conflicts, or is critically stale.
+- **Status Tags**:
+  - `Directory`: Available (green) or missing (red).
+  - `Primary`: Identifies the main repository clone root.
+  - `Locked`: Indicates administrative lock protection.
+  - `Needs prune`: Indicates missing filesystem directory with lingering Git registration.
+  - `Stale`: Flags branches with no activity for extended durations.
 
 ### Latest Commit Card
 
-Displays the most recent commit on the worktree's checked-out branch:
+Displays the HEAD commit on the worktree's branch:
 - Commit subject headline.
-- 8-character commit hash with one-click copy.
-- Author name and relative commit date.
+- 8-character commit SHA with one-click clipboard copy.
+- Author name and relative commit timestamp.
 
-### Upstream Status & Divergence
+### Upstream Divergence
 
-- Full remote-tracking branch name (e.g. `origin/feature-login`).
-- Divergence indicator showing exact ahead/behind commit counts.
-- **Last fetch**: Timestamp of the most recent fetch from the remote.
-- **Last pull**: Timestamp of the last successful pull operation.
-- **Last activity**: Recency of working directory file alterations.
+- Full remote-tracking branch identifier (e.g. `origin/feature-login`).
+- Divergence indicator displaying ahead and behind commit counts.
+- Timestamps for **Last fetch**, **Last pull**, and **Last activity**.
 
-### Granular Disk Breakdown
+### 4-Way Granular Disk Breakdown
 
-WorktreeWise breaks down the worktree's storage footprint into four distinct categories, complete with visual progress bars:
+WorktreeWise breaks down storage usage into four distinct categories:
 
-1. **Project files**: Source code and repository files tracked by Git.
-2. **Dependencies**: External package folders (e.g. `node_modules`, `vendor`).
-3. **Build & cache**: Compiler outputs, dist directories, and local caches (e.g. `.next`, `dist`, `build`, `.cache`, `target`).
-4. **Git data**: Git administrative files (`.git` folder or linked-worktree gitdir pointer file).
+1. **Project files**: Source files tracked by Git.
+2. **Dependencies**: External package directories (`node_modules`, `vendor`).
+3. **Build & cache**: Compiler outputs, dist directories, and caches (`dist`, `.next`, `build`, `target`).
+4. **Git data**: Git administrative metadata (`.git` directory or worktree gitdir reference).
 
-### Local Changes & Large Untracked Files
+### Large Untracked Files Alert
 
-- Metrics grid showing exact counts of **Modified**, **Unstaged**, **Staged**, and **Untracked** files.
-- **Large Untracked Files Alert**: Highlights unexpectedly large untracked files (e.g. accidentally downloaded datasets, database dumps, or media files) along with their exact sizes, helping you prevent accidental commits of massive files.
+The Inspector pane highlights unexpectedly large untracked files (e.g. downloaded test datasets, database dumps, or media assets) along with exact file sizes, helping you prevent accidental commits of oversized files.
 
+---
+
+## Related Pages
+
+- [Create a Git Worktree](/git-worktrees/create): Initialize new worktrees with sparse checkout and dependency sharing.
+- [Prune Damaged Worktrees](/git-worktrees/prune): Safely clean up orphaned worktree registrations.
+- [Repair a Damaged Worktree](/git-worktrees/repair): Reconnect relocated worktree directories.

@@ -1,74 +1,81 @@
 ---
 title: Git Worktree Naming Pattern
-description: Control worktree folder names with repository and branch placeholders.
+description: Configure automated folder naming conventions using repository and branch placeholders.
 ---
 
-## Git Worktree Naming Pattern
+import { Callout } from 'nextra/components';
 
-When creating a new worktree, WorktreeWise assigns two identifiers:
+# Git Worktree Naming Patterns
 
-- **Worktree name** → shown in the UI, by default the same as the branch name.
-- **Worktree folder name** → created on disk, follows the naming pattern you configure in Settings.
+When creating a new worktree, WorktreeWise maintains a clean separation between two identifiers:
 
-This separation ensures that worktrees remain easy to recognize inside WorktreeWise, while their folders in the filesystem are clearly identifiable as project worktrees.
+- **Worktree Name**: Displayed in the application UI, matching the Git branch or reference name.
+- **Worktree Folder Name**: The physical directory created on disk, formatted according to your configured naming template.
 
+This separation ensures that worktrees remain easily identifiable in both the WorktreeWise interface and your local filesystem.
 
-### Example
+---
 
-If you define the naming pattern as: ```{repo}_wt_{branch}```
+## Supported Placeholders
 
+You can use the following placeholders when constructing naming patterns:
 
-- Creating a worktree from branch `feature-login` in repository `create-react-app` will:
-- Show as **feature-login** in the WorktreeWise UI.
-- Create a folder named **create-react-app_wt_feature-login** in your filesystem.
+| Placeholder | Replaced With | Example Output |
+| :--- | :--- | :--- |
+| **`{repo}`** | Primary repository name | `my-project` |
+| **`{branch}`** | Sanitized branch or tag name | `feature-auth` |
 
-![Naming Pattern](/images/content/git-worktrees/create/naming-pattern.png)
+---
 
+## Built-In Pattern Presets
 
-### Why Naming Pattern Matters
+WorktreeWise provides four preconfigured naming templates:
 
-The naming pattern’s main role is to make it easier to understand in the filesystem that a folder is a **worktree belonging to a project**.
+| Pattern Template | Generated Folder Example | Best Used For |
+| :--- | :--- | :--- |
+| **`{repo}__wt__{branch}`** *(Default)* | `my-project__wt__feature-auth` | Clear visual separation between project root, worktree marker (`wt`), and branch. |
+| **`{repo}__{branch}`** | `my-project__feature-auth` | Shorter directory paths while retaining project affiliation. |
+| **`{repo}-wt-{branch}`** | `my-project-wt-feature-auth` | Single-hyphen naming conventions. |
+| **`wt__{repo}__{branch}`** | `wt__my-project__feature-auth` | Clusters all worktrees together alphabetically in the parent directory. |
 
-This helps you:
+---
 
-- Avoid mixing up worktree folders with other files.
-- Keep a clear structure when managing multiple repositories.
-- Instantly know which project and branch a worktree folder belongs to.
+## Configure the Default Naming Pattern
 
-### Supported Placeholders
+To change the default pattern applied to all newly created worktrees:
 
-You can use the following placeholders in your naming pattern:
-
-- `{branch}` → Branch name
-- `{repo}` → Repository name
-
-### Configuring the Naming Pattern in Settings
-
-To configure the default naming pattern:
-
-1. Open **Settings** from the menu.
-2. Navigate to the **Worktrees** tab.
-3. Choose an existing pattern or enter your own naming pattern using placeholders.
-4. Click **Add Pattern** if you want to save it for future use.
-5. Changes are saved automatically once you leave the tab.
-
-> 💡 The settings dialog also provides examples of valid naming patterns.
-
-If no custom naming pattern is defined, WorktreeWise will use this default naming pattern : ```{repo}_wt_{branch}```
+1. Open **Settings** (`Shift + S`) and select the **Worktrees** tab.
+2. Select an existing preset from the dropdown, or enter a custom pattern using `{repo}` and `{branch}` placeholders.
+3. Select **+** (Add) to save a custom pattern to your presets.
+4. The active pattern is saved automatically.
 
 ![Naming pattern presets and custom pattern editor](/images/releases/1.1.0/30-settings-worktrees.png)
 
-### Changing the Naming Pattern for an Existing Worktree
+<Callout type="tip">
+If no custom pattern is selected, WorktreeWise defaults to `{repo}__wt__{branch}`.
+</Callout>
 
-You can also update the naming pattern of a worktree that already exists:
+---
 
-1. Right-click on the worktree in the **Worktrees** list.
-2. Select **Change Naming Pattern** from the context menu.
-3. Enter a new pattern in the dialog.
-4. Click **Apply** to update the worktree’s folder name.
+## Update the Naming Pattern for an Existing Worktree
 
-This is useful when you want to reorganize your filesystem or bring older worktrees in line with your new naming rules.
+To re-evaluate and rename the filesystem folder of an existing worktree:
+
+1. In the **Worktrees** sidebar, locate the worktree.
+2. Open the three-dot **Actions** menu and select **Change Naming Pattern**.
+3. Select or enter the updated pattern in the modal dialog.
+4. Select **Apply** to rename the directory on disk and update Git administrative pointers.
 
 ![Change Naming Pattern](/images/releases/1.1.0/20-worktree-change-pattern.png)
 
-![Changed Naming Pattern](/images/content/git-worktrees/create/changed-naming-pattern.png)
+<Callout type="warning">
+Changing the naming pattern of an existing worktree renames its physical directory on disk. Close any running terminals, dev servers, or open editors pointing to the old path before applying changes.
+</Callout>
+
+---
+
+## Related Pages
+
+- [Create a Git Worktree](/1.1/git-worktrees/create): See naming patterns applied during worktree creation.
+- [Rename a Worktree](/1.1/git-worktrees/rename): Change the branch and directory name simultaneously.
+- [Settings Reference](/1.1/settings#worktrees-settings): Explore all worktree configuration options.

@@ -3,38 +3,53 @@ title: Create a Workflow
 description: Build a reusable, ordered command sequence for one or more worktrees.
 ---
 
+import { Callout, Steps } from 'nextra/components';
+
 # Create a Workflow
 
-Workflows allow you to automate multi-step development processes across multiple branches and worktrees simultaneously. Instead of opening a terminal in each worktree to run repetitive commands, you can configure a reusable command sequence once and execute it whenever needed.
+Workflows allow you to automate multi-step development tasks across branches and worktrees simultaneously. Configure ordered command sequences once and execute them whenever needed without opening separate terminal windows.
 
 ---
 
 ## How to Create a Workflow
 
-1. Navigate to **Workflow** in the sidebar.
-2. Click the **Add** button in the top toolbar or press **Shift + A**.
-3. A slide-out drawer appears on the right:
-   - **Name**: Enter a clear, purpose-based name (e.g., `Quality Checks`, `Setup New Worktree`, `Full Build`).
-   - **Command**: Enter the first command to execute.
-   - Click **Add Command** to append additional steps. Commands execute strictly from top to bottom in the order listed.
-4. Click **Save** to add the workflow to your repository's workflow library.
+<Steps>
+
+### Open the Workflow Drawer
+
+In the **Workflows** view, select the **Add Workflow** button in the top toolbar, or press the keyboard shortcut:
+- **Shortcut**: `Shift + A`
+
+### Enter Name and Commands
+
+The **Add Workflow** drawer slides open from the right:
+- **Name**: Enter a clear, purpose-based name (e.g. `Quality Checks`, `Setup New Worktree`, `Full Build`).
+- **Command**: Enter the first shell command to execute.
+- Select **Add Command** to append additional steps. Commands execute strictly from top to bottom in the order defined.
 
 ![A workflow configured with test and lint commands](/images/releases/1.1.0/06b-add-workflow-configured.png)
 
+### Save the Workflow
+
+Select **Save**. WorktreeWise validates the commands and writes the definition to `.git/WorktreeWise/<name>/details.json`. The workflow appears immediately in your Saved Workflows table.
+
+</Steps>
+
 ---
 
-## Command Ordering & Execution Flow
+## Command Ordering & Fail-Fast Execution
 
-Workflows execute commands sequentially within each target worktree:
-1. Step 1 runs in the worktree root (`cwd`).
+Within each target worktree, workflows execute commands sequentially:
+
+1. Step 1 runs in the worktree root directory (`cwd`).
 2. If Step 1 exits with code `0` (success), Step 2 begins immediately.
-3. If any step fails (non-zero exit code), execution stops immediately for that worktree, and the error is flagged in the live Log panel.
+3. If any step fails (non-zero exit code), execution stops immediately for that worktree, and the failure is highlighted in the live Log panel.
 
 ---
 
 ## Common Workflow Examples
 
-### Modern Web App (Node.js / TypeScript)
+### Modern Web Application (Node.js / TypeScript)
 
 - **Name**: `Verify Pull Request`
 - **Commands**:
@@ -70,10 +85,18 @@ Workflows execute commands sequentially within each target worktree:
 
 ---
 
-## Running the New Workflow
+## Running the Workflow
 
-Once saved:
+Once created:
 1. Locate the workflow in the Saved Workflows table.
-2. Select your desired execution mode: **Sequential** or **Parallel**.
-3. In the **Worktrees** dropdown, check the worktrees you want to run this workflow on.
-4. Click the green **Play (▶)** button.
+2. Choose **Sequential** or **Parallel** execution mode.
+3. Select target worktrees in the dropdown.
+4. Select the green **Play (▶)** button. For details, see [Run a Workflow](/workflows/play).
+
+---
+
+## Related Pages
+
+- [Run a Workflow](/workflows/play): Learn about PTY execution, log streaming, and process controls.
+- [Edit & Duplicate Workflows](/workflows/edit): Modify existing workflows or clone variations.
+- [Import Workflows](/workflows/import): Share and import workflow templates across repositories.

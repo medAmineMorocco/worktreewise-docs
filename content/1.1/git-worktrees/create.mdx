@@ -1,17 +1,17 @@
 ---
 title: Create a Git Worktree
-description: Create from HEAD, a branch, a tag, or a Git commit and configure hooks, sparse checkout, shared dependencies, and environment isolation.
+description: Create worktrees from HEAD, branches, tags, or commits with pre/post hooks, sparse checkouts, dependency sharing, and environment isolation.
 ---
 
-import { Callout } from 'nextra/components';
+import { Callout, Steps } from 'nextra/components';
 
 # Create a Git Worktree
 
-Creating a worktree in WorktreeWise is much more than running `git worktree add`. The creation modal provides a full suite of productivity tools: starting from any revision, automated pre/post hooks, sparse checkout to reduce disk footprint, dependency sharing to eliminate repeated installs, and environment isolation to avoid port or configuration collisions.
+Create a new Git worktree from HEAD, an existing branch, a tag, or a historical commit. WorktreeWise provides integrated provisioning tools including automated pre/post hooks, sparse directory checkouts, dependency symlinking (`node_modules`), and multi-source environment variable isolation.
 
 To open the creation modal:
-- Click **Add New Worktree** in the Worktrees sidebar.
-- Or press the keyboard shortcut **Shift + W**.
+- Select **Add Worktree** in the Worktrees panel toolbar.
+- Or press the global keyboard shortcut **Shift + W**.
 
 ![Create Worktree dialog](/images/releases/1.1.0/07-create-worktree-from-head.png)
 
@@ -19,41 +19,48 @@ To open the creation modal:
 
 ## Creation Modes
 
-WorktreeWise supports three modes in the creation dialog, plus a commit-specific shortcut from the Git Log:
+WorktreeWise supports four creation modes:
+
+| Mode | Source Revision | Best Used For |
+| :--- | :--- | :--- |
+| **From HEAD** | Current commit of primary worktree | Starting a new branch from your active working state. |
+| **From Branch** | Local branch or remote tracking reference | Continuing work on an existing branch or inspecting a remote pull request. |
+| **From Tag** | Git tag or release milestone | Verifying a tagged release in an isolated directory. |
+| **From Commit** | Historical commit hash selected in Git Log | Branching off an exact historical revision. |
 
 ### 1. From HEAD (New Branch)
 
-Creates a brand new branch and worktree rooted from the current `HEAD` commit of your primary worktree.
+Creates a new branch and worktree rooted at the current `HEAD` commit:
 
 1. Select **From Head**.
-2. In the **Name** field, enter the desired branch name (e.g., `feature-auth-flow` or `fix-memory-leak`). WorktreeWise automatically sanitizes illegal characters.
+2. In the **Name** field, enter your branch name (e.g. `feature-auth-flow` or `fix-memory-leak`). WorktreeWise automatically sanitizes invalid characters.
 3. Review the destination folder preview generated below.
 4. Configure optional hooks, sparse checkout, or environment options.
-5. Click **Create Worktree**.
+5. Select **Create Worktree**.
 
 ![Realistic name and generated path](/images/releases/1.1.0/08-create-worktree-configured.png)
 
 ### 2. From Branch (Local or Remote)
 
-Attach a new worktree to an existing local branch or create a local tracking branch from a remote branch.
+Attach a new worktree to an existing local branch or create a tracking branch from an upstream remote:
 
 - **Local Branch**: Select any branch already present in your local Git repository.
-- **Remote Branch**: Toggle the **Remote** switch to inspect upstream branches (e.g. `origin/feature-search`). When selected, Git automatically creates a local tracking branch matching the remote reference.
+- **Remote Branch**: Toggle the **Remote** switch to browse upstream branches (e.g. `origin/feature-search`). When selected, Git creates a local tracking branch pointing to the remote reference.
 
 ![Create from a local branch](/images/releases/1.1.0/13-create-worktree-from-local-branch.png)
 
 ![Create from a remote branch](/images/releases/1.1.0/14-create-worktree-from-remote-branch.png)
 
 <Callout type="info">
-If you recently pushed a remote branch and do not see it in the dropdown, run a fetch on the primary worktree or click Refresh.
+If a recently pushed remote branch does not appear in the dropdown, click **Refresh** in the Worktrees toolbar or fetch changes from the primary worktree.
 </Callout>
 
 ### 3. From Tag
 
-Creates a worktree linked to a specific Git release or commit tag.
+Creates a worktree linked to a specific Git release or milestone tag:
 
-- Select **From Tag** and choose a tag from the searchable dropdown.
-- WorktreeWise automatically initializes a branch from the tag (converting dots to hyphens in the branch name, e.g. `v1.0.0` → `v1-0-0`) because Git requires linked worktrees to point to a valid branch reference rather than an immutable detached tag.
+- Select **From Tag** and choose a tag from the searchable list.
+- WorktreeWise initializes a branch from the tag (converting dots to hyphens, e.g. `v1.0.0` → `v1-0-0`), satisfying Git's requirement that linked worktrees point to branch references rather than detached tag states.
 
 ![Create from a tag](/images/releases/1.1.0/15-create-worktree-from-tag.png)
 
@@ -61,12 +68,10 @@ Creates a worktree linked to a specific Git release or commit tag.
 
 Create a worktree at an exact historical revision directly from the Git Log:
 
-1. Open **Git Log** and locate the required commit.
+1. Open **Git Log** (`Shift + G`) and locate the target commit.
 2. Open the commit's context menu.
 3. Select **Create worktree here**.
-4. Complete the worktree name and optional configuration in the creation dialog.
-
-Use **Copy commit sha** from the same menu when you only need the revision identifier.
+4. Complete the worktree name and configuration in the creation dialog.
 
 ![Create a worktree from a selected Git commit](/images/releases/1.1.0/44-create-worktree-from-commit.png)
 
@@ -74,24 +79,24 @@ Use **Copy commit sha** from the same menu when you only need the revision ident
 
 ## Destination Folder & Naming Patterns
 
-Below the revision selector, WorktreeWise displays the exact target path where the new worktree folder will be created:
+Below the revision selector, WorktreeWise displays the target filesystem path where the new worktree folder will be created:
 
-- **Directory Picker**: Click the folder icon to customize the parent directory where worktrees are stored on disk.
-- **Pattern Resolution**: The folder name is automatically generated using the naming pattern configured in **Settings → Worktrees** (default is `{repo}__wt__{branch}`).
-- Click the **Want to change it?** link to jump directly to **Settings** and modify your pattern template.
+- **Directory Picker**: Select the folder icon to customize the parent directory where worktrees reside on disk.
+- **Pattern Resolution**: Folder names are generated automatically using the template configured in [Settings → Worktrees](/1.1/settings#worktrees-settings) (default: `{repo}__wt__{branch}`).
+- Select **Want to change it?** to modify your naming pattern directly. For more details, see [Git Worktree Naming Patterns](/1.1/git-worktrees/naming-pattern).
 
 ---
 
 ## Automation Hooks (Pre-Hook & Post-Hook)
 
-WorktreeWise allows you to define one-off shell commands that execute automatically before and after worktree initialization:
+WorktreeWise allows you to define shell commands that execute automatically before and after worktree provisioning:
 
 ![Configured hooks](/images/releases/1.1.0/09-create-worktree-hooks.png)
 
 | Hook | Execution Context | Common Use Cases |
 | :--- | :--- | :--- |
 | **Pre-hook** | Runs in the **primary worktree** *before* creation starts | `git fetch origin main:main`<br/>`git pull --rebase` |
-| **Post-hook** | Runs inside the **newly created worktree** *after* checkout completes | `npm install`<br/>`pnpm install`<br/>`composer install`<br/>`cargo build` |
+| **Post-hook** | Runs inside the **newly created worktree** *after* checkout completes | `npm install`<br/>`pnpm install`<br/>`cargo build`<br/>`poetry install` |
 
 <Callout type="tip">
 When hooks or environment isolation are enabled, WorktreeWise switches to workflow execution mode, allowing you to follow command output in real time inside the **Log** panel.
@@ -101,70 +106,78 @@ When hooks or environment isolation are enabled, WorktreeWise switches to workfl
 
 ## Sparse Checkout
 
-For large monorepos or multi-package repositories, checking out every directory consumes unnecessary disk space and slows down index operations. Sparse checkout allows you to checkout only the specific folders you need.
+For large monorepos or multi-package repositories, sparse checkouts allow you to checkout only the directories you need, saving disk space and speeding up index operations.
 
 ![Sparse checkout with two folders selected](/images/releases/1.1.0/10-create-worktree-sparse-checkout.png)
 
-### Scope Selection
+### Select Folders
 
 1. Under **Repository checkout**, select **Selected folders** (instead of **Full repository**).
 2. WorktreeWise inspects the target revision using `get-sparse-checkout-tree`.
-3. An interactive folder tree displays the repository directories with exact byte sizes (e.g. `24.5 MB`, `1.2 GB`).
-4. Select the checkboxes next to the directories your feature depends on (e.g. `packages/ui` and `apps/web`).
+3. An interactive folder tree displays repository directories with exact byte sizes (e.g. `24.5 MB`, `1.2 GB`).
+4. Select the checkboxes for the directories your task requires (e.g. `packages/ui` and `apps/web`).
 
-### Live Size Estimation
+### Live Footprint Estimation
 
 WorktreeWise calculates the estimated checkout footprint in real time:
-- Displays total estimated size versus full repository size.
-- Shows a percentage progress bar (e.g. `Estimated checkout: 420 MB (~24%)`).
-- Minimizes sparse paths behind the scenes by eliminating redundant nested paths if their parent is already selected.
+- Compares estimated size against full repository size.
+- Displays a percentage indicator (e.g. `Estimated checkout: 420 MB (~24%)`).
+- Minimizes sparse patterns automatically by removing redundant child paths when a parent folder is selected.
 
 ---
 
 ## Shared Dependencies (`Share node_modules`)
 
-In JavaScript and TypeScript projects, every worktree typically requires its own `node_modules` directory, consuming hundreds of megabytes or gigabytes of disk space and requiring lengthy `npm install` cycles.
+In JavaScript and TypeScript projects, each worktree typically requires an independent `node_modules` directory, consuming gigabytes of disk space and requiring lengthy install steps.
 
 ![Share node_modules](/images/releases/1.1.0/11-create-worktree-share-node-modules.png)
 
 ### How It Works
 
-- WorktreeWise automatically scans existing worktrees to detect if a valid `node_modules` directory exists in the primary worktree or any linked worktrees.
-- Check **Share node_modules** to link dependencies.
-- Use the dropdown to choose the source worktree (default is the Main worktree).
-- WorktreeWise creates a symbolic link in the new worktree pointing to the chosen `node_modules`.
+- WorktreeWise scans existing worktrees to verify whether a valid `node_modules` directory exists in the primary worktree or any linked worktree.
+- Select **Share node_modules** to link dependencies.
+- Choose the source worktree from the dropdown (default: Primary worktree).
+- WorktreeWise creates a symbolic link in the new worktree pointing to the source `node_modules`.
 
 <Callout type="warning">
-Only share `node_modules` between branches with compatible dependency trees. If your new branch introduces new dependencies or native binary bindings, perform a separate install instead.
+Only share `node_modules` between branches with compatible dependency trees. If your new branch introduces new dependencies or native binary bindings, run a separate install instead.
 </Callout>
 
 ---
 
 ## Environment Isolation
 
-When running multiple worktrees simultaneously, running dev servers often leads to port collisions (e.g. both instances trying to bind to port `3000`), or sharing database names that corrupt each other's test data.
+Running multiple worktrees concurrently can cause port collisions (e.g. multiple services binding to port `3000`) or database overwrites. WorktreeWise provides automated environment file isolation.
 
 ![Environment isolation](/images/releases/1.1.0/12-create-worktree-environment-isolation.png)
 
-### Multi-Source Auto-Detection
+### Auto-Detection
 
-WorktreeWise scans your repository for supported environment files:
+WorktreeWise scans the repository for supported environment files:
 - `.env`, `.env.local`, `.env.development`, `.env.test`
-- Docker Compose files and configuration manifests
+- Docker Compose configuration manifests
 
 ### Variable Isolation Strategies
 
-For each detected environment source, WorktreeWise parses the variables and displays an interactive table:
+For each detected environment file, WorktreeWise displays an interactive strategy table:
 
 | Strategy | Behavior | Best Used For |
 | :--- | :--- | :--- |
-| **Shared** | Retains the exact variable value from the source file. | Secret API keys, external service URLs |
-| **Suffix** | Appends the worktree/branch identifier to the value. *(Disabled for purely numeric values)* | Database names (`db_name_feature_auth`), bucket prefixes, cache keys |
-| **Auto Port** | Automatically scans system network ports and assigns the next available unused port number. *(Disabled for non-numeric values)* | Dev server ports (`PORT`, `VITE_PORT`, `NEXT_PUBLIC_PORT`, `3001`, `3002`) |
+| **Shared** | Retains the exact variable value from the source file. | API keys, secret tokens, external third-party endpoints. |
+| **Suffix** | Appends the worktree or branch identifier to the value. *(Disabled for purely numeric values)* | Database names (`db_feature_auth`), Redis keys, storage bucket names. |
+| **Auto Port** | Scans system network ports and assigns the next available unused port. *(Disabled for non-numeric values)* | Server ports (`PORT`, `VITE_PORT`, `NEXT_PUBLIC_PORT`, `3001`, `3002`). |
 
 ### Security & Preview
 
 - **Secret Masking**: Sensitive variables (passwords, tokens, credentials) are masked with `********` in the preview table.
 - **Generated Value Preview**: The table displays a real-time preview arrow (`→ 3002` or `→ app_wt_auth`) showing what will be written to the new worktree's environment file.
-- **Suggested Commands**: WorktreeWise analyzes the environment changes and provides copyable suggested commands (e.g. database migration or seeding commands tailored to the new database name). WorktreeWise never runs destructive migration commands without your manual approval.
-- **Remember Choices**: Check **Remember these choices for future worktrees** to save your preferred isolation strategies as defaults for subsequent worktree creations.
+- **Remember Choices**: Select **Remember these choices for future worktrees** to save your preferred isolation strategies as defaults.
+
+---
+
+## Related Pages
+
+- [Git Worktree Naming Patterns](/1.1/git-worktrees/naming-pattern): Learn how folder naming templates work.
+- [Worktree Overview Dashboard](/1.1/git-worktrees/overview): Monitor all created worktrees.
+- [Workflows](/1.1/workflows): Automate post-creation commands across worktrees.
+- [Delete a Worktree](/1.1/git-worktrees/delete): Safely remove worktrees when work is finished.

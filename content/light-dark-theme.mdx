@@ -1,28 +1,46 @@
 ---
-title: Switching Light and Dark Mode
-description: Match WorktreeWise to your preferred light or dark application theme.
+title: Switch Light and Dark Mode
+description: Toggle between light and dark application themes using the application menu or global keyboard shortcuts.
 ---
 
 import { Callout } from 'nextra/components';
 
-## Switching Light and Dark Mode
+# Switch Light and Dark Mode
 
-WorktreeWise provides both light and dark themes for an optimal user experience.
+WorktreeWise includes high-contrast light and dark themes designed for code readability and visual comfort. The active theme synchronizes across the entire application interface, including embedded XTerm.js terminal panes, Git diff viewers, and commit graphs.
 
-You can switch between light and dark mode using one of the following methods:
+---
 
-### Method 1: Using the Menu Button
+## Switch Theme Using a Keyboard Shortcut
 
-1. Click on **View** in the menu.
-2. Select the **Switch Theme** option.
-3. The theme will instantly switch between light and dark mode.
+Press the global shortcut anywhere within the application to toggle immediately between light and dark mode:
+
+- **Shortcut**: `Shift + T`
+
+---
+
+## Switch Theme from the Application Menu
+
+1. Open the application menu and select **View**.
+2. Select **Switch Theme**.
+3. The interface toggles immediately between light and dark modes.
+
+---
+
+## Theme Comparison
+
+### Light Mode
+
+Light theme provides a clean, high-contrast workspace optimized for well-lit environments:
 
 ![WorktreeWise in light mode](/images/releases/1.1.0/46-light-mode.png)
 
-### Method 2: Using a Keyboard Shortcut
+### Dark Mode
 
-- Press **Shift + T** to toggle between light and dark mode instantly.
+Dark theme reduces eye strain during extended development sessions with high-contrast syntax highlighting:
 
 ![WorktreeWise in dark mode](/images/releases/1.1.0/45-dark-mode.png)
 
-<Callout type="info">The selected theme is saved and applied automatically on the next launch.</Callout>
+<Callout type="info">
+Your theme preference is automatically persisted to local storage and restored whenever WorktreeWise launches.
+</Callout>

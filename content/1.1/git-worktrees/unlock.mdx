@@ -1,33 +1,36 @@
 ---
 title: Unlock a Git Worktree
-description: Remove worktree protection so maintenance actions can be used again.
+description: Remove worktree protection to restore rename, move, and deletion operations.
 ---
+
+import { Callout } from 'nextra/components';
 
 # Unlock a Git Worktree
 
-Unlocking a worktree lifts the administrative freeze placed on it, restoring full maintenance capabilities such as renaming, moving, pruning, and deletion.
+Unlocking a worktree lifts administrative protection, restoring maintenance actions including renaming, relocating, deleting, and pruning.
 
 ---
 
 ## When to Unlock a Worktree
 
-You should unlock a worktree when the original reason for safeguarding it is complete:
-- A long-running build, benchmark, or continuous integration run has concluded.
-- A release candidate has been signed off or merged into the production branch.
+Unlock a worktree when its protection period has concluded:
+
+- A long-running build, benchmark, or continuous integration run has finished.
+- A release candidate branch has been merged into main or signed off by QA.
 - You are ready to clean up disk space by deleting or pruning the worktree.
-- You need to rename the worktree or relocate its directory to a different folder.
+- You need to rename the worktree or relocate its directory path.
 
 ---
 
 ## How to Unlock a Worktree
 
-1. In the **Worktrees** panel, locate the locked worktree (marked with a **Lock icon 🔒**).
-2. Click the three-dot **Actions** menu next to the worktree.
+1. In the **Worktrees** panel, locate the locked worktree (indicated by a **Lock icon 🔒**).
+2. Select the three-dot **Actions** menu beside the worktree.
 3. Select **Unlock**.
 
 ![Unlock action for a locked worktree](/images/releases/1.1.0/42-worktree-unlock-action.png)
 
-4. WorktreeWise immediately communicates with Git to remove the lock metadata. A success notification confirms the action.
+WorktreeWise communicates with Git to remove the lock metadata. A confirmation notification confirms the lock removal.
 
 ![Worktree after unlocking](/images/releases/1.1.0/43-worktree-unlocked.png)
 
@@ -35,7 +38,15 @@ You should unlock a worktree when the original reason for safeguarding it is com
 
 ## What Happens After Unlocking
 
-- **Lock Metadata Cleared**: The recorded lock reason and the internal Git lockfile (`.git/worktrees/<name>/locked`) are removed.
-- **Operations Restored**: The **Delete**, **Rename**, and **Change Folder (Move)** actions in the Actions menu are immediately re-enabled.
-- **Zero File Impact**: Unlocking does not touch your source files, uncommitted edits, or local branch commit history.
-- **Prune Eligibility**: If the worktree directory is later removed from disk, Git and WorktreeWise will safely recognize it as a candidate for pruning.
+- **Lock Metadata Cleared**: The recorded lock reason and Git lockfile (`.git/worktrees/<name>/locked`) are removed.
+- **Operations Restored**: The **Delete**, **Rename**, and **Change Folder (Move)** options in the Actions menu are immediately re-enabled.
+- **Zero File Impact**: Unlocking does not touch project files, uncommitted edits, or local branch commit history.
+- **Prune Eligibility**: If the worktree directory is later removed from disk, Git and WorktreeWise will recognize it as an eligible candidate for pruning.
+
+---
+
+## Related Pages
+
+- [Lock a Git Worktree](/1.1/git-worktrees/lock): Learn how and when to protect critical worktrees.
+- [Delete a Git Worktree](/1.1/git-worktrees/delete): Remove unlocked worktrees safely.
+- [Prune Damaged Worktrees](/1.1/git-worktrees/prune): Clean up stale metadata after directories are deleted.

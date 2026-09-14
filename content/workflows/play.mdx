@@ -1,13 +1,13 @@
 ---
-title: Play a Workflow
+title: Run a Workflow
 description: Execute multi-step automation workflows across one or multiple worktrees with sequential or parallel execution, live log streaming, and process controls.
 ---
 
 import { Callout, Steps } from 'nextra/components';
 
-# Play a Workflow
+# Run a Workflow
 
-WorktreeWise allows you to execute defined multi-step command sequences across any combination of Git worktrees. Whether you need to install dependencies and run migrations sequentially across feature branches, or run test suites simultaneously in parallel, WorktreeWise handles process management, output streaming, and error handling seamlessly.
+WorktreeWise executes multi-step command sequences across any combination of Git worktrees. Run build and deployment routines in sequential series or execute concurrent test suites in parallel with live ANSI color streaming and process management.
 
 <video controls muted playsInline width="100%">
   <source src="/images/content/workflows/play/play-workflow.mp4" type="video/mp4" />
@@ -17,94 +17,100 @@ WorktreeWise allows you to execute defined multi-step command sequences across a
 
 ## Execution Modes
 
-Before starting a workflow, you can choose how WorktreeWise schedules tasks across your selected worktrees:
+Before starting a run, configure how WorktreeWise schedules commands across target worktrees:
 
-| Execution Mode | Behavior | Ideal Use Cases |
+| Mode | Scheduling Behavior | Ideal Use Cases |
 | :--- | :--- | :--- |
-| **Sequential Execution** | Processes worktrees **one at a time in series**. WorktreeWise executes all defined commands from start to finish on Worktree A before beginning execution on Worktree B. If any command encounters a failure (non-zero exit code), execution for that worktree is immediately halted. | Ideal for resource-intensive compilation tasks, shared database migrations, integration tests requiring local ports, or operations where order of completion matters. |
-| **Parallel Execution** | Concurrently launches tasks across **all selected worktrees simultaneously** via asynchronous worker threads (`Promise.all`). Each worktree runs its commands independently. | Ideal for fast unit test runs, linting, code formatting, running parallel builds, or verifying bug fixes across multiple versions at once. |
+| **Sequential Execution** | Executes all commands on **one worktree at a time in series**. WorktreeWise completes all steps on Worktree A before starting on Worktree B. If any command fails (non-zero exit code), execution stops immediately for that worktree. | Resource-intensive compilation, shared database migrations, integration tests binding to shared local ports. |
+| **Parallel Execution** | Concurrently launches tasks across **all selected worktrees simultaneously** via asynchronous worker threads (`Promise.all`). Each worktree runs its commands independently. | Unit test suites, linting, formatting checks, typechecking, running parallel builds across multiple feature branches. |
 
 ---
 
-## How to Play a Workflow
+## How to Run a Workflow
 
 <Steps>
 
 ### Select Target Worktrees
 
-In the Workflows table, locate the target workflow. Use the **Worktrees** multi-select dropdown column to specify which worktrees should participate in the run:
-- Target a single specific worktree (e.g., your active feature worktree).
-- Target multiple selected worktrees.
+In the Workflows table, locate the target workflow. Use the **Worktrees** dropdown to specify target worktrees:
+- Select individual worktrees (e.g. your active feature branches).
 - If left empty, WorktreeWise automatically runs the workflow across **all active worktrees** in the repository.
 
 ### Choose Sequential or Parallel Mode
 
-Toggle the execution mode selector to either **Sequential** or **Parallel** depending on your concurrency requirements.
+Toggle the execution mode selector to either **Sequential** or **Parallel** based on your concurrency and resource requirements.
 
 ### Start the Workflow
 
-Click the green **Play** button on the workflow row.
-
-- **Shortcut**: You can also trigger the active workflow run with keyboard shortcuts configured in the workspace.
+Select the green **Play (▶)** button on the workflow row.
 
 ### Monitor Live Process Output
 
-As soon as execution begins:
-- A live progress drawer opens displaying real-time step cards for each worktree.
-- Output streams directly into the log viewer with full ANSI color syntax highlighting.
+As execution begins:
+- A live progress drawer displays real-time step cards for each participating worktree.
+- Logs stream into the execution viewer with ANSI color codes and formatted progress spinners.
+- Press **Shift + F** to expand the log panel to full screen; press **Esc** to restore standard view.
 
 </Steps>
 
 ---
 
-## Underlying Engine & Architecture
+## Underlying Engine & Process Architecture
 
-WorktreeWise does not execute simple shell strings through basic background subprocesses; it runs each workflow command inside a dedicated **pseudo-terminal (PTY)** via `node-pty`:
+WorktreeWise executes workflow commands inside dedicated **pseudo-terminals (PTY)** via `node-pty`:
 
-### Full Terminal Semantics
-Each command runs inside a genuine pseudo-terminal session with `xterm-256color` and `COLORTERM=truecolor` support. ANSI color codes, spinners, and interactive progress bars from tools like `npm`, `cargo`, `vite`, and `jest` render identically to a standard terminal.
+### Pseudo-Terminal Semantics
+Each command runs inside a real pseudo-terminal with `xterm-256color` and `COLORTERM=truecolor` support. Colors, spinners, and interactive progress bars from package managers (`npm`, `pnpm`, `cargo`) render identically to native consoles.
 
 ### Shell Resolution
-Commands execute inside your configured shell preference (e.g., PowerShell, Git Bash, WSL, Bash, Zsh, Fish, or Nushell) as configured in [Settings](/settings#shell-configuration).
+Commands execute using your configured shell preference (PowerShell, Git Bash, WSL, Bash, Zsh, Fish, or Nushell) as specified in [Settings → Shell](/settings#shell-settings).
 
-### Environment Isolation
-WorktreeWise sanitizes the execution environment before spawning workflow processes, actively stripping internal Electron runtime variables (`ELECTRON_RUN_AS_NODE`, `ELECTRON_NO_ASAR`, `NODE_OPTIONS`, `TS_NODE_*`). This prevents interference with your local Node.js tooling and build scripts.
+### Environment Sanitization
+WorktreeWise cleanses the process environment before spawning workers, stripping internal Electron runtime variables (`ELECTRON_RUN_AS_NODE`, `ELECTRON_NO_ASAR`, `NODE_OPTIONS`, `TS_NODE_*`). This prevents interference with your local Node.js runtime and build scripts.
 
 ### Bounded Memory Buffer
-To prevent Electron memory leaks during long-running builds or continuous log generators, WorktreeWise enforces a safety buffer limit of **250,000 characters** per command output (`MAX_WORKFLOW_COMMAND_OUTPUT_CHARS`). If logs exceed this threshold, the buffer is trimmed from the start and prepended with:
+To prevent Electron memory leaks during long-running builds or continuous log streams, WorktreeWise enforces a safety buffer limit of **250,000 characters** per command output (`MAX_WORKFLOW_COMMAND_OUTPUT_CHARS`). If logs exceed this threshold, the buffer is trimmed from the start and prepended with:
 ```plaintext
 [Earlier output omitted to limit memory usage]
 ```
 
-### Prompt & Hang Protection
-Commands that trigger unexpected interactive prompts (such as `hygen` file overwrite prompts `Overwrite?`) are automatically intercepted to prevent background terminal hangs.
+### Interactive Prompt Interception
+Commands that trigger unexpected interactive prompts (such as generator overwrite prompts `Overwrite?`) are automatically intercepted to prevent background terminal hangs.
 
 ---
 
-## Step Status & Error Handling
+## Step Status Indicators
 
-Each step in a running workflow reflects real-time execution state:
+Each step in an active workflow reflects its real-time process state:
 
 | Status Tag | Indicator | Description |
 | :--- | :--- | :--- |
-| **Processing** | Blue Spinner | The command is actively executing inside its PTY process. |
-| **Success** | Green Checkmark | The process completed successfully with an exit code of `0`. |
-| **Error** | Red Exclamation | The process exited with a non-zero exit code or encountered an execution failure. Subsequent commands on this worktree are skipped. |
-| **Warning** | Yellow Alert | Execution was aborted or stopped early by the user. |
+| **Processing** | Blue Spinner | Command is actively executing inside its PTY process. |
+| **Success** | Green Checkmark | Process completed successfully with an exit code of `0`. |
+| **Error** | Red Exclamation | Process exited with a non-zero exit code. Subsequent steps on this worktree are halted. |
+| **Warning** | Yellow Alert | Execution was aborted or cancelled by the user. |
 
 ---
 
 ## Stopping Workflows
 
-If you need to cancel a running workflow:
+To cancel a running workflow:
 
-1. Click the red **Stop** button in the Workflows interface.
-2. Alternatively, press the **`Esc`** key.
+1. Select the red **Stop (⏹)** button in the Workflows header.
+2. Or press the **`Esc`** key.
 
-WorktreeWise immediately calls `stopActiveWorkflowProcesses()`, safely killing all active child PTY sessions and their process groups across every target worktree. Stopped tasks transition cleanly to the `warning` state without leaving orphaned background processes consuming CPU or locking files.
+WorktreeWise calls `stopActiveWorkflowProcesses()`, safely terminating all active child PTY sessions and their process groups across participating worktrees without leaving orphaned background processes.
 
 <Callout type="warning">
-**Worktree Existence Validation**:
-Before launching any workflow, WorktreeWise validates that every selected worktree path actually exists on disk. If a worktree was deleted, pruned, or moved outside of WorktreeWise, the run is intercepted with a safety notice:
+**Worktree Path Validation**:
+Before launching any workflow, WorktreeWise validates that every selected worktree path exists on disk. If a worktree was removed or moved outside WorktreeWise, the run is intercepted with a safety notice:
 `"Some selected worktrees have been deleted: <name>. Please update your selection."`
 </Callout>
+
+---
+
+## Related Pages
+
+- [Create a Workflow](/workflows/create): Define reusable command sequences.
+- [Edit & Duplicate Workflows](/workflows/edit): Modify existing workflows or create variants.
+- [Shell Settings Reference](/settings#shell-settings): Configure default shells for workflow processes.

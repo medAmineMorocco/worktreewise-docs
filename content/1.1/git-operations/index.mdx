@@ -1,14 +1,14 @@
 ---
 title: Git Operations Overview
-description: Explore built-in Git tools in WorktreeWise to inspect commit history, stage changes, create commits, and perform pairwise diff comparisons.
+description: Explore built-in Git tools in WorktreeWise to inspect commit history, stage changes, author commits, and perform pairwise diff comparisons.
 ---
 
 import { Cards } from 'nextra/components';
-import { GitBranch, GitCompare } from 'lucide-react';
+import { GitBranch, GitCommit, GitCompare } from 'lucide-react';
 
-# Git Operations in WorktreeWise
+# Git Operations
 
-WorktreeWise integrates essential Git capabilities directly into your desktop environment, eliminating the friction of switching between external terminal commands and GUI tools. Whether you need to inspect branching history, author atomic commits, or evaluate code divergence across worktrees, WorktreeWise provides high-performance, visual Git tools.
+WorktreeWise integrates essential Git tools directly into your desktop environment. Inspect branching history across linked checkouts, stage and author atomic commits per worktree, and evaluate code divergence using visual side-by-side or line-by-line comparisons.
 
 ---
 
@@ -18,14 +18,21 @@ WorktreeWise integrates essential Git capabilities directly into your desktop en
   <Cards.Card
     icon={<GitBranch />}
     title="Git Log & Staging"
-    href="/git-operations/log"
+    href="/1.1/git-operations/log"
   >
-    Browse commit history across any worktree, customize column visibility for privacy, stage changes, author commits, and inspect file diffs.
+    Browse commit history across any worktree, customize column visibility for privacy, stage changes, and inspect file diffs.
+  </Cards.Card>
+  <Cards.Card
+    icon={<GitCommit />}
+    title="Create a Git Commit"
+    href="/1.1/git-operations/commit"
+  >
+    Review uncommitted changes, stage files selectively, inspect inline diffs, and create or amend commits without leaving WorktreeWise.
   </Cards.Card>
   <Cards.Card
     icon={<GitCompare />}
-    title="Git Diff"
-    href="/git-operations/diff"
+    title="Pairwise Git Diff"
+    href="/1.1/git-operations/diff"
   >
     Visually compare changes between any two worktrees, branches, tags, or commits with side-by-side and line-by-line diff views.
   </Cards.Card>
@@ -37,13 +44,21 @@ WorktreeWise integrates essential Git capabilities directly into your desktop en
 
 | Feature | Key Capabilities | Primary Shortcut |
 | :--- | :--- | :--- |
-| **[Git Log](/git-operations/log)** | Interactive commit graph, per-worktree scoping, author filtering, column visibility toggles (Author, Date, SHA, Refs), real-time working tree file status, file staging/unstaging, discard modifications, commit creation, and commit details diff viewer. | `Shift + L` |
-| **[Git Diff](/git-operations/diff)** | 4-way pairwise comparison matrix (Worktree, Branch, Tag, Commit), side-by-side dual pane or unified line-by-line diffs, word-level difference highlighting, interactive file list navigation, and light/dark theme adaptation. | `Shift + D` |
+| **[Git Log](/1.1/git-operations/log)** | Interactive commit graph, per-worktree scoping, author filtering, column visibility toggles (Author, Date, SHA, Refs), real-time working tree status, inline staging/unstaging, discard changes. | `Shift + G` |
+| **[Create a Commit](/1.1/git-operations/commit)** | Working tree staging drawer, 72-character summary validation, multi-line descriptions, commit amending, and reviewed file tracking. | Open via Git Log |
+| **[Git Diff](/1.1/git-operations/diff)** | 4-way pairwise comparison matrix (Worktree, Branch, Tag, Commit), side-by-side dual pane or unified line-by-line diffs, word-level difference highlighting, and interactive file navigation. | `Shift + D` |
 
 ---
 
-## Why Use WorktreeWise Git Tools?
+## Worktree-Aware Git Advantages
 
-1. **Worktree-Aware Context**: Unlike standard Git GUIs that only understand a single repository checkout at a time, WorktreeWise allows you to toggle the active scope between any linked worktree instantly.
-2. **Privacy First**: With one click, hide contributor names and commit SHAs to prepare clean, anonymized screenshots or live demos without exposing internal contributor emails.
-3. **Integrated Staging**: Check uncommitted changes in your worktrees and stage or discard changes directly without launching a heavy IDE.
+1. **Per-Worktree Scope**: Unlike standard Git GUI clients that monitor only one working directory at a time, WorktreeWise lets you switch context between linked worktrees instantly without opening separate windows.
+2. **Privacy Controls**: Hide author names and commit SHAs with a single click to prepare clean, anonymized screenshots or product screencasts without exposing contributor identities.
+3. **Integrated Staging**: Inspect working tree files and stage, unstage, or discard changes directly without launching an external terminal or heavy IDE.
+
+---
+
+## Related Pages
+
+- [Worktree Overview Dashboard](/1.1/git-worktrees/overview): Monitor clean and dirty statuses across all worktrees.
+- [Create a Worktree from Commit](/1.1/git-worktrees/create#4-from-a-git-commit): Branch directly from a historical commit in Git Log.

@@ -3,101 +3,105 @@ title: Git Log
 description: Explore repository commit history, filter by author and worktree, customize column visibility for privacy, stage changes, author commits, and inspect file diffs.
 ---
 
-import { Callout, Steps } from 'nextra/components';
+import { Callout } from 'nextra/components';
 
-# Git Log
+# Git Log & Working Tree
 
 The **Git Log** is the central commit visualizer and working tree manager in WorktreeWise. It combines a high-performance interactive commit graph with real-time working tree status, inline file staging, commit authoring, and diff inspection.
+
+To open Git Log:
+- Select **Git Log** in the sidebar.
+- Or press the global shortcut **Shift + G**.
 
 ![Git Log](/images/releases/1.1.0/01-git-log.png)
 
 ---
 
-## Key Features & Toolbar Controls
+## Toolbar Controls & Filtering
 
-The Git Log toolbar provides immediate access to essential repository operations and display filters:
-
-```plaintext
-[ Worktree Select ▼ ] [ Author Filter ▼ ] [ Columns ⚙ ] | [ Pull ] [ Push ] [ Stash ] [ Pop ] [ Diff ] ( ⟳ )
-```
+The Git Log toolbar provides immediate access to repository filters and operations:
 
 ### 1. Worktree & Scope Selection
-Select any active worktree from the dropdown to scope the commit graph and working tree view to that specific worktree's branch and file system. Switching worktrees immediately updates the log graph and working tree status.
+
+Select any active worktree from the dropdown to scope the commit graph and working tree view to that specific branch. Switching worktrees updates the commit graph and working directory status immediately.
 
 ### 2. Author Search & Filtering
-Filter commits by specific contributors using the searchable **Author** dropdown. You can search by name or clear the filter to view all contributors.
+
+Filter commits by contributor using the searchable **Author** dropdown. Search by name or clear the filter to restore all contributors.
 
 ### 3. Column Visibility & Privacy Controls
-Click the **Columns** button to open the column configuration popover. You can independently show or hide:
-- **Author**: Shows/hides contributor names and avatar indicators.
-- **Date**: Shows/hides commit relative and absolute timestamps.
-- **SHA**: Shows/hides Git commit hashes.
-- **Refs**: Shows/hides branch and tag pointers.
+
+Select **Columns** to customize which columns are displayed in the commit table:
+- **Author**: Shows or hides contributor names and avatar indicators.
+- **Date**: Shows or hides relative and absolute timestamps.
+- **SHA**: Shows or hides Git commit hashes.
+- **Refs**: Shows or hides branch and tag reference badges.
 
 ![Git Log column controls with Author disabled](/images/releases/1.1.0/02-git-log-columns.png)
 
 <Callout type="tip">
-**Privacy & Screencasts**:
-Disabling the **Author** column is especially useful during live product demonstrations, recorded tutorials, or public webinars to protect contributor privacy while keeping the commit graph and messages readable.
+Disabling the **Author** column is useful during screencasts, product demos, or public tutorials to protect contributor privacy while keeping commit messages and graphs visible.
 </Callout>
 
 ### 4. Git Quick Actions
-Directly trigger standard Git operations without opening an external terminal:
+
+Trigger standard Git operations directly from the toolbar:
 - **Pull**: Fetches and merges remote changes into the currently selected worktree.
 - **Push**: Pushes local commits to the tracked upstream branch.
-- **Stash**: Safely stores uncommitted local modifications in Git stash storage.
-- **Pop**: Restores the most recently stashed changes back into your working tree.
-- **Diff (`Shift+D`)**: Opens the pairwise [Git Diff](/git-operations/diff) comparison modal.
+- **Stash**: Stores uncommitted local modifications in Git stash storage.
+- **Pop**: Restores the most recently stashed changes into your working tree.
+- **Diff (`Shift + D`)**: Opens the pairwise [Git Diff](/1.1/git-operations/diff) comparison modal.
 - **Reload (`⟳`)**: Re-reads commit history and working tree status from disk.
 
 ---
 
-## Working Tree & Commit Authoring
+## Working Tree & Inline Staging
 
-At the top of the Git Log graph, the **Working Tree** row displays the live status of uncommitted modifications in the selected worktree:
+At the top of the commit graph, the **Working Tree** row displays the live status of uncommitted modifications in the active worktree:
 
 - **Change Badges**: Displays color-coded counts of modified (blue), added (green), and deleted (red) files.
-- **Automatic Status Sync**: The working tree automatically polls for file changes every 4 seconds and whenever the application window regains focus.
+- **Automatic Sync**: The working tree polls for file modifications every 4 seconds and automatically refreshes whenever the application window regains focus.
 
-### Staging & Discarding Changes
+### Staging and Discarding Changes
 
-Clicking the **Working Tree** row opens the **Working Tree Panel** on the right side of the screen:
+Selecting the **Working Tree** row opens the staging panel on the right:
 
-1. **Staged vs. Unstaged Lists**: Files are grouped into **Staged Changes** and **Changes** (unstaged).
-2. **Stage / Unstage All**: Stage or unstage the entire set of changes with a single click.
-3. **Per-File Staging**: Click `+` to stage individual files or `-` to unstage.
-4. **Discard Changes**: Click the trash icon to discard modifications on unstaged files.
-   - For modified files: Restores file content to the `HEAD` state.
-   - For untracked files: Permanently removes the untracked file from disk after an explicit confirmation prompt.
-
-### Authoring Commits
-
-Directly below the file lists in the Working Tree Panel:
-- **Summary**: Enter the single-line commit title (required).
-- **Description**: Add optional multi-line extended commit notes.
-- **Amend Commit**: Check the **Amend** box to modify the previous commit. Toggling Amend automatically populates the input fields with the previous commit's summary and message.
-- **Commit Button**: Stages your message and creates the Git commit, immediately updating the commit graph.
+1. **Staged vs. Changes**: Files are organized into **Staged Changes** and **Changes** (unstaged).
+2. **Stage / Unstage All**: Move all files between staged and unstaged states with a single click.
+3. **Per-File Controls**: Select `+` beside a file to stage it, or `-` to unstage.
+4. **Discard Changes**: Select the trash icon on an unstaged file to revert modifications:
+   - Modified files revert to their `HEAD` state.
+   - Untracked files are deleted after explicit confirmation.
 
 ---
 
-## Inline File Diffs
+## Commit Details & File Diffs
 
-### Inspecting Working Tree Files
-Clicking any file in the Working Tree Panel opens the **Working Tree File Diff Pane**:
-- Highlights additions (green) and deletions (red) with full code syntax highlighting.
-- Shows total added and deleted line counts.
-- Displays convenient **Stage**, **Unstage**, and **Discard** buttons directly inside the diff header.
+### Inspect Working Tree Changes
 
-### Inspecting Historical Commits
-Clicking any commit in the Git Log graph opens the **Commit Details Panel**:
-- Displays the full commit SHA, commit message, author name, timestamp, and parent commits.
-- Summarizes total file count and aggregate diff metrics (`+additions` / `-deletions`).
-- Lists every modified, added, or deleted file with status tags.
-- Clicking any file opens the **Commit File Diff Pane**, displaying the exact line-by-line diff introduced by that specific commit.
+Selecting any file in the Working Tree panel opens the **File Diff Pane**:
+- Highlights additions (green) and deletions (red) with code syntax highlighting.
+- Displays line addition and deletion counts.
+- Provides **Stage**, **Unstage**, and **Discard** actions directly in the diff header.
+
+### Inspect Historical Commits
+
+Selecting any commit in the commit graph opens the **Commit Details Panel**:
+- Displays the full commit SHA, author, timestamp, parent commits, and commit message.
+- Summarizes total changed files and aggregate line metrics (`+additions` / `-deletions`).
+- Lists all modified, added, or deleted files. Selecting any file renders its exact commit diff.
 
 ---
 
 ## Performance & Virtualization
 
-- **Gzip Compression**: Git Log output is compressed with gzip and decompressed on the client using `pako.ungzip`, ensuring fast transfer times even across repositories with tens of thousands of commits.
-- **Infinite Scroll Pagination**: Commits load in increments of 40 (`LIMIT = 40`), maintaining low memory usage and smooth 60fps rendering during scrolling.
+- **Gzip Stream Compression**: Git Log output is compressed with gzip and decompressed on the client using `pako.ungzip`, ensuring fast transfer times across repositories with tens of thousands of commits.
+- **Virtualized Infinite Scroll**: Commits render in paginated increments of 40 (`LIMIT = 40`), maintaining smooth 60fps scrolling and low memory usage.
+
+---
+
+## Related Pages
+
+- [Create a Git Commit](/1.1/git-operations/commit): Step-by-step commit authoring and amending workflow.
+- [Pairwise Git Diff](/1.1/git-operations/diff): Compare worktrees, branches, tags, and commits.
+- [Create Worktree from Commit](/1.1/git-worktrees/create#4-from-a-git-commit): Branch directly from any commit in Git Log.

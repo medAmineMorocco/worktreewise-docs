@@ -1,48 +1,84 @@
 ---
 title: Create a Git Commit
-description: Review changes, stage files, inspect diffs, and create a commit without leaving WorktreeWise.
+description: Review uncommitted changes, stage files, inspect diffs, and create or amend commits without leaving WorktreeWise.
 ---
 
 import { Callout, Steps } from 'nextra/components';
 
 # Create a Git Commit
 
-WorktreeWise brings the complete commit workflow into the Git Log. You can review the working tree, move files between unstaged and staged groups, inspect an individual diff, and write the commit message from one screen.
+WorktreeWise integrates commit authoring directly into the Git Log view. Review working tree modifications, stage files selectively, inspect line diffs, author conventional commit messages, and amend previous commits from a unified screen.
 
 ![Working tree changes and commit panel](/images/releases/1.1.0/37-git-commit.png)
 
+---
+
 ## Open the Commit Panel
 
-Select **Working tree changes** at the top of the Git Log. The right sidebar opens for the selected worktree and separates changes into **Unstaged files** and **Staged files**.
+1. Open **Git Log** (`Shift + G`).
+2. Select the **Working tree changes** row at the top of the commit list.
+3. The right-hand staging panel opens, organized into **Unstaged files** and **Staged files**.
 
-## Prepare the Commit
+Counters beside each heading show how many files are currently staged or unstaged, and the **Commit** button displays the total number of staged files that will be included in the commit.
+
+---
+
+## Prepare and Author the Commit
 
 <Steps>
 
-### Choose the worktree
-Use the selector above the Git Log. The panel operates only on the selected worktree.
+### Choose the Active Worktree
 
-### Review and stage files
-Use **Stage all** or the plus action beside a file. Use **Unstage all** or the minus action to remove files from the commit.
+Use the worktree selector above the Git Log to select your target worktree. The staging panel strictly operates on the selected worktree's working directory, preventing changes from other worktrees from bleeding into your commit.
 
-### Inspect a file diff
-Select a file to review highlighted additions and deletions. Use **Viewed** to mark completed reviews.
+### Review and Stage Files
+
+- Select **Stage all** to prepare all modified and untracked files for commit.
+- Or select the **+** icon beside individual files to stage them selectively.
+- Select the **-** icon or **Unstage all** to return files to the unstaged list.
+
+### Inspect File Diffs
+
+Select any file in the list to open its diff pane. WorktreeWise highlights additions in green and deletions in red. Select **Viewed** on reviewed files to keep track of your audit progress.
 
 ![Reviewing a staged file before committing](/images/releases/1.1.0/38-git-commit-file-diff.png)
 
-### Write the message
-Enter a **Commit summary** of up to 72 characters and an optional longer **Description**.
+### Enter Commit Message
 
-### Create the commit
-Check the staged-file count and select **Commit**. WorktreeWise refreshes the Git Log and working-tree state when Git finishes.
+- **Summary**: Enter a concise commit headline. The in-app character counter helps you adhere to the standard 72-character subject line limit.
+- **Description (optional)**: Enter detailed multi-line notes explaining the rationale, breaking changes, or issue references.
+
+### Create the Commit
+
+Review the staged file count and select **Commit**. The button is enabled once a valid summary is entered and at least one file is staged. Upon creation, the Git Log graph refreshes automatically.
 
 </Steps>
 
+---
+
 ## Amend the Previous Commit
 
-Enable **Amend previous commit** to update the latest commit instead of creating another one.
+Check **Amend previous commit** to add newly staged changes to the worktree's latest commit instead of generating a new commit:
+
+- WorktreeWise automatically pre-fills the message fields with the previous commit's summary and description.
+- You can edit the message or incorporate additional staged files.
 
 <Callout type="warning">
-Amending rewrites history. Take extra care when the existing commit has already been pushed or shared.
+Amending rewrites repository commit history. If the previous commit has already been pushed to a remote branch, you will need to force-push (`git push --force-with-lease`) after coordinating with your team.
 </Callout>
 
+---
+
+## Pre-Commit Verification Checklist
+
+- [ ] Confirm that the correct worktree is selected in the scope dropdown.
+- [ ] Inspect staged diffs to ensure debug logs and temporary files are removed.
+- [ ] Confirm no secrets, API keys, or unignored environment files are staged.
+- [ ] Ensure the commit summary accurately describes the change in imperative mood.
+
+---
+
+## Related Pages
+
+- [Git Log & Working Tree](/1.1/git-operations/log): Filter commits and inspect the working tree graph.
+- [Pairwise Git Diff](/1.1/git-operations/diff): Compare changes between worktrees, branches, tags, and commits.

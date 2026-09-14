@@ -1,47 +1,65 @@
 ---
 title: Move a Git Worktree
-description: Relocate a linked worktree safely while keeping its branch unchanged.
+description: Relocate a linked worktree directory while maintaining Git administrative pointer files and preserving uncommitted changes.
 ---
 
-import { Callout } from 'nextra/components';
+import { Callout, Steps } from 'nextra/components';
 
 # Move a Git Worktree
 
-Moving a Git worktree relocates its working directory to a new path on your filesystem while preserving all uncommitted changes, branches, and Git administrative connections.
+Relocate a linked worktree directory to a new path on your filesystem while preserving uncommitted changes, branch references, and Git pointer files.
 
 ---
 
 ## Why Move Through WorktreeWise?
 
-Linked worktrees maintain a two-way link with the primary repository:
-1. The `.git` file inside the linked worktree points back to `.git/worktrees/<name>` in the main repository.
-2. The `gitdir` file in `.git/worktrees/<name>` points forward to the linked worktree's working directory.
+Linked worktrees maintain a reciprocal bidirectional link with the primary Git repository:
 
-If you move a worktree folder using your operating system's file explorer or commands like `mv` or `Move-Item`, **this bidirectional link breaks immediately**. Git will report the worktree as missing and require manual repair.
+1. The `.git` file inside the linked worktree directory points back to `.git/worktrees/<name>` in the main repository.
+2. The `gitdir` file inside `.git/worktrees/<name>` points forward to the linked worktree's filesystem directory.
 
-WorktreeWise executes `git worktree move`, which atomically moves the physical folder and simultaneously updates Git's internal pointer files.
+If you move a worktree folder using your operating system file explorer or shell commands like `mv` or `Move-Item`, **this bidirectional link breaks immediately**. Git marks the worktree as missing and prevents its checked-out branch from being accessed elsewhere.
+
+WorktreeWise executes `git worktree move`, which moves the directory on disk and atomically updates Git's internal pointer files.
 
 ---
 
 ## How to Move a Worktree
 
-1. In the **Worktrees** panel, locate the worktree you want to relocate.
-2. Click the three-dot **Actions** menu and select **Change Folder**.
-3. In the modal dialog, review the current path.
-4. Click the folder icon to browse for a new destination directory, or type the new path directly.
-5. WorktreeWise validates that the destination directory does not already exist and is on a compatible filesystem.
-6. Click **Move**.
+<Steps>
+
+### Open the Change Folder Dialog
+
+In the **Worktrees** panel, locate the worktree you want to relocate. Select the three-dot **Actions** menu and choose **Change Folder**.
+
+### Select New Destination
+
+In the dialog, review the current path. Select the folder icon to browse for a new parent directory, or enter the target path directly.
 
 ![Move Worktree dialog](/images/releases/1.1.0/21-worktree-move.png)
+
+### Confirm and Relocate
+
+WorktreeWise validates that the destination directory does not already exist and resides on a compatible filesystem. Select **Move** to complete the relocation.
+
+</Steps>
 
 ---
 
 ## What Happens to Your Work
 
-- **Files & Modifications Preserved**: All untracked files, modified files, and staged edits are transferred intact to the new folder.
-- **Branch Unchanged**: The underlying Git branch name, upstream tracking, and commit history remain completely unaffected.
-- **IDE and Terminal Integration**: Embedded terminal sessions and IDE configurations automatically update to target the new folder path.
+- **Uncommitted Modifications Preserved**: Modified, staged, and untracked files transfer intact to the new directory.
+- **Git Branch Unchanged**: The underlying branch name, upstream tracking, and commit history remain untouched.
+- **IDE and Terminal Configurations**: Embedded terminal sessions and external editor targets update to the new path automatically.
 
 <Callout type="warning">
-The primary (main) worktree and any locked worktrees cannot be moved. Unlock a worktree first before moving it.
+The primary repository worktree and any worktrees currently locked cannot be moved. Unlock a worktree first before moving it.
 </Callout>
+
+---
+
+## Related Pages
+
+- [Repair a Damaged Worktree](/git-worktrees/repair): Reconnect a worktree that was accidentally moved outside WorktreeWise.
+- [Rename a Git Worktree](/git-worktrees/rename): Update the worktree directory and Git branch name together.
+- [Lock a Git Worktree](/git-worktrees/lock): Prevent a worktree from being moved or pruned.

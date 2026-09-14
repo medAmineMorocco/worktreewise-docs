@@ -11,11 +11,12 @@ import {
   Trash2,
   GitBranch,
   RotateCcw,
+  Wrench,
 } from 'lucide-react';
 
 # Managing Git Worktrees
 
-Git worktrees let you check out multiple branches of the same repository simultaneously into distinct directories on disk. This enables you to switch context instantly, run multiple build or test configurations in parallel, and work with autonomous AI coding agents without git stash conflicts or branch thrashing.
+Git worktrees allow you to check out multiple branches of the same repository simultaneously into distinct directories on disk. This enables you to switch contexts instantly, run multiple build or test configurations in parallel, and run autonomous AI coding agents without git stash conflicts or branch switching.
 
 WorktreeWise provides an end-to-end interface to inspect, create, configure, and maintain your worktrees with complete safety guarantees.
 
@@ -40,17 +41,24 @@ WorktreeWise provides an end-to-end interface to inspect, create, configure, and
   </Cards.Card>
   <Cards.Card
     icon={<GitBranch />}
-    title="List & Explore"
+    title="List & Actions"
     href="/git-worktrees/list"
   >
     Browse all active linked worktrees, copy paths, open in terminal or IDEs, and monitor real-time AI agent status badges.
+  </Cards.Card>
+  <Cards.Card
+    icon={<Wrench />}
+    title="Repair Worktrees"
+    href="/git-worktrees/repair"
+  >
+    Reconnect worktrees whose directory paths or Git administrative pointers were relocated outside WorktreeWise.
   </Cards.Card>
   <Cards.Card
     icon={<Lock />}
     title="Lock & Unlock"
     href="/git-worktrees/lock"
   >
-    Protect worktrees stored on external or network drives and safeguard critical branches from accidental deletion or automated pruning.
+    Protect worktrees stored on external drives and safeguard critical branches from accidental deletion, moving, or automated pruning.
   </Cards.Card>
   <Cards.Card
     icon={<Trash2 />}
@@ -74,12 +82,22 @@ WorktreeWise provides an end-to-end interface to inspect, create, configure, and
 
 | Operation | Purpose | Key WorktreeWise Capabilities | Shortcut |
 | :--- | :--- | :--- | :--- |
-| **[Overview](/git-worktrees/overview)** | Repository health dashboard | 6 metric cards, donut status chart, sortable table, 4-way disk space breakdown, and large untracked file detection. | `Shift + W` |
-| **[Create](/git-worktrees/create)** | Spin up a new workspace | 3 checkout modes (HEAD, Branch, Tag), Pre/Post hooks, Sparse Checkout directory reduction, `node_modules` symlinking, and multi-source `.env` isolation. | `Shift + W` |
-| **[List](/git-worktrees/list)** | Browse worktrees | Quick action menus, direct launch in VS Code/Cursor/JetBrains, terminal pane integration, and active AI agent indicators. | `Shift + W` |
+| **[Overview](/git-worktrees/overview)** | Repository health dashboard | 6 metric cards, donut status chart, sortable table, 4-way disk space breakdown, and large untracked file detection. | `Shift + O` |
+| **[Create](/git-worktrees/create)** | Spin up a new workspace | 4 checkout modes (HEAD, Branch, Tag, Commit), Pre/Post hooks, Sparse Checkout directory reduction, `node_modules` symlinking, and multi-source `.env` isolation. | `Shift + W` |
+| **[List](/git-worktrees/list)** | Browse worktrees | Quick action menus, direct launch in VS Code/Cursor/JetBrains, terminal pane integration, and active AI agent indicators. | — |
+| **[Naming Pattern](/git-worktrees/naming-pattern)** | Standardize directory names | Configurable templates using `{repo}` and `{branch}` placeholders. | — |
 | **[Rename](/git-worktrees/rename)** | Rename worktree & branch | Renames the directory and executes atomic `git branch -m` to keep branch and folder naming synchronized. | — |
 | **[Move](/git-worktrees/move)** | Relocate directory | Updates administrative gitdir pointers automatically without corrupting Git internal references. | — |
 | **[Lock](/git-worktrees/lock)** | Protect worktree | Prevents accidental deletion, renaming, moving, or automated pruning with custom administrative reasons. | — |
 | **[Unlock](/git-worktrees/unlock)** | Re-enable operations | Restores full edit and deletion capabilities once external drives reconnect or work completes. | — |
+| **[Repair](/git-worktrees/repair)** | Reconnect broken pointers | Re-establishes reciprocal Git pointers when a worktree folder was moved outside WorktreeWise. | — |
 | **[Delete](/git-worktrees/delete)** | Tear down worktree | Uncommitted change detection, dirty state warnings, and options to delete only worktree or delete worktree + branch. | — |
 | **[Prune](/git-worktrees/prune)** | Clean stale references | Non-destructive dry-run preview, granular checkboxes, and safety checks before cleaning administrative records. | `Shift + P` |
+
+---
+
+## Related Pages
+
+- [Workspace Integrations](/integrations): Open worktrees in embedded terminals, IDEs, or AI agent sessions.
+- [Workflows](/workflows): Run automated command chains across multiple worktrees.
+- [Settings](/settings#worktrees-settings): Configure default worktree directories and naming patterns.

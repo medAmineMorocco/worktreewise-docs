@@ -1,50 +1,56 @@
 ---
-title: Create and Edit Workflows
-description: Define meaningful workflow names and ordered command lists.
+title: Edit and Duplicate Workflows
+description: Modify existing workflow command sequences or clone workflows to create specialized variants.
 ---
 
 import { Callout } from 'nextra/components';
 
 # Edit and Duplicate Workflows
 
-As your project requirements evolve, WorktreeWise makes it straightforward to update existing workflows, modify command sequences, or clone workflows to create task variations.
+WorktreeWise makes it straightforward to update existing workflows, modify command sequences, or clone workflows to create specialized task variants.
 
 ---
 
 ## How to Edit a Workflow
 
-1. In the **Workflow** workspace, locate the workflow in the saved workflows table.
-2. In the Actions column, click the **Pencil icon (✏️)**.
+1. In the **Workflows** view, locate the workflow in the Saved Workflows table.
+2. In the Actions column, select the **Pencil icon (✏️)**.
 3. The **Edit Workflow** drawer slides open from the right:
    - **Rename**: Change the title of the workflow.
-   - **Edit Commands**: Modify existing command text directly in the input fields.
-   - **Delete Step**: Click the red trash icon next to any step to remove that command from the sequence.
-   - **Add Step**: Click **Add Command** to append new commands to the end of the chain.
-4. Click **Save** to commit your updates.
+   - **Edit Commands**: Update command text directly in the input fields.
+   - **Remove Steps**: Select the red trash icon next to any step to remove that command from the sequence.
+   - **Add Steps**: Select **Add Command** to append new commands to the end of the chain.
+4. Select **Save** to commit your updates.
 
 ![Full Edit Workflow drawer](/images/releases/1.1.0/06d-edit-workflow.png)
 
 <Callout type="info">
-Editing a workflow updates its definition immediately. Any future executions will run the updated command sequence, but past execution logs remain untouched.
+Editing a workflow updates its definition in `.git/WorktreeWise/<name>/details.json` immediately. Subsequent workflow runs will execute the updated commands, while historical execution logs remain preserved.
 </Callout>
 
 ---
 
 ## Duplicating a Workflow
 
-Often, you want to create a slightly modified version of an existing workflow (for example, creating a `Test (Fast)` variant that skips integration tests, or a `Deploy (Staging)` variant based on `Deploy (Production)`).
+Duplicating allows you to create specialized variants of existing workflows (for example, creating a fast test variant that skips integration suites, or a staging deployment workflow):
 
-To duplicate a workflow:
-1. Locate the workflow in the table.
-2. Click the **Duplicate icon (📋)** in the Actions column.
-3. WorktreeWise creates an exact replica named `[Original Name] copy`.
-4. Click the Pencil icon on the duplicate to rename it and make your desired modifications.
+1. Locate the workflow in the Saved Workflows table.
+2. Select the **Duplicate icon (📋)** in the Actions column.
+3. WorktreeWise creates a copy named `[Original Name] copy`.
+4. Select the Pencil icon on the duplicate to rename it and adjust commands.
 
 ---
 
 ## Command Safety Guidelines
 
-When modifying workflow steps:
-- Avoid commands that launch background daemon processes unless you have an explicit termination step, as daemon processes may hold ports or file descriptors open across worktrees.
-- If a step relies on environment variables generated during worktree creation, ensure the script references standard environment variable expansion (e.g. `$PORT` or `%PORT%`).
+When editing workflow commands:
+- **Avoid Unbounded Daemons**: Avoid launching background daemon processes without an explicit termination step, as background processes may hold file locks or network ports open across worktrees.
+- **Environment Variable Expansion**: If a step relies on environment variables created during worktree provisioning, use standard shell syntax (`$PORT` or `%PORT%`).
 
+---
+
+## Related Pages
+
+- [Run a Workflow](/1.1/workflows/play): Execute your edited workflows across worktrees.
+- [Delete a Workflow](/1.1/workflows/delete): Safely remove obsolete workflow recipes.
+- [Import Workflows](/1.1/workflows/import): Share workflow definitions across repositories.

@@ -1,78 +1,79 @@
 ---
 title: Work with AI Agents
-description: Start one or more AI coding-agent sessions in worktree-scoped panes.
+description: Run autonomous and interactive AI coding agents in worktree-scoped panes with Smart Context.
 ---
+
+import { Callout } from 'nextra/components';
 
 # Work with AI Agents
 
-WorktreeWise turns Git worktrees into the premier environment for autonomous and interactive AI coding assistants. Because each worktree provides an entirely isolated filesystem directory and dedicated Git branch, you can run multiple coding agents simultaneously—each implementing features, debugging tests, or refactoring components in parallel without stepping on each other or corrupting your Git index.
+WorktreeWise allows you to run terminal-based AI coding assistants in dedicated, worktree-scoped panes. Because each worktree provides an isolated filesystem directory and Git branch, you can run multiple coding agents concurrently—implementing features, debugging tests, or refactoring code in parallel without dirty working tree conflicts.
 
 ![Three AI-agent panes open at the same time](/images/releases/1.1.0/24-multiple-ai-agents.png)
 
 ---
 
-## Why Worktrees are Ideal for AI Agents
+## Why Use Worktrees with AI Agents?
 
-Traditional AI agent workflows in a single directory suffer from severe friction:
-- Agents overwrite files while you are trying to edit them.
-- Running two agents in the same branch creates merge collisions and dirty working tree states.
-- Running build or test commands in the same folder locks files and triggers rebuild loops.
+Running AI coding agents in a traditional single-directory repository creates frequent development bottlenecks:
+- Agents overwrite uncommitted changes while you are actively editing other files.
+- Running multiple agents on the same branch produces merge conflicts and corrupted index states.
+- Background compilers or test watchers trigger rebuild loops when agents edit files in place.
 
 By binding each agent session to a distinct worktree:
-- **Zero Collision Risk**: Agent A works in `feature-api` while Agent B works in `refactor-db`.
-- **Parallel Independent Verification**: You can test, run, and review Agent A's changes in one IDE while Agent B continues executing in another pane.
-- **Atomic Commits & Easy Discards**: If an agent produces poor results, simply discard that worktree without affecting your main working tree.
+- **Zero Collision Risk**: Agent A implements features in `feature-api` while Agent B refactors database schemas in `refactor-db`.
+- **Parallel Independent Verification**: Build and test changes in one worktree while an agent continues executing in another.
+- **Atomic Commits & Easy Discards**: If an agent produces suboptimal code, discard or delete that worktree without affecting your primary working tree.
 
 ---
 
-## Starting an AI Agent Session
+## Start an AI Agent Session
 
 To launch an agent in a worktree:
-1. Locate the worktree in the left sidebar.
-2. Click the three-dot **Actions** menu and select **Work with AI Agent**.
-3. WorktreeWise opens the embedded interactive workspace rooted in that worktree's directory and immediately initializes your configured default agent.
 
-Alternatively, you can switch any open terminal pane between **Terminal** and **AI Agent** mode at any time using the mode toggle at the top of the pane.
+1. In the **Worktrees** panel, locate the target worktree.
+2. Select the three-dot **Actions** menu and choose **Work with AI Agent**.
+3. WorktreeWise opens an interactive pane rooted in that worktree's directory and initializes your configured default agent.
+
+Alternatively, you can switch any open terminal pane between **Terminal** and **AI Agent** mode using the mode toggle at the top of the pane.
 
 ---
 
-## Tiled Multi-Pane Agent Workspace
+## Multi-Pane Agent Workspace
 
-WorktreeWise features a versatile grid layout system allowing up to three side-by-side terminal and agent sessions:
+WorktreeWise supports up to three concurrent terminal and agent sessions arranged in a configurable grid:
 
-### Grid Layout Modes
+### Layout Modes
 
-Use the layout selector in the top toolbar to organize your panes:
-- **Auto**: Automatically arranges panes based on window width.
-- **1 Column**: Stacks sessions in full-width single-column view.
-- **2 Columns**: Splits the workspace into two side-by-side panes.
-- **3 Columns**: Displays three concurrent sessions across your monitor.
+- **Auto**: Arranges panes dynamically based on current window width.
+- **1 Column**: Displays sessions in a single full-width vertical stack.
+- **2 Columns**: Splits the display into two side-by-side session panes.
+- **3 Columns**: Displays three concurrent panes side by side.
 
 ### Per-Pane Controls
 
-Every pane in the workspace is fully independent:
-- **Worktree Selector & Path**: Displays the worktree name and absolute path tooltip.
-- **Mode Toggle**: Instant switch between shell **Terminal** and interactive **AI Agent**.
-- **Agent Selector**: Dropdown menu to switch between enabled AI agents (e.g., Claude Code, Cursor CLI, Antigravity CLI).
-- **Smart Context Toggle**: Checkbox to activate repository-aware prompt enrichment.
-- **Focus / Maximize**: Click the Expand icon to temporarily maximize a single pane to full screen; click Compress to return to the multi-column grid.
-- **Close Pane**: Click **✕** to terminate the session and close the pane.
-- **Keyboard Navigation**: Press `Ctrl + PageUp` or `Ctrl + PageDown` to cycle active keyboard focus between panes.
+- **Worktree Selector & Path**: Displays the active worktree name and filesystem path tooltip.
+- **Mode Toggle**: Switches between raw shell **Terminal** and interactive **AI Agent**.
+- **Agent Selector**: Dropdown to switch between enabled AI assistants (e.g. Claude Code, Cursor CLI, Antigravity).
+- **Smart Context**: Checkbox toggle to attach repository-aware context to prompts.
+- **Focus / Maximize**: Select the Expand icon to maximize a single pane to full view; select Compress to restore the tiled grid.
+- **Close Pane**: Select **✕** to terminate the session and close the pane.
+- **Keyboard Navigation**: Press `Ctrl + PageUp` or `Ctrl + PageDown` to cycle active focus between panes.
 
 ---
 
 ## Smart Context
 
 When **Smart Context** is enabled in an agent pane:
-- WorktreeWise scans the repository structure and active branch context.
-- When you submit prompts to the agent, WorktreeWise automatically attaches relevant file path context, branch status, and repository metadata.
-- This gives the agent immediate understanding of project conventions, package structure, and related files without requiring you to manually paste file contents.
+- WorktreeWise inspects the repository structure, active branch name, latest commit SHA, and uncommitted modifications.
+- When prompts are submitted, WorktreeWise automatically enriches them with relevant file path context, branch status, and repository metadata.
+- This gives the agent immediate project context without requiring you to manually paste directory structures or file paths.
 
 ---
 
 ## Supported AI Coding Agents
 
-WorktreeWise provides native presets and custom icon support for 7 leading AI coding assistants:
+WorktreeWise provides presets and detection for 7 AI coding assistants:
 
 | Agent | CLI Executable | Installation Command | Prerequisites |
 | :--- | :--- | :--- | :--- |
@@ -86,21 +87,28 @@ WorktreeWise provides native presets and custom icon support for 7 leading AI co
 
 ---
 
-## Agent Status Monitoring in the Sidebar
+## Sidebar Status Monitoring
 
-While agents are executing, you don't need to keep the agent workspace in view:
-- A dynamic **Robot icon** and active agent badge appear in the worktree row in the main navigation sidebar.
-- Hovering over the badge reveals which agent is currently active and in which worktree.
-- When an agent finishes or exits, the indicator updates automatically.
+While agents run, you can monitor execution status from the main navigation sidebar:
+- A dynamic **Robot icon** and active agent badge appear in the worktree's row in the sidebar.
+- Hovering over the badge displays which agent is active in that worktree.
+- When the agent process finishes or terminates, the badge clears automatically.
 
 ---
 
-## Configuring Agents in Settings
+## Configure Agents in Settings
 
-Open **Settings → AI Agents** (**Shift + S**) to manage your available coding agents:
-- **Enable / Disable**: Toggle which agents appear in the pane dropdown.
-- **Custom Paths & Flags**: Customize the binary executable path and supply default command-line arguments (such as model flags or temperature presets).
-- **Diagnostics**: Click **Test** on any agent card to run an automated sanity check that validates PATH configuration, executable permissions, and command output.
+Open **Settings → AI Agents** (`Shift + S`) to customize agent behavior:
+- **Enable / Disable**: Choose which agents appear in the pane dropdown.
+- **Custom Executables & Flags**: Specify custom binary paths and default CLI flags (such as model parameters or temperature).
+- **Diagnostics**: Select **Test** on any agent card to run a sandbox check that validates PATH configuration and permissions.
 
 ![AI-agent settings](/images/releases/1.1.0/32-settings-ai-agents.png)
 
+---
+
+## Related Pages
+
+- [Embedded Terminal Workspace](/1.1/integrations/terminal): Use shell terminal panes alongside AI agents.
+- [AI Agents Settings](/1.1/settings#ai-agents-settings): Manage agent presets and test executable paths.
+- [Worktree List and Actions](/1.1/git-worktrees/list): Launch agent sessions from the Worktrees panel.

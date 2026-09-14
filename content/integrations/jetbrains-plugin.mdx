@@ -1,218 +1,98 @@
 ---
 title: WorktreeWise for JetBrains Plugin
-description: Use WorktreeWise directly from your JetBrains IDE to switch worktrees faster and open projects in the WorktreeWise app.
+description: Switch Git worktrees and open projects in WorktreeWise directly from IntelliJ, WebStorm, PyCharm, and other JetBrains IDEs.
 ---
 
-## Overview
+import { Callout } from 'nextra/components';
 
-**WorktreeWise for JetBrains** is a lightweight IDE plugin designed to make you **faster and more productive** when working with Git worktrees.
+# WorktreeWise for JetBrains Plugin
 
-> 💡 The plugin is **not a replacement** for the WorktreeWise desktop app.
-> Its main role is to **serve the WorktreeWise app** by providing quick IDE actions that save time during daily development.
+The **WorktreeWise for JetBrains** plugin allows you to switch Git worktrees directly from inside your JetBrains IDE. It integrates with your active WorktreeWise project and preserves IDE-specific context—including bookmarks and run/debug configurations—when switching between branches.
 
-It allows you to interact with your existing worktrees **directly from your JetBrains IDE**, without breaking your workflow.
-
----
-
-## What this plugin is (and is not)
-
-### ✅ What it does
-- Lets you **switch Git worktrees directly from the IDE**
-- Opens the current project in **WorktreeWise** to perform advanced worktree management
-- Eliminates unnecessary context switching
-- Focuses on **speed and convenience**
-
-### ❌ What it does not do
-- It does **not** manage worktrees by itself
-- It does **not** replace the WorktreeWise desktop application
-- It does **not** duplicate advanced features (workflows, hooks, diffs, etc.)
-
-All advanced actions remain in the **WorktreeWise app**.
+<Callout type="info">
+The JetBrains plugin provides in-editor switching actions. Advanced worktree management—such as sparse checkouts, automation workflows, diffs, and pruning—is performed inside the WorktreeWise desktop application.
+</Callout>
 
 ---
-
-## How this plugin is different from other Git worktree plugins
-
-At first glance, switching Git worktrees may look like a feature already covered by other plugins.
-
-However, **WorktreeWise for JetBrains solves a different problem**.
-
----
-
-### Typical Git worktree plugins
-
-Most existing Git worktree plugins:
-
-- Create or switch worktrees in isolation
-- Open worktrees as completely separate projects
-- Do **not** preserve IDE-specific context
-- Treat each worktree as a brand-new IDE environment
-
-As a result, when switching worktrees you often lose:
-- Bookmarks
-- Run / Debug configurations
-- IDE project context
-- Custom tooling setup
-
-This leads to repetitive reconfiguration and context loss.
-
----
-
-### What makes WorktreeWise different
-
-**WorktreeWise for JetBrains is tightly integrated with the WorktreeWise app**, which already manages worktrees with a shared development context.
-
-When you switch a worktree using this plugin:
-
-- ✅ **Bookmarks are preserved**
-- ✅ **Run / Debug configurations are preserved**
-- ✅ **IDE context stays consistent**
-- ✅ You don’t need to reconfigure your environment
-
-This is the same principle used by WorktreeWise when opening worktrees in JetBrains IDEs from the desktop app.
-
----
-
-### Why this matters
-
-If you:
-- work on multiple branches daily
-- switch frequently between features, fixes, or environments
-- rely heavily on bookmarks and run configurations
-
-Then preserving IDE context is **critical for productivity**.
-
-This plugin focuses on **speed without sacrificing context**.
-
----
-
-### Design philosophy
-
-> Other plugins focus on *Git operations*.
-> **WorktreeWise focuses on developer experience.**
-
-That’s why this plugin:
-- Is intentionally simple
-- Delegates advanced logic to the WorktreeWise app
-- Prioritizes fast, safe, and familiar switching
-
----
-
-### In short
-
-| Feature | Typical plugins | WorktreeWise for JetBrains |
-|------|---------------|----------------------------|
-| Switch worktrees | ✅ | ✅ |
-| Preserve bookmarks | ❌ | ✅ |
-| Preserve run configs | ❌ | ✅ |
-| Shared IDE context | ❌ | ✅ |
-| Deep integration with WorktreeWise | ❌ | ✅ |
-
----
-
-> 💡 If you already use WorktreeWise, this plugin gives you the **fastest possible way** to benefit from its worktree model directly inside your IDE.
-
 
 ## Requirements
 
-Before using the plugin, make sure that:
+Before installing the plugin, verify that your environment meets the following requirements:
 
-- ✅ **WorktreeWise is installed** on your machine
-- ✅ You own a **PRO or PRO PLUS** WorktreeWise license
-- ✅ You are using a **JetBrains IDE**
-
-The plugin relies on the WorktreeWise app to function properly.
+| Requirement | Specification |
+| :--- | :--- |
+| **WorktreeWise Desktop App** | Installed on your machine and activated. |
+| **License Tier** | Active **PRO** or **PRO PLUS** license. |
+| **Compatible IDEs** | IntelliJ IDEA, WebStorm, PyCharm, GoLand, CLion, Rider, PhpStorm, RubyMine, or Android Studio. |
 
 ---
 
 ## Installation
 
-The plugin can be installed **directly from the JetBrains Marketplace**.
+Install the plugin directly from the JetBrains Marketplace:
 
-1. Open your JetBrains IDE
-2. Go to **Settings / Preferences → Plugins**
-3. Search for **WorktreeWise**
-4. Click **Install**
-5. Restart your IDE if required
+1. In your JetBrains IDE, open **Settings / Preferences → Plugins**.
+2. Select the **Marketplace** tab.
+3. Search for **WorktreeWise**.
+4. Select **Install**.
+5. Restart your IDE if prompted.
 
-Once installed, the plugin automatically integrates with WorktreeWise.
-
----
-
-## Accessing the Plugin Actions
-
-The plugin actions are available from the JetBrains menu:
-
-![WorktreeWise for Jetbrains Plugin](/images/content/integrations/jetbrains/worktreewise-for-jetbrains-plugin.png)
-
-You can also assign **custom keyboard shortcuts** from the IDE settings for even faster access.
+Once installed, WorktreeWise actions are automatically registered in the main application menu.
 
 ---
-
 
 ## Available Actions
 
-The plugin provides **two focused actions**, accessible from the IDE menu.
+The plugin provides two primary actions accessible from the IDE menu:
 
----
+![WorktreeWise for Jetbrains Plugin](/images/content/integrations/jetbrains/worktreewise-for-jetbrains-plugin.png)
 
 ### 1. Switch Worktree
 
-Switch Git worktrees **directly from your IDE**, without opening the WorktreeWise app.
+Switch between active Git worktrees without leaving the editor:
 
-This action is designed for speed and productivity when working on multiple branches.
+- Lists all registered worktrees for the current repository.
+- Opens the selected worktree directly in the current or new IDE window.
+- Preserves your bookmarks, active run/debug profiles, and project settings.
 
-**How it works:**
-- Lists all available Git worktrees for the current repository
-- Lets you switch instantly to another worktree
-- Opens the selected worktree directly in the IDE
-
-**Typical use cases:**
-- Jumping between feature branches
-- Quickly reviewing another worktree
-- Parallel frontend / backend development
-
-![WorktreeWise for Jetbrains Plugin](/images/content/integrations/jetbrains/switch-worktree-action.png)
-
----
+![Switch Worktree Action](/images/content/integrations/jetbrains/switch-worktree-action.png)
 
 ### 2. Open Project in WorktreeWise
 
-Open the currently opened project in the **WorktreeWise desktop app**.
+Send the current project path to the WorktreeWise desktop app:
 
-This is useful when you want to perform **advanced worktree management** after a quick IDE action.
-
-**How it works:**
-- Sends the current project path to WorktreeWise
-- Opens the repository inside the WorktreeWise app
-- Allows you to manage worktrees, workflows, hooks, and more
-
-**Typical use cases:**
-- Creating or deleting worktrees
-- Running workflows across worktrees
-- Visualizing Git diffs or logs
+- Opens the active repository in a WorktreeWise tab.
+- Allows you to perform advanced management tasks: create worktrees with sparse checkout, run multi-worktree workflows, inspect Git logs, or prune stale checkouts.
 
 ---
 
-## When should you use the plugin?
+## Preserved Context Across Worktrees
 
-Use **WorktreeWise for JetBrains** when you want to:
+Standard Git worktree CLI workflows treat each worktree folder as an isolated project, requiring developers to reconfigure IDE settings for every branch. The WorktreeWise plugin preserves development context:
 
-- Stay focused inside your IDE
-- Switch worktrees instantly
-- Avoid unnecessary app switching
-- Move faster during day-to-day development
-
-Use the **WorktreeWise desktop app** when you need:
-- Full worktree management
-- Workflows and automation
-- Hooks, diffs, and advanced Git features
+| Context Element | Standard Worktree CLI | WorktreeWise for JetBrains |
+| :--- | :--- | :--- |
+| **Switch Worktrees** | Supported | Supported |
+| **Bookmarks** | Lost | **Preserved** |
+| **Run / Debug Configurations** | Lost | **Preserved** |
+| **Shared IDE Tooling** | Lost | **Preserved** |
+| **Desktop App Synchronization** | None | **Full Bidirectional Sync** |
 
 ---
 
-## Summary
+## Custom Keyboard Shortcuts
 
-The JetBrains plugin is a **productivity companion** to WorktreeWise.
+To assign custom shortcuts to plugin actions in your JetBrains IDE:
 
-It keeps your workflow fast, simple, and focused — while the WorktreeWise app continues to handle everything powerful behind the scenes.
+1. Open **Settings / Preferences → Keymap**.
+2. Search for **WorktreeWise**.
+3. Right-click **Switch Worktree** or **Open Project in WorktreeWise** and select **Add Keyboard Shortcut**.
+4. Press your desired key combination and select **OK**.
 
+---
+
+## Related Pages
+
+- [Open a Worktree in an IDE](/integrations/ide): Configure external editors and custom paths in WorktreeWise.
+- [Worktree List and Actions](/git-worktrees/list): Manage worktrees from the desktop interface.
+- [Settings Reference](/settings#editors-settings): Scan for installed editors and configure integrations.

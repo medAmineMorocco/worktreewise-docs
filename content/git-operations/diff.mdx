@@ -5,9 +5,9 @@ description: Perform pairwise code comparisons between any combination of worktr
 
 import { Callout, Steps } from 'nextra/components';
 
-# Git Diff
+# Pairwise Git Diff
 
-WorktreeWise features a built-in pairwise **Git Diff** tool powered by `diff2html` and `highlight.js`. Instead of running manual `git diff` commands in a terminal or juggling multiple diff windows, you can visually compare any two states in your repository side by side or line by line.
+WorktreeWise features a built-in pairwise **Git Diff** tool powered by `diff2html` and `highlight.js`. Visually compare code divergence between any two entities in your repository—worktrees, branches, tags, or commit hashes—with side-by-side dual-column or line-by-line unified diff views.
 
 ![Git Diff comparison dialog](/images/releases/1.1.0/03-git-diff.png)
 
@@ -15,19 +15,19 @@ WorktreeWise features a built-in pairwise **Git Diff** tool powered by `diff2htm
 
 ## Pairwise Comparison Matrix
 
-WorktreeWise lets you independently configure the **Source (Left)** and **Target (Right)** comparison targets using four flexible modes:
+Configure the **Source (Left)** and **Target (Right)** comparison endpoints independently using four flexible modes:
 
-| Mode | Source / Target Types | Selection Interface |
+| Mode | Target Types | Selection Interface |
 | :--- | :--- | :--- |
-| **Worktree** | Compare two active worktrees on disk | Searchable dropdown populated with all current worktrees |
-| **Branch** | Compare feature branches, main, or remote branches | Dropdown listing all local and tracking branches |
-| **Tag** | Compare against release tags or milestone tags | Dropdown listing all repository Git tags |
-| **Commit** | Compare against any arbitrary historical commit | Text input field accepting full or short commit SHA hashes |
+| **Worktree** | Active worktrees on disk | Searchable dropdown listing all registered worktrees |
+| **Branch** | Local branches, tracking branches, or main | Dropdown listing all local and upstream branch references |
+| **Tag** | Release versions and milestone tags | Dropdown listing all repository Git tags |
+| **Commit** | Historical commit revisions | Input field accepting 7-character short SHAs or full 40-character hashes |
 
-You can mix and match any mode. For example:
-- Compare a **Worktree** against a **Branch** to preview upstream merge conflicts.
-- Compare two different **Worktrees** to see diverging work between parallel feature implementations.
-- Compare a **Commit** hash against a release **Tag**.
+You can compare across any combination of modes:
+- Compare a **Worktree** against a **Branch** to preview incoming merge conflicts before pulling.
+- Compare two distinct **Worktrees** to inspect diverging work between parallel feature checkouts.
+- Compare a **Commit** hash against a release **Tag** to audit cherry-picked hotfixes.
 
 ---
 
@@ -37,33 +37,35 @@ You can mix and match any mode. For example:
 
 ### Open Git Diff
 
-Click the **Diff** button on the Git Log toolbar, or press the keyboard shortcut:
-
+Select the **Diff** button on the Git Log toolbar, or press the global shortcut:
 - **Shortcut**: `Shift + D`
 
-### Configure the Source (Left)
+### Configure Source (Left)
 
-Select the source mode (**Worktree**, **Commit**, **Branch**, or **Tag**) and pick your desired source entity from the selector or paste a commit hash.
+Select the source mode (**Worktree**, **Commit**, **Branch**, or **Tag**) and pick your desired revision entity from the selector or paste a commit SHA.
 
-### Configure the Target (Right)
+### Configure Target (Right)
 
-Select the target mode and pick your comparison target. The left-side summary card updates dynamically to reflect the comparison path:
+Select the target mode and pick your comparison target. The summary indicator updates dynamically to reflect the comparison path:
 
 ```plaintext
 Source (feature-auth) ──⇄── Target (main)
 ```
 
-### Adjust Comparison Options (Optional)
+### Adjust Comparison Parameters (Optional)
 
-In the left sidebar, customize the diff rendering parameters to suit your needs:
-- **Output Format**: Switch between **Side by Side** (dual-column) and **Line by Line** (unified).
-- **Matching Type**: Choose between **Words** (highlights word-level edits within changed lines), **Lines**, or **None**.
-- **Words Threshold**: Fine-tune word-matching sensitivity (default: `0.25`).
-- **Max Comparisons**: Set maximum comparisons performed per change block (default: `2500`).
+In the left options panel, fine-tune diff rendering settings:
+
+| Option | Values | Behavior |
+| :--- | :--- | :--- |
+| **Output Format** | **Side by Side** / **Line by Line** | Dual-pane split view or single-column unified view. |
+| **Matching Type** | **Words** / **Lines** / **None** | Highlights word-level modifications within changed lines. |
+| **Words Threshold** | Number (default: `0.25`) | Sensitivity for intra-line word diff matching. |
+| **Max Comparisons** | Number (default: `2500`) | Maximum line comparisons performed per change block to preserve performance. |
 
 ### Run Comparison
 
-Click the blue **Compare** button. WorktreeWise computes the diff, compresses the payload, and renders the syntax-highlighted diff viewer.
+Select the blue **Compare** button. WorktreeWise computes the diff, compresses the payload, and renders the syntax-highlighted diff viewer.
 
 </Steps>
 
@@ -71,19 +73,27 @@ Click the blue **Compare** button. WorktreeWise computes the diff, compresses th
 
 ## Diff Viewer Features
 
-### Interactive File List
-The top of the diff pane includes an interactive file navigation drawer listing all modified files along with line addition (`+`) and deletion (`-`) statistics. Clicking any file automatically scrolls the viewer directly to that file's changes.
+### Interactive File Navigation
 
-### Syntax Highlighting & Theme Support
-Code blocks are automatically highlighted according to the programming language syntax. When switching between WorktreeWise Light and Dark themes, the diff viewer dynamically swaps between GitHub light and dark color palettes (`github-dark.min.css`).
+The top drawer lists all altered files along with additions (`+`) and deletions (`-`) statistics. Selecting any file scrolls the viewer directly to that file's changes.
 
-### Fast Back-to-Top Navigation
-For large multi-file diffs spanning hundreds of lines, a floating **Back to Top** button appears in the lower-right corner to return instantly to the file list summary.
+### Syntax Highlighting & Theme Adaptation
 
-### Reset & Recalculate
-Click **Clear** in the options panel to wipe the current comparison and select new comparison targets without closing the modal.
+Code syntax highlights automatically based on file extensions. When toggling between WorktreeWise Light and Dark modes (`Shift + T`), the diff viewer updates dynamically to matching GitHub light and dark color schemes.
+
+### Back-to-Top Navigation
+
+For multi-file changes spanning hundreds of lines, select the floating **Back to Top** button in the lower-right corner to return immediately to the file list summary.
 
 <Callout type="tip">
-**Quick Swapping**:
-To see what your branch adds relative to `main`, put `main` on the left (Source) and your worktree/branch on the right (Target). Additions will appear in green and deletions in red.
+**Interpreting Diff Colors**:
+To preview what your feature branch introduces relative to `main`, set `main` as the Source (Left) and your worktree as the Target (Right). New additions appear in green and deleted lines appear in red.
 </Callout>
+
+---
+
+## Related Pages
+
+- [Git Log & Working Tree](/git-operations/log): Inspect commit history and stage files inline.
+- [Create a Git Commit](/git-operations/commit): Author commits after reviewing file diffs.
+- [Worktree Overview Dashboard](/git-worktrees/overview): Monitor upstream divergence across worktrees.
